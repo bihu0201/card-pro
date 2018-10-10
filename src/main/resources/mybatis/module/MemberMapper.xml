@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.module.member.mapper.MemberMapper">
+    
+    <resultMap type="Member" id="MemberResult">
+        <result property="id"    column="id"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="wechatName"    column="wechat_name"    />
+        <result property="wechatCode"    column="wechat_code"    />
+        <result property="wechatIcon"    column="wechat_icon"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="state"    column="state"    />
+    </resultMap>
+	
+	<sql id="selectMemberVo">
+        select id, member_id, wechat_name, wechat_code, wechat_icon, create_time, state from biz_member
+    </sql>
+	
+    <select id="selectMemberList" parameterType="Member" resultMap="MemberResult">
+        <include refid="selectMemberVo"/>
+        <where>  
+            <if test="id != null and id != ''"> and id = #{id}</if>
+             <if test="memberId != null and memberId != ''"> and member_id = #{memberId}</if>
+             <if test="wechatName != null and wechatName != ''"> and wechat_name = #{wechatName}</if>
+             <if test="wechatCode != null and wechatCode != ''"> and wechat_code = #{wechatCode}</if>
+             <if test="wechatIcon != null and wechatIcon != ''"> and wechat_icon = #{wechatIcon}</if>
+             <if test="createTime != null and createTime != ''"> and create_time = #{createTime}</if>
+             <if test="state != null and state != ''"> and state = #{state}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberById" parameterType="Integer" resultMap="MemberResult">
+        <include refid="selectMemberVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMember" parameterType="Member">
+        insert into biz_member
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != '' ">id,</if>
+			<if test="memberId != null and memberId != '' ">member_id,</if>
+			<if test="wechatName != null and wechatName != '' ">wechat_name,</if>
+			<if test="wechatCode != null and wechatCode != '' ">wechat_code,</if>
+			<if test="wechatIcon != null and wechatIcon != '' ">wechat_icon,</if>
+			<if test="createTime != null and createTime != '' ">create_time,</if>
+			<if test="state != null and state != '' ">state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != ''">#{id},</if>
+			<if test="memberId != null and memberId != ''">#{memberId},</if>
+			<if test="wechatName != null and wechatName != ''">#{wechatName},</if>
+			<if test="wechatCode != null and wechatCode != ''">#{wechatCode},</if>
+			<if test="wechatIcon != null and wechatIcon != ''">#{wechatIcon},</if>
+			<if test="createTime != null and createTime != ''">#{createTime},</if>
+			<if test="state != null and state != ''">#{state},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateMember" parameterType="Member">
+        update biz_member
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="memberId != null  ">member_id = #{memberId},</if>
+            <if test="wechatName != null  and wechatName != ''  ">wechat_name = #{wechatName},</if>
+            <if test="wechatCode != null  and wechatCode != ''  ">wechat_code = #{wechatCode},</if>
+            <if test="wechatIcon != null  and wechatIcon != ''  ">wechat_icon = #{wechatIcon},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="state != null  ">state = #{state},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteMemberById" parameterType="Integer">
+        delete from biz_member where id = #{id}
+    </delete>
+	
+    <delete id="deleteMemberByIds" parameterType="String">
+        delete from biz_member where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

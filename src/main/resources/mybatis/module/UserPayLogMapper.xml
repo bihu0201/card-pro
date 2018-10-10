@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.module.userPayLog.mapper.UserPayLogMapper">
+    
+    <resultMap type="UserPayLog" id="UserPayLogResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="payFee"    column="pay_fee"    />
+        <result property="payMethod"    column="pay_method"    />
+        <result property="payTime"    column="pay_time"    />
+        <result property="payDesc"    column="pay_desc"    />
+        <result property="state"    column="state"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+	
+	<sql id="selectUserPayLogVo">
+        select id, user_id, user_name, pay_fee, pay_method, pay_time, pay_desc, state, remark from biz_user_pay_log
+    </sql>
+	
+    <select id="selectUserPayLogList" parameterType="UserPayLog" resultMap="UserPayLogResult">
+        <include refid="selectUserPayLogVo"/>
+        <where>  
+            <if test="id != null and id != ''"> and id = #{id}</if>
+             <if test="userId != null and userId != ''"> and user_id = #{userId}</if>
+             <if test="userName != null and userName != ''"> and user_name = #{userName}</if>
+             <if test="payFee != null and payFee != ''"> and pay_fee = #{payFee}</if>
+             <if test="payMethod != null and payMethod != ''"> and pay_method = #{payMethod}</if>
+             <if test="payTime != null and payTime != ''"> and pay_time = #{payTime}</if>
+             <if test="payDesc != null and payDesc != ''"> and pay_desc = #{payDesc}</if>
+             <if test="state != null and state != ''"> and state = #{state}</if>
+             <if test="remark != null and remark != ''"> and remark = #{remark}</if>
+         </where>
+    </select>
+    
+    <select id="selectUserPayLogById" parameterType="String" resultMap="UserPayLogResult">
+        <include refid="selectUserPayLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertUserPayLog" parameterType="UserPayLog">
+        insert into biz_user_pay_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != '' ">id,</if>
+			<if test="userId != null and userId != '' ">user_id,</if>
+			<if test="userName != null and userName != '' ">user_name,</if>
+			<if test="payFee != null and payFee != '' ">pay_fee,</if>
+			<if test="payMethod != null and payMethod != '' ">pay_method,</if>
+			<if test="payTime != null and payTime != '' ">pay_time,</if>
+			<if test="payDesc != null and payDesc != '' ">pay_desc,</if>
+			<if test="state != null and state != '' ">state,</if>
+			<if test="remark != null and remark != '' ">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != ''">#{id},</if>
+			<if test="userId != null and userId != ''">#{userId},</if>
+			<if test="userName != null and userName != ''">#{userName},</if>
+			<if test="payFee != null and payFee != ''">#{payFee},</if>
+			<if test="payMethod != null and payMethod != ''">#{payMethod},</if>
+			<if test="payTime != null and payTime != ''">#{payTime},</if>
+			<if test="payDesc != null and payDesc != ''">#{payDesc},</if>
+			<if test="state != null and state != ''">#{state},</if>
+			<if test="remark != null and remark != ''">#{remark},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateUserPayLog" parameterType="UserPayLog">
+        update biz_user_pay_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null  ">user_id = #{userId},</if>
+            <if test="userName != null  and userName != ''  ">user_name = #{userName},</if>
+            <if test="payFee != null  ">pay_fee = #{payFee},</if>
+            <if test="payMethod != null  and payMethod != ''  ">pay_method = #{payMethod},</if>
+            <if test="payTime != null  ">pay_time = #{payTime},</if>
+            <if test="payDesc != null  and payDesc != ''  ">pay_desc = #{payDesc},</if>
+            <if test="state != null  ">state = #{state},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteUserPayLogById" parameterType="String">
+        delete from biz_user_pay_log where id = #{id}
+    </delete>
+	
+    <delete id="deleteUserPayLogByIds" parameterType="String">
+        delete from biz_user_pay_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

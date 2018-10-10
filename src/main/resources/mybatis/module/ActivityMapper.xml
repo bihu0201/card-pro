@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.module.activity.mapper.ActivityMapper">
+    
+    <resultMap type="Activity" id="ActivityResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="activityName"    column="activity_name"    />
+        <result property="activityTotal"    column="activity_total"    />
+        <result property="activityCurrent"    column="activity_current"    />
+        <result property="activityDesc"    column="activity_desc"    />
+        <result property="activityStartTime"    column="activity_start_time"    />
+        <result property="activityEndTime"    column="activity_end_time"    />
+        <result property="state"    column="state"    />
+        <result property="str1"    column="str1"    />
+        <result property="str2"    column="str2"    />
+        <result property="str3"    column="str3"    />
+    </resultMap>
+	
+	<sql id="selectActivityVo">
+        select id, user_id, activity_name, activity_total, activity_current, activity_desc, activity_start_time, activity_end_time, state, str1, str2, str3 from biz_activity
+    </sql>
+	
+    <select id="selectActivityList" parameterType="Activity" resultMap="ActivityResult">
+        <include refid="selectActivityVo"/>
+        <where>  
+            <if test="id != null and id != ''"> and id = #{id}</if>
+             <if test="userId != null and userId != ''"> and user_id = #{userId}</if>
+             <if test="activityName != null and activityName != ''"> and activity_name = #{activityName}</if>
+             <if test="activityTotal != null and activityTotal != ''"> and activity_total = #{activityTotal}</if>
+             <if test="activityCurrent != null and activityCurrent != ''"> and activity_current = #{activityCurrent}</if>
+             <if test="activityDesc != null and activityDesc != ''"> and activity_desc = #{activityDesc}</if>
+             <if test="activityStartTime != null and activityStartTime != ''"> and activity_start_time = #{activityStartTime}</if>
+             <if test="activityEndTime != null and activityEndTime != ''"> and activity_end_time = #{activityEndTime}</if>
+             <if test="state != null and state != ''"> and state = #{state}</if>
+             <if test="str1 != null and str1 != ''"> and str1 = #{str1}</if>
+             <if test="str2 != null and str2 != ''"> and str2 = #{str2}</if>
+             <if test="str3 != null and str3 != ''"> and str3 = #{str3}</if>
+         </where>
+    </select>
+    
+    <select id="selectActivityById" parameterType="Integer" resultMap="ActivityResult">
+        <include refid="selectActivityVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertActivity" parameterType="Activity">
+        insert into biz_activity
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != '' ">id,</if>
+			<if test="userId != null and userId != '' ">user_id,</if>
+			<if test="activityName != null and activityName != '' ">activity_name,</if>
+			<if test="activityTotal != null and activityTotal != '' ">activity_total,</if>
+			<if test="activityCurrent != null and activityCurrent != '' ">activity_current,</if>
+			<if test="activityDesc != null and activityDesc != '' ">activity_desc,</if>
+			<if test="activityStartTime != null and activityStartTime != '' ">activity_start_time,</if>
+			<if test="activityEndTime != null and activityEndTime != '' ">activity_end_time,</if>
+			<if test="state != null and state != '' ">state,</if>
+			<if test="str1 != null and str1 != '' ">str1,</if>
+			<if test="str2 != null and str2 != '' ">str2,</if>
+			<if test="str3 != null and str3 != '' ">str3,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != ''">#{id},</if>
+			<if test="userId != null and userId != ''">#{userId},</if>
+			<if test="activityName != null and activityName != ''">#{activityName},</if>
+			<if test="activityTotal != null and activityTotal != ''">#{activityTotal},</if>
+			<if test="activityCurrent != null and activityCurrent != ''">#{activityCurrent},</if>
+			<if test="activityDesc != null and activityDesc != ''">#{activityDesc},</if>
+			<if test="activityStartTime != null and activityStartTime != ''">#{activityStartTime},</if>
+			<if test="activityEndTime != null and activityEndTime != ''">#{activityEndTime},</if>
+			<if test="state != null and state != ''">#{state},</if>
+			<if test="str1 != null and str1 != ''">#{str1},</if>
+			<if test="str2 != null and str2 != ''">#{str2},</if>
+			<if test="str3 != null and str3 != ''">#{str3},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateActivity" parameterType="Activity">
+        update biz_activity
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null  ">user_id = #{userId},</if>
+            <if test="activityName != null  and activityName != ''  ">activity_name = #{activityName},</if>
+            <if test="activityTotal != null  ">activity_total = #{activityTotal},</if>
+            <if test="activityCurrent != null  ">activity_current = #{activityCurrent},</if>
+            <if test="activityDesc != null  and activityDesc != ''  ">activity_desc = #{activityDesc},</if>
+            <if test="activityStartTime != null  ">activity_start_time = #{activityStartTime},</if>
+            <if test="activityEndTime != null  ">activity_end_time = #{activityEndTime},</if>
+            <if test="state != null  ">state = #{state},</if>
+            <if test="str1 != null  and str1 != ''  ">str1 = #{str1},</if>
+            <if test="str2 != null  and str2 != ''  ">str2 = #{str2},</if>
+            <if test="str3 != null  and str3 != ''  ">str3 = #{str3},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteActivityById" parameterType="Integer">
+        delete from biz_activity where id = #{id}
+    </delete>
+	
+    <delete id="deleteActivityByIds" parameterType="String">
+        delete from biz_activity where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

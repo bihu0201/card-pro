@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-userPayLog-edit" th:object="${userPayLog}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">商户ID：</label>
+                <div class="col-sm-8">
+                    <input id="userId" name="userId" th:field="*{userId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">商户名称：</label>
+                <div class="col-sm-8">
+                    <input id="userName" name="userName" th:field="*{userName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">充值金额：</label>
+                <div class="col-sm-8">
+                    <input id="payFee" name="payFee" th:field="*{payFee}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">充值方式 1 微信：</label>
+                <div class="col-sm-8">
+                    <input id="payMethod" name="payMethod" th:field="*{payMethod}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">充值时间：</label>
+                <div class="col-sm-8">
+                    <input id="payTime" name="payTime" th:field="*{payTime}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">充值项目：</label>
+                <div class="col-sm-8">
+                    <input id="payDesc" name="payDesc" th:field="*{payDesc}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">充值状态 0 代充值 1 成功 2 失败：</label>
+                <div class="col-sm-8">
+                    <input id="state" name="state" th:field="*{state}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">	
+                <label class="col-sm-3 control-label">说明：</label>
+                <div class="col-sm-8">
+                    <input id="remark" name="remark" th:field="*{remark}" class="form-control" type="text">
+                </div>
+            </div>
+			<div class="form-group">
+				<div class="form-control-static col-sm-offset-9">
+					<button type="submit" class="btn btn-primary">提交</button>
+					<button onclick="$.modal.close()" class="btn btn-danger" type="button">关闭</button>
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "module/userPayLog"
+		$("#form-userPayLog-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			submitHandler: function(form) {
+				$.operate.save(prefix + "/edit", $('#form-userPayLog-edit').serialize());
+			}
+		});
+	</script>
+</body>
+</html>

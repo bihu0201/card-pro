@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.module.memberAward.mapper.MemberAwardMapper">
+    
+    <resultMap type="MemberAward" id="MemberAwardResult">
+        <result property="id"    column="id"    />
+        <result property="wechatName"    column="wechat_name"    />
+        <result property="wechatCode"    column="wechat_code"    />
+        <result property="awardId"    column="award_id"    />
+        <result property="activityId"    column="activity_id"    />
+        <result property="awardTime"    column="award_time"    />
+        <result property="userId"    column="user_id"    />
+    </resultMap>
+	
+	<sql id="selectMemberAwardVo">
+        select id, wechat_name, wechat_code, award_id, activity_id, award_time, user_id from biz_member_award
+    </sql>
+	
+    <select id="selectMemberAwardList" parameterType="MemberAward" resultMap="MemberAwardResult">
+        <include refid="selectMemberAwardVo"/>
+        <where>  
+            <if test="id != null and id != ''"> and id = #{id}</if>
+             <if test="wechatName != null and wechatName != ''"> and wechat_name = #{wechatName}</if>
+             <if test="wechatCode != null and wechatCode != ''"> and wechat_code = #{wechatCode}</if>
+             <if test="awardId != null and awardId != ''"> and award_id = #{awardId}</if>
+             <if test="activityId != null and activityId != ''"> and activity_id = #{activityId}</if>
+             <if test="awardTime != null and awardTime != ''"> and award_time = #{awardTime}</if>
+             <if test="userId != null and userId != ''"> and user_id = #{userId}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberAwardById" parameterType="Integer" resultMap="MemberAwardResult">
+        <include refid="selectMemberAwardVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMemberAward" parameterType="MemberAward">
+        insert into biz_member_award
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != '' ">id,</if>
+			<if test="wechatName != null and wechatName != '' ">wechat_name,</if>
+			<if test="wechatCode != null and wechatCode != '' ">wechat_code,</if>
+			<if test="awardId != null and awardId != '' ">award_id,</if>
+			<if test="activityId != null and activityId != '' ">activity_id,</if>
+			<if test="awardTime != null and awardTime != '' ">award_time,</if>
+			<if test="userId != null and userId != '' ">user_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != ''">#{id},</if>
+			<if test="wechatName != null and wechatName != ''">#{wechatName},</if>
+			<if test="wechatCode != null and wechatCode != ''">#{wechatCode},</if>
+			<if test="awardId != null and awardId != ''">#{awardId},</if>
+			<if test="activityId != null and activityId != ''">#{activityId},</if>
+			<if test="awardTime != null and awardTime != ''">#{awardTime},</if>
+			<if test="userId != null and userId != ''">#{userId},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberAward" parameterType="MemberAward">
+        update biz_member_award
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="wechatName != null  ">wechat_name = #{wechatName},</if>
+            <if test="wechatCode != null  and wechatCode != ''  ">wechat_code = #{wechatCode},</if>
+            <if test="awardId != null  and awardId != ''  ">award_id = #{awardId},</if>
+            <if test="activityId != null  ">activity_id = #{activityId},</if>
+            <if test="awardTime != null  ">award_time = #{awardTime},</if>
+            <if test="userId != null  ">user_id = #{userId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteMemberAwardById" parameterType="Integer">
+        delete from biz_member_award where id = #{id}
+    </delete>
+	
+    <delete id="deleteMemberAwardByIds" parameterType="String">
+        delete from biz_member_award where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
