@@ -1,6 +1,9 @@
 package com.ruoyi.project.module.memberAward.service;
 
+import java.util.Date;
 import java.util.List;
+
+import com.ruoyi.project.module.userPay.domain.UserPay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.project.module.memberAward.mapper.MemberAwardMapper;
@@ -11,8 +14,8 @@ import com.ruoyi.common.support.Convert;
 /**
  * 会员抽奖 服务层实现
  * 
- * @author ruoyi
- * @date 2018-10-10
+ * @author snailever
+ * @date 2018-10-11
  */
 @Service
 public class MemberAwardServiceImpl implements IMemberAwardService 
@@ -55,7 +58,21 @@ public class MemberAwardServiceImpl implements IMemberAwardService
 	{
 	    return memberAwardMapper.insertMemberAward(memberAward);
 	}
-	
+
+	/**
+	 * 新增会员抽奖
+	 *
+	 * @param memberAward 会员抽奖信息
+	 * @return 结果
+	 */
+	@Override
+	public int insertMemberAwardAndBiz(MemberAward memberAward, UserPay userPay) {
+		memberAward.setUpdateBy(memberAward.getWechatCode());
+		memberAward.setUpdateTime(new Date());
+		memberAward.setAwardTime(new Date());
+		return memberAwardMapper.insertMemberAward(memberAward);
+	}
+
 	/**
      * 修改会员抽奖
      * 
@@ -79,5 +96,16 @@ public class MemberAwardServiceImpl implements IMemberAwardService
 	{
 		return memberAwardMapper.deleteMemberAwardByIds(Convert.toStrArray(ids));
 	}
-	
+
+	/**
+	 * 查询中奖条目
+	 *
+	 * @param num
+	 * @return 结果
+	 */
+	@Override
+	public List<MemberAward> fetchMemberAwardGetNum(Integer num) {
+		return memberAwardMapper.fetchMemberAwardGetNum(num);
+	}
+
 }

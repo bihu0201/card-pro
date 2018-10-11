@@ -64,6 +64,11 @@ public class User extends BaseEntity
     /** 删除标志（0代表存在 2代表删除） */
     private String delFlag;
 
+    private String wechatCode;
+    private String  wechatIcon;
+    private Integer isPass;
+
+
     /** 最后登陆IP */
     @Excel(name = "最后登陆IP")
     private String loginIp;
@@ -293,6 +298,30 @@ public class User extends BaseEntity
     public void setPostIds(Long[] postIds)
     {
         this.postIds = postIds;
+    }
+
+    public Integer getIsPass() {
+        return isPass;
+    }
+
+    public void setIsPass(Integer isPass) {
+        this.isPass = isPass;
+    }
+
+    public String getWechatCode() {
+        return wechatCode;
+    }
+
+    public void setWechatCode(String wechatCode) {
+        this.wechatCode = wechatCode;
+    }
+
+    public String getWechatIcon() {
+        return wechatIcon;
+    }
+
+    public void setWechatIcon(String wechatIcon) {
+        this.wechatIcon = wechatIcon;
     }
 
     @Override

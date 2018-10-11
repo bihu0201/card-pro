@@ -11,8 +11,8 @@ import com.ruoyi.common.support.Convert;
 /**
  * 商户充值记录 服务层实现
  * 
- * @author ruoyi
- * @date 2018-10-10
+ * @author snailever
+ * @date 2018-10-11
  */
 @Service
 public class UserPayLogServiceImpl implements IUserPayLogService 

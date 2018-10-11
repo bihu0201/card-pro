@@ -8,8 +8,8 @@ import java.util.Date;
 /**
  * 奖项表 biz_award
  * 
- * @author ruoyi
- * @date 2018-10-10
+ * @author snailever
+ * @date 2018-10-11
  */
 public class Award extends BaseEntity
 {
@@ -19,18 +19,24 @@ public class Award extends BaseEntity
 	private Integer id;
 	/** 奖项名称 */
 	private String awardName;
-	/** 图片 */
+	/** 奖品图片 */
 	private String awardIcon;
-	/** 是否中奖 1 奖品 0  谢谢参与 */
+	/** 是否中奖 */
 	private Integer isAward;
-	/** 状态 0 在用 1 废止 */
+	/** 状态 */
 	private Integer state;
-	/** 添加时间 */
+	/** 创建时间 */
 	private Date createTime;
-	/**  */
-	private String createUser;
+	/** 创建人 */
+	private String createBy;
+	/** 修改人 */
+	private String updateBy;
+	/** 修改时间 */
+	private Date updateTime;
 	/** 奖项说明 */
 	private String awardDesc;
+	/** 备注 */
+	private String remark;
 
 	public void setId(Integer id) 
 	{
@@ -86,14 +92,32 @@ public class Award extends BaseEntity
 	{
 		return createTime;
 	}
-	public void setCreateUser(String createUser) 
+	public void setCreateBy(String createBy) 
 	{
-		this.createUser = createUser;
+		this.createBy = createBy;
 	}
 
-	public String getCreateUser() 
+	public String getCreateBy() 
 	{
-		return createUser;
+		return createBy;
+	}
+	public void setUpdateBy(String updateBy) 
+	{
+		this.updateBy = updateBy;
+	}
+
+	public String getUpdateBy() 
+	{
+		return updateBy;
+	}
+	public void setUpdateTime(Date updateTime) 
+	{
+		this.updateTime = updateTime;
+	}
+
+	public Date getUpdateTime() 
+	{
+		return updateTime;
 	}
 	public void setAwardDesc(String awardDesc) 
 	{
@@ -104,6 +128,15 @@ public class Award extends BaseEntity
 	{
 		return awardDesc;
 	}
+	public void setRemark(String remark) 
+	{
+		this.remark = remark;
+	}
+
+	public String getRemark() 
+	{
+		return remark;
+	}
 
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -113,8 +146,11 @@ public class Award extends BaseEntity
             .append("isAward", getIsAward())
             .append("state", getState())
             .append("createTime", getCreateTime())
-            .append("createUser", getCreateUser())
+            .append("createBy", getCreateBy())
+            .append("updateBy", getUpdateBy())
+            .append("updateTime", getUpdateTime())
             .append("awardDesc", getAwardDesc())
+            .append("remark", getRemark())
             .toString();
     }
 }

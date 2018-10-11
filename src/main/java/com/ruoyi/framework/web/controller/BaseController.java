@@ -80,7 +80,19 @@ public class BaseController
     {
         return AjaxResult.success();
     }
-
+    /**
+     * 返回成功
+     */
+    public AjaxResult ok(Object value)
+    {
+        return AjaxResult.ok(value);
+    }
+    /**
+     * 返回成功
+     */
+    public   AjaxResult ok(String code,Object object){
+        return AjaxResult.ok(code,object);
+    }
     /**
      * 返回失败消息
      */

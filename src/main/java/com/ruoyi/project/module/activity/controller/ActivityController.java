@@ -21,8 +21,8 @@ import com.ruoyi.framework.web.domain.AjaxResult;
 /**
  * 商户活动 信息操作处理
  * 
- * @author ruoyi
- * @date 2018-10-10
+ * @author snailever
+ * @date 2018-10-11
  */
 @Controller
 @RequestMapping("/module/activity")

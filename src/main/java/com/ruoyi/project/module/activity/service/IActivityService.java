@@ -6,8 +6,8 @@ import java.util.List;
 /**
  * 商户活动 服务层
  * 
- * @author ruoyi
- * @date 2018-10-10
+ * @author snailever
+ * @date 2018-10-11
  */
 public interface IActivityService 
 {

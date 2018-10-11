@@ -1,5 +1,6 @@
 package com.ruoyi.project.module.memberAward.domain;
 
+import com.ruoyi.project.module.award.domain.Award;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.framework.web.domain.BaseEntity;
@@ -8,8 +9,8 @@ import java.util.Date;
 /**
  * 会员抽奖表 biz_member_award
  * 
- * @author ruoyi
- * @date 2018-10-10
+ * @author snailever
+ * @date 2018-10-11
  */
 public class MemberAward extends BaseEntity
 {
@@ -18,7 +19,7 @@ public class MemberAward extends BaseEntity
 	/**  */
 	private Integer id;
 	/** 昵称 */
-	private Integer wechatName;
+	private String wechatName;
 	/** 微信号 */
 	private String wechatCode;
 	/** 奖品ID */
@@ -29,6 +30,18 @@ public class MemberAward extends BaseEntity
 	private Date awardTime;
 	/** 商家ID */
 	private Integer userId;
+	/** 创建人 */
+	private String createBy;
+	/** 创建时间 */
+	private Date createTime;
+	/** 更新人 */
+	private String updateBy;
+	/** 更新时间 */
+	private Date updateTime;
+	/** 备注 */
+	private String remark;
+
+	private Award award;
 
 	public void setId(Integer id) 
 	{
@@ -39,12 +52,12 @@ public class MemberAward extends BaseEntity
 	{
 		return id;
 	}
-	public void setWechatName(Integer wechatName) 
+	public void setWechatName(String wechatName)
 	{
 		this.wechatName = wechatName;
 	}
 
-	public Integer getWechatName() 
+	public String getWechatName()
 	{
 		return wechatName;
 	}
@@ -84,17 +97,70 @@ public class MemberAward extends BaseEntity
 	{
 		return awardTime;
 	}
-	public void setUserId(Integer userId) 
+	public void setUserId(Integer userId)
 	{
 		this.userId = userId;
 	}
 
-	public Integer getUserId() 
+	public Integer getUserId()
 	{
 		return userId;
 	}
+	public void setCreateBy(String createBy) 
+	{
+		this.createBy = createBy;
+	}
 
-    public String toString() {
+	public String getCreateBy() 
+	{
+		return createBy;
+	}
+	public void setCreateTime(Date createTime) 
+	{
+		this.createTime = createTime;
+	}
+
+	public Date getCreateTime() 
+	{
+		return createTime;
+	}
+	public void setUpdateBy(String updateBy) 
+	{
+		this.updateBy = updateBy;
+	}
+
+	public String getUpdateBy() 
+	{
+		return updateBy;
+	}
+	public void setUpdateTime(Date updateTime) 
+	{
+		this.updateTime = updateTime;
+	}
+
+	public Date getUpdateTime() 
+	{
+		return updateTime;
+	}
+	public void setRemark(String remark) 
+	{
+		this.remark = remark;
+	}
+
+	public String getRemark() 
+	{
+		return remark;
+	}
+
+	public Award getAward() {
+		return award;
+	}
+
+	public void setAward(Award award) {
+		this.award = award;
+	}
+
+	public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
             .append("wechatName", getWechatName())
@@ -103,6 +169,11 @@ public class MemberAward extends BaseEntity
             .append("activityId", getActivityId())
             .append("awardTime", getAwardTime())
             .append("userId", getUserId())
+            .append("createBy", getCreateBy())
+            .append("createTime", getCreateTime())
+            .append("updateBy", getUpdateBy())
+            .append("updateTime", getUpdateTime())
+            .append("remark", getRemark())
             .toString();
     }
 }

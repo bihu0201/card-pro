@@ -1,20 +1,38 @@
 
 
-�ͻ�����
-1. �൱��һ���齱����ƽ̨
-2. �̻���ֵ��ס
-3. ���ͻ�����ס�̻�ʵ���������һ����ע��ÿ���̻���ͬ���ں�̨�ı䣩�󣬿���ɨ��ά�루ע��ÿ���̻���ͬ��Ψһ���齱
-4. �ͻ�ÿ��һ�ν��������̻�1Ԫ����n�ˣ�ע�����ں�̨�ı䣩����
-5.�齱ʱ��ȡ�ͻ���Ϣ����ʵ����������֤���롢�Ա𡢵绰���롢��֤�룩
-6.���꽱ǿ�ƹ�ע��ض��ĺ� 
-7 �̻���ֵ�����ƻ��ɴ�����300  500  1000  2000�ĸ���;
+客户需求
+1. 相当于一个抽奖引流平台
+2. 商户充值入住
+3. 当客户在入住商户实体店消费满一定金额（注：每个商户不同可在后台改变）后，可以扫二维码（注：每个商户不同且唯一）抽奖
+4. 客户每抽一次奖收所在商户1元，满n人（注：可在后台改变）开奖
+5.抽奖时获取客户信息（真实姓名、身份证号码、性别、电话号码、验证码）
+6.抽完奖强制关注相关订阅号
+7 商户充值卷名称换成促销卷300  500  1000  2000四个挡;
 
- 
-   ��˵��
-   biz_user_pay       �̻���ֵ��
-   biz_user_pay_log   �̻���ֵ��¼��
-   biz_activity       �̻����
-   biz_award          �����
-   biz_pay_level      ��ֵ�ȼ�
-   biz_member         ��Ա��
-   biz_member_award   ��Ա�齱�� 11
+
+   表说明
+   biz_user_pay       商户充值表
+   biz_user_pay_log   商户充值记录表
+   biz_activity       商户活动表
+   biz_award          奖项表
+   biz_pay_level      充值等级
+   biz_member         会员表
+   biz_member_award   会员抽奖表
+
+   接口：
+
+
+      微信获取商户信息
+     1 微信获取商户信息接口（）
+       GET http://localhost:8050/api/user/fetchUser?wechat_code=aaa
+     2 奖品信息接口（每个商家活动不同）
+       GET http://localhost:8050/api/award/list
+     3 客户抽奖接口（后台判断是否抽过奖，抽过提示，否则抽奖）
+       POST http://localhost:8050//api/memberaward/draw?wechatName=客户微信名&wechatCode=客户微信号&awardId=1&activityId=1&userId=1&remark
+     4 商户充值接口（商户充值）
+       GET http://localhost:8050/api/userpay/pay?userId=1&payFee=300&payDesc=300套餐
+     5 商户注册接口（商户）
+      POST http://localhost:8050/api/user/register?loginName=ccc&userName=aaa&email=qqq@qqq.com&phonenumber=138943322234&avatar&wechatCode=snialleer&wechat_icon=/qweqwe/qweqwewq/qweqewqe.png
+     6 商户登录接口（商户）？
+     7 查询奖项列表
+     GET http://localhost:8050/api/memberaward/notice?num=20

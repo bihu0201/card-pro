@@ -76,6 +76,7 @@ public interface IUserService
      */
     public int insertUser(User user);
 
+    public int insertUserParam(User user);
     /**
      * 保存用户信息
      * 
@@ -139,4 +140,5 @@ public interface IUserService
      * @return 结果
      */
     public String selectUserPostGroup(Long userId);
+    public List<User> selectUserListApi(User user);
 }

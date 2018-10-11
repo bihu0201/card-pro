@@ -12,10 +12,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="activityId"    column="activity_id"    />
         <result property="awardTime"    column="award_time"    />
         <result property="userId"    column="user_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+         <association property="award" javaType="Award">
+             <result property="id"    column="id"    />
+             <result property="awardName"    column="award_name"    />
+             <result property="awardIcon"    column="award_icon"    />
+             <result property="isAward"    column="is_award"    />
+             <result property="state"    column="state"    />
+             <result property="createTime"    column="create_time"    />
+             <result property="createBy"    column="create_by"    />
+             <result property="updateBy"    column="update_by"    />
+             <result property="updateTime"    column="update_time"    />
+             <result property="awardDesc"    column="award_desc"    />
+             <result property="remark"    column="remark"    />
+        </association>
     </resultMap>
 	
 	<sql id="selectMemberAwardVo">
-        select id, wechat_name, wechat_code, award_id, activity_id, award_time, user_id from biz_member_award
+        select id, wechat_name, wechat_code, award_id, activity_id, award_time, user_id, create_by, create_time, update_by, update_time, remark from biz_member_award
     </sql>
 	
     <select id="selectMemberAwardList" parameterType="MemberAward" resultMap="MemberAwardResult">
@@ -28,6 +46,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="activityId != null and activityId != ''"> and activity_id = #{activityId}</if>
              <if test="awardTime != null and awardTime != ''"> and award_time = #{awardTime}</if>
              <if test="userId != null and userId != ''"> and user_id = #{userId}</if>
+             <if test="createBy != null and createBy != ''"> and create_by = #{createBy}</if>
+             <if test="createTime != null and createTime != ''"> and create_time = #{createTime}</if>
+             <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy}</if>
+             <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime}</if>
+             <if test="remark != null and remark != ''"> and remark = #{remark}</if>
          </where>
     </select>
     
@@ -44,8 +67,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="wechatCode != null and wechatCode != '' ">wechat_code,</if>
 			<if test="awardId != null and awardId != '' ">award_id,</if>
 			<if test="activityId != null and activityId != '' ">activity_id,</if>
-			<if test="awardTime != null and awardTime != '' ">award_time,</if>
 			<if test="userId != null and userId != '' ">user_id,</if>
+			<if test="createBy != null and createBy != '' ">create_by,</if>
+			<if test="updateBy != null and updateBy != '' ">update_by,</if>
+			<if test="updateTime != null and updateTime != '' ">update_time,</if>
+			<if test="remark != null and remark != '' ">remark,</if>
+            award_time,create_time
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null and id != ''">#{id},</if>
@@ -55,6 +82,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="activityId != null and activityId != ''">#{activityId},</if>
 			<if test="awardTime != null and awardTime != ''">#{awardTime},</if>
 			<if test="userId != null and userId != ''">#{userId},</if>
+			<if test="createBy != null and createBy != ''">#{createBy},</if>
+			<if test="createTime != null and createTime != ''">#{createTime},</if>
+			<if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+			<if test="updateTime != null and updateTime != ''">#{updateTime},</if>
+			<if test="remark != null and remark != ''">#{remark},</if>
+            sysdate(),sysdate()
          </trim>
     </insert>
 	 
@@ -67,6 +100,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="activityId != null  ">activity_id = #{activityId},</if>
             <if test="awardTime != null  ">award_time = #{awardTime},</if>
             <if test="userId != null  ">user_id = #{userId},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
         </trim>
         where id = #{id}
     </update>
@@ -81,5 +119,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
-    
+
+
+    <select id="fetchMemberAwardGetNum" parameterType="Integer" resultMap="MemberAwardResult">
+       select a.*,b.*
+         from biz_member_award a,biz_award b
+        where a.award_id = b.id
+          and a.activity_id not in(20)
+          limit #{num}
+    </select>
+
+
 </mapper>

@@ -1,0 +1,88 @@
+package com.ruoyi.project.module.memberAward.controller.api;
+
+import com.ruoyi.framework.web.controller.BaseController;
+import com.ruoyi.framework.web.domain.AjaxResult;
+import com.ruoyi.project.module.award.domain.Award;
+import com.ruoyi.project.module.award.service.IAwardService;
+import com.ruoyi.project.module.memberAward.domain.MemberAward;
+import com.ruoyi.project.module.memberAward.service.IMemberAwardService;
+import com.ruoyi.project.module.userPay.domain.UserPay;
+import com.ruoyi.project.module.userPay.service.IUserPayService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * 奖项 信息操作处理
+ * 
+ * @author snailever
+ * @date 2018-10-10
+ */
+@Controller
+@RequestMapping("/api/memberaward")
+@RestController
+public class ApiMemberAwardController extends BaseController
+{
+
+
+	@Autowired
+	private IMemberAwardService memberAwardService;
+	@Autowired
+	private IUserPayService userPayService;
+
+	/**
+	 * 用户抽奖
+	 */
+	@PostMapping("/draw")
+	public AjaxResult draw(MemberAward memberAward)
+	{
+        List<MemberAward> list = memberAwardService.selectMemberAwardList(memberAward);
+        if(list.size()>0){
+			return ok("999","该用户已抽过奖！");
+		}else{
+			UserPay userPay = new UserPay();
+			userPay.setUserId(memberAward.getUserId());
+			List<UserPay> userPays = 	userPayService.selectUserPayList(userPay);
+			if(userPays.size()>0){
+			  UserPay  currentUserPay=	userPays.get(0);
+			        //判断商家余额账户是否有钱
+					if(currentUserPay.getPayFeeCurrent().compareTo(BigDecimal.ZERO)>0){
+						BigDecimal bignum1 = new BigDecimal("1");
+
+					 	currentUserPay.setPayFeeCurrent(currentUserPay.getPayFeeCurrent().subtract(bignum1));
+						currentUserPay.setUpdateBy(memberAward.getWechatCode());
+						currentUserPay.setUpdateTime(new Date());
+
+						memberAward.setUpdateBy(memberAward.getWechatCode());
+						userPayService.updateUserPay(currentUserPay,memberAward);
+
+						memberAwardService.insertMemberAward(memberAward);
+						return ok("0","该用户抽奖成功！");
+					}else{
+						return ok("999","该商家商户余额不足，无法进行抽检活动！");
+					}
+			}else{
+				return ok("999","该商家商户不存在！");
+			}
+
+		}
+	}
+
+
+	/**
+	 * 查询奖项列表
+	 */
+	@GetMapping("/notice")
+	public AjaxResult notice(int num)
+	{
+		List<MemberAward> list = memberAwardService.fetchMemberAwardGetNum(num);
+		return ok(list);
+	}
+}

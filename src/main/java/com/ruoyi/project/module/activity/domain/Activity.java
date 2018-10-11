@@ -8,8 +8,8 @@ import java.util.Date;
 /**
  * 商户活动表 biz_activity
  * 
- * @author ruoyi
- * @date 2018-10-10
+ * @author snailever
+ * @date 2018-10-11
  */
 public class Activity extends BaseEntity
 {
@@ -39,6 +39,16 @@ public class Activity extends BaseEntity
 	private String str2;
 	/** 备用字段3 */
 	private String str3;
+	/** 创建人 */
+	private String createBy;
+	/** 创建时间 */
+	private Date createTime;
+	/** 更新人 */
+	private String updateBy;
+	/** 更新时间 */
+	private Date updateTime;
+	/** 备注 */
+	private String remark;
 
 	public void setId(Integer id) 
 	{
@@ -148,6 +158,51 @@ public class Activity extends BaseEntity
 	{
 		return str3;
 	}
+	public void setCreateBy(String createBy) 
+	{
+		this.createBy = createBy;
+	}
+
+	public String getCreateBy() 
+	{
+		return createBy;
+	}
+	public void setCreateTime(Date createTime) 
+	{
+		this.createTime = createTime;
+	}
+
+	public Date getCreateTime() 
+	{
+		return createTime;
+	}
+	public void setUpdateBy(String updateBy) 
+	{
+		this.updateBy = updateBy;
+	}
+
+	public String getUpdateBy() 
+	{
+		return updateBy;
+	}
+	public void setUpdateTime(Date updateTime) 
+	{
+		this.updateTime = updateTime;
+	}
+
+	public Date getUpdateTime() 
+	{
+		return updateTime;
+	}
+	public void setRemark(String remark) 
+	{
+		this.remark = remark;
+	}
+
+	public String getRemark() 
+	{
+		return remark;
+	}
 
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -163,6 +218,11 @@ public class Activity extends BaseEntity
             .append("str1", getStr1())
             .append("str2", getStr2())
             .append("str3", getStr3())
+            .append("createBy", getCreateBy())
+            .append("createTime", getCreateTime())
+            .append("updateBy", getUpdateBy())
+            .append("updateTime", getUpdateTime())
+            .append("remark", getRemark())
             .toString();
     }
 }

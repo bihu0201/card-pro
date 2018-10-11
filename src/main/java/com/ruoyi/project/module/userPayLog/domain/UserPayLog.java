@@ -9,16 +9,16 @@ import java.util.Date;
 
 /**
  * 商户充值记录表 biz_user_pay_log
- * 
- * @author ruoyi
- * @date 2018-10-10
+ *
+ * @author snailever
+ * @date 2018-10-11
  */
 public class UserPayLog extends BaseEntity
 {
 	private static final long serialVersionUID = 1L;
-	
+
 	/**  */
-	private String id;
+	private Integer id;
 	/** 商户ID */
 	private Integer userId;
 	/** 商户名称 */
@@ -33,102 +33,150 @@ public class UserPayLog extends BaseEntity
 	private String payDesc;
 	/** 充值状态 0 代充值 1 成功 2 失败 */
 	private Integer state;
-	/** 说明 */
+	/**  */
+	private String createBy;
+	/**  */
+	private Date createTime;
+	/**  */
+	private String updateBy;
+	/**  */
+	private Date updateTime;
+	/**  */
 	private String remark;
 
-	public void setId(String id) 
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}
 
-	public String getId() 
+	public Integer getId()
 	{
 		return id;
 	}
-	public void setUserId(Integer userId) 
+	public void setUserId(Integer userId)
 	{
 		this.userId = userId;
 	}
 
-	public Integer getUserId() 
+	public Integer getUserId()
 	{
 		return userId;
 	}
-	public void setUserName(String userName) 
+	public void setUserName(String userName)
 	{
 		this.userName = userName;
 	}
 
-	public String getUserName() 
+	public String getUserName()
 	{
 		return userName;
 	}
-	public void setPayFee(BigDecimal payFee) 
+	public void setPayFee(BigDecimal payFee)
 	{
 		this.payFee = payFee;
 	}
 
-	public BigDecimal getPayFee() 
+	public BigDecimal getPayFee()
 	{
 		return payFee;
 	}
-	public void setPayMethod(String payMethod) 
+	public void setPayMethod(String payMethod)
 	{
 		this.payMethod = payMethod;
 	}
 
-	public String getPayMethod() 
+	public String getPayMethod()
 	{
 		return payMethod;
 	}
-	public void setPayTime(Date payTime) 
+	public void setPayTime(Date payTime)
 	{
 		this.payTime = payTime;
 	}
 
-	public Date getPayTime() 
+	public Date getPayTime()
 	{
 		return payTime;
 	}
-	public void setPayDesc(String payDesc) 
+	public void setPayDesc(String payDesc)
 	{
 		this.payDesc = payDesc;
 	}
 
-	public String getPayDesc() 
+	public String getPayDesc()
 	{
 		return payDesc;
 	}
-	public void setState(Integer state) 
+	public void setState(Integer state)
 	{
 		this.state = state;
 	}
 
-	public Integer getState() 
+	public Integer getState()
 	{
 		return state;
 	}
-	public void setRemark(String remark) 
+	public void setCreateBy(String createBy)
+	{
+		this.createBy = createBy;
+	}
+
+	public String getCreateBy()
+	{
+		return createBy;
+	}
+	public void setCreateTime(Date createTime)
+	{
+		this.createTime = createTime;
+	}
+
+	public Date getCreateTime()
+	{
+		return createTime;
+	}
+	public void setUpdateBy(String updateBy)
+	{
+		this.updateBy = updateBy;
+	}
+
+	public String getUpdateBy()
+	{
+		return updateBy;
+	}
+	public void setUpdateTime(Date updateTime)
+	{
+		this.updateTime = updateTime;
+	}
+
+	public Date getUpdateTime()
+	{
+		return updateTime;
+	}
+	public void setRemark(String remark)
 	{
 		this.remark = remark;
 	}
 
-	public String getRemark() 
+	public String getRemark()
 	{
 		return remark;
 	}
 
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("userId", getUserId())
-            .append("userName", getUserName())
-            .append("payFee", getPayFee())
-            .append("payMethod", getPayMethod())
-            .append("payTime", getPayTime())
-            .append("payDesc", getPayDesc())
-            .append("state", getState())
-            .append("remark", getRemark())
-            .toString();
-    }
+	public String toString() {
+		return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
+				.append("id", getId())
+				.append("userId", getUserId())
+				.append("userName", getUserName())
+				.append("payFee", getPayFee())
+				.append("payMethod", getPayMethod())
+				.append("payTime", getPayTime())
+				.append("payDesc", getPayDesc())
+				.append("state", getState())
+				.append("createBy", getCreateBy())
+				.append("createTime", getCreateTime())
+				.append("updateBy", getUpdateBy())
+				.append("updateTime", getUpdateTime())
+				.append("remark", getRemark())
+				.toString();
+	}
 }

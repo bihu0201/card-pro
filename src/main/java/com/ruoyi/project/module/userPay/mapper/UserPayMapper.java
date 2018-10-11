@@ -6,8 +6,8 @@ import java.util.List;
 /**
  * 商户充值 数据层
  * 
- * @author ruoyi
- * @date 2018-10-10
+ * @author snailever
+ * @date 2018-10-11
  */
 public interface UserPayMapper 
 {
@@ -26,7 +26,13 @@ public interface UserPayMapper
      * @return 商户充值集合
      */
 	public List<UserPay> selectUserPayList(UserPay userPay);
-	
+	/**
+	 * 查询商户充值
+	 *
+	 * @param userId 商户充值信息
+	 * @return 商户充值集合
+	 */
+	public List<UserPay> selectUserPayByUserId(Integer userId);
 	/**
      * 新增商户充值
      * 

@@ -11,8 +11,8 @@ import com.ruoyi.common.support.Convert;
 /**
  * 会员 服务层实现
  * 
- * @author ruoyi
- * @date 2018-10-10
+ * @author snailever
+ * @date 2018-10-11
  */
 @Service
 public class MemberServiceImpl implements IMemberService 

@@ -6,8 +6,8 @@ import java.util.List;
 /**
  * 会员抽奖 数据层
  * 
- * @author ruoyi
- * @date 2018-10-10
+ * @author snailever
+ * @date 2018-10-11
  */
 public interface MemberAwardMapper 
 {
@@ -58,5 +58,12 @@ public interface MemberAwardMapper
      * @return 结果
      */
 	public int deleteMemberAwardByIds(String[] ids);
+
+	/**
+	 * 查询中奖条目
+	 * @param num
+	 * @return 结果
+	 */
+	public List<MemberAward>  fetchMemberAwardGetNum(Integer num);
 	
 }

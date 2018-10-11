@@ -1,13 +1,15 @@
 package com.ruoyi.project.module.memberAward.service;
 
 import com.ruoyi.project.module.memberAward.domain.MemberAward;
+import com.ruoyi.project.module.userPay.domain.UserPay;
+
 import java.util.List;
 
 /**
  * 会员抽奖 服务层
  * 
- * @author ruoyi
- * @date 2018-10-10
+ * @author snailever
+ * @date 2018-10-11
  */
 public interface IMemberAwardService 
 {
@@ -34,7 +36,13 @@ public interface IMemberAwardService
      * @return 结果
      */
 	public int insertMemberAward(MemberAward memberAward);
-	
+	/**
+	 * 新增会员抽奖
+	 *
+	 * @param memberAward 会员抽奖信息
+	 * @return 结果
+	 */
+	public int insertMemberAwardAndBiz(MemberAward memberAward, UserPay userPay);
 	/**
      * 修改会员抽奖
      * 
@@ -50,5 +58,12 @@ public interface IMemberAwardService
      * @return 结果
      */
 	public int deleteMemberAwardByIds(String ids);
+
+	/**
+	 * 查询中奖条目
+	 * @param num
+	 * @return 结果
+	 */
+	public List<MemberAward>  fetchMemberAwardGetNum(Integer num);
 	
 }

@@ -1,6 +1,7 @@
 package com.ruoyi.framework.web.domain;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 操作消息提醒
@@ -90,5 +91,33 @@ public class AjaxResult extends HashMap<String, Object>
     {
         super.put(key, value);
         return this;
+    }
+
+  /**
+   *@Description: 返回成功消息
+   *@params: 
+   *@Auhtor:snailever
+   *@Date: 2018/10/11_11:44 
+   */
+    public static AjaxResult ok(Object data)
+    {
+        AjaxResult json = new AjaxResult();
+        json.put("data", data);
+        json.put("code", 0);
+        return json;
+    }
+
+    /**
+     * 返回成功消息
+     *
+     * @param code  , object 内容
+     * @return 成功消息
+     */
+    public static AjaxResult ok(String code,Object object)
+    {
+        AjaxResult json = new AjaxResult();
+        json.put("data", object);
+        json.put("code", code);
+        return json;
     }
 }

@@ -10,8 +10,8 @@ import java.util.Date;
 /**
  * 充值等级表 biz_pay_level
  * 
- * @author ruoyi
- * @date 2018-10-10
+ * @author snailever
+ * @date 2018-10-11
  */
 public class PayLevel extends BaseEntity
 {
@@ -28,9 +28,15 @@ public class PayLevel extends BaseEntity
 	/**  */
 	private Integer state;
 	/**  */
+	private String createBy;
+	/**  */
 	private Date createTime;
 	/**  */
-	private Integer createUser;
+	private String updateBy;
+	/**  */
+	private Date updateTime;
+	/**  */
+	private String remark;
 
 	public void setId(Integer id) 
 	{
@@ -77,6 +83,15 @@ public class PayLevel extends BaseEntity
 	{
 		return state;
 	}
+	public void setCreateBy(String createBy) 
+	{
+		this.createBy = createBy;
+	}
+
+	public String getCreateBy() 
+	{
+		return createBy;
+	}
 	public void setCreateTime(Date createTime) 
 	{
 		this.createTime = createTime;
@@ -86,14 +101,32 @@ public class PayLevel extends BaseEntity
 	{
 		return createTime;
 	}
-	public void setCreateUser(Integer createUser) 
+	public void setUpdateBy(String updateBy) 
 	{
-		this.createUser = createUser;
+		this.updateBy = updateBy;
 	}
 
-	public Integer getCreateUser() 
+	public String getUpdateBy() 
 	{
-		return createUser;
+		return updateBy;
+	}
+	public void setUpdateTime(Date updateTime) 
+	{
+		this.updateTime = updateTime;
+	}
+
+	public Date getUpdateTime() 
+	{
+		return updateTime;
+	}
+	public void setRemark(String remark) 
+	{
+		this.remark = remark;
+	}
+
+	public String getRemark() 
+	{
+		return remark;
 	}
 
     public String toString() {
@@ -103,8 +136,11 @@ public class PayLevel extends BaseEntity
             .append("awardMoney", getAwardMoney())
             .append("awardDesc", getAwardDesc())
             .append("state", getState())
+            .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())
-            .append("createUser", getCreateUser())
+            .append("updateBy", getUpdateBy())
+            .append("updateTime", getUpdateTime())
+            .append("remark", getRemark())
             .toString();
     }
 }

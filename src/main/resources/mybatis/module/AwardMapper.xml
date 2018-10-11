@@ -11,12 +11,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="isAward"    column="is_award"    />
         <result property="state"    column="state"    />
         <result property="createTime"    column="create_time"    />
-        <result property="createUser"    column="create_user"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
         <result property="awardDesc"    column="award_desc"    />
+        <result property="remark"    column="remark"    />
     </resultMap>
 	
 	<sql id="selectAwardVo">
-        select id, award_name, award_icon, is_award, state, create_time, create_user, award_desc from biz_award
+        select id, award_name, award_icon, is_award, state, create_time, create_by, update_by, update_time, award_desc, remark from biz_award
     </sql>
 	
     <select id="selectAwardList" parameterType="Award" resultMap="AwardResult">
@@ -28,8 +31,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="isAward != null and isAward != ''"> and is_award = #{isAward}</if>
              <if test="state != null and state != ''"> and state = #{state}</if>
              <if test="createTime != null and createTime != ''"> and create_time = #{createTime}</if>
-             <if test="createUser != null and createUser != ''"> and create_user = #{createUser}</if>
+             <if test="createBy != null and createBy != ''"> and create_by = #{createBy}</if>
+             <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy}</if>
+             <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime}</if>
              <if test="awardDesc != null and awardDesc != ''"> and award_desc = #{awardDesc}</if>
+             <if test="remark != null and remark != ''"> and remark = #{remark}</if>
          </where>
     </select>
     
@@ -47,8 +53,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="isAward != null and isAward != '' ">is_award,</if>
 			<if test="state != null and state != '' ">state,</if>
 			<if test="createTime != null and createTime != '' ">create_time,</if>
-			<if test="createUser != null and createUser != '' ">create_user,</if>
+			<if test="createBy != null and createBy != '' ">create_by,</if>
+			<if test="updateBy != null and updateBy != '' ">update_by,</if>
+			<if test="updateTime != null and updateTime != '' ">update_time,</if>
 			<if test="awardDesc != null and awardDesc != '' ">award_desc,</if>
+			<if test="remark != null and remark != '' ">remark,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null and id != ''">#{id},</if>
@@ -57,8 +66,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="isAward != null and isAward != ''">#{isAward},</if>
 			<if test="state != null and state != ''">#{state},</if>
 			<if test="createTime != null and createTime != ''">#{createTime},</if>
-			<if test="createUser != null and createUser != ''">#{createUser},</if>
+			<if test="createBy != null and createBy != ''">#{createBy},</if>
+			<if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+			<if test="updateTime != null and updateTime != ''">#{updateTime},</if>
 			<if test="awardDesc != null and awardDesc != ''">#{awardDesc},</if>
+			<if test="remark != null and remark != ''">#{remark},</if>
          </trim>
     </insert>
 	 
@@ -70,8 +82,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isAward != null  ">is_award = #{isAward},</if>
             <if test="state != null  ">state = #{state},</if>
             <if test="createTime != null  ">create_time = #{createTime},</if>
-            <if test="createUser != null  and createUser != ''  ">create_user = #{createUser},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
             <if test="awardDesc != null  and awardDesc != ''  ">award_desc = #{awardDesc},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
         </trim>
         where id = #{id}
     </update>

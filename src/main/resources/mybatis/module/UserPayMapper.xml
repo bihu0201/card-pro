@@ -10,11 +10,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="payFeeCurrent"    column="pay_fee_current"    />
         <result property="payFeeTotal"    column="pay_fee_total"    />
         <result property="payMethod"    column="pay_method"    />
+        <result property="createBy"  jdbcType="TIMESTAMP" column="create_by"    />
+        <result property="createTime"   jdbcType="TIMESTAMP" column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime" jdbcType="TIMESTAMP"   column="update_time"    />
         <result property="remark"    column="remark"    />
     </resultMap>
 	
 	<sql id="selectUserPayVo">
-        select id, user_id, pay_fee_current, pay_fee_total, pay_method, remark from biz_user_pay
+        select id, user_id, pay_fee_current, pay_fee_total, pay_method, create_by, create_time, update_by, update_time, remark from biz_user_pay
     </sql>
 	
     <select id="selectUserPayList" parameterType="UserPay" resultMap="UserPayResult">
@@ -25,11 +29,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="payFeeCurrent != null and payFeeCurrent != ''"> and pay_fee_current = #{payFeeCurrent}</if>
              <if test="payFeeTotal != null and payFeeTotal != ''"> and pay_fee_total = #{payFeeTotal}</if>
              <if test="payMethod != null and payMethod != ''"> and pay_method = #{payMethod}</if>
+             <if test="createBy != null and createBy != ''"> and create_by = #{createBy}</if>
+             <if test="createTime != null and createTime != ''"> and create_time = #{createTime}</if>
+             <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy}</if>
+             <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime}</if>
              <if test="remark != null and remark != ''"> and remark = #{remark}</if>
          </where>
     </select>
-    
-    <select id="selectUserPayById" parameterType="String" resultMap="UserPayResult">
+    <select id="selectUserPayByUserId" parameterType="Integer" resultMap="UserPayResult">
+        <include refid="selectUserPayVo"/>
+        where user_id = #{userId}
+    </select>
+
+    <select id="selectUserPayById" parameterType="Integer" resultMap="UserPayResult">
         <include refid="selectUserPayVo"/>
         where id = #{id}
     </select>
@@ -42,7 +54,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="payFeeCurrent != null and payFeeCurrent != '' ">pay_fee_current,</if>
 			<if test="payFeeTotal != null and payFeeTotal != '' ">pay_fee_total,</if>
 			<if test="payMethod != null and payMethod != '' ">pay_method,</if>
+			<if test="createBy != null and createBy != '' ">create_by,</if>
+
+			<if test="updateBy != null and updateBy != '' ">update_by,</if>
+			<if test="updateTime != null and updateTime != '' ">update_time,</if>
 			<if test="remark != null and remark != '' ">remark,</if>
+            create_time
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null and id != ''">#{id},</if>
@@ -50,7 +67,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="payFeeCurrent != null and payFeeCurrent != ''">#{payFeeCurrent},</if>
 			<if test="payFeeTotal != null and payFeeTotal != ''">#{payFeeTotal},</if>
 			<if test="payMethod != null and payMethod != ''">#{payMethod},</if>
+			<if test="createBy != null and createBy != ''">#{createBy},</if>
+			<if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+			<if test="updateTime != null and updateTime != ''">#{updateTime},</if>
 			<if test="remark != null and remark != ''">#{remark},</if>
+            sysdate()
          </trim>
     </insert>
 	 
@@ -61,7 +82,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="payFeeCurrent != null  ">pay_fee_current = #{payFeeCurrent},</if>
             <if test="payFeeTotal != null  ">pay_fee_total = #{payFeeTotal},</if>
             <if test="payMethod != null  and payMethod != ''  ">pay_method = #{payMethod},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
             <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            update_time = sysdate()
         </trim>
         where id = #{id}
     </update>
