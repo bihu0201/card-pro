@@ -35,4 +35,4 @@
       POST http://localhost:8050/api/user/register?loginName=ccc&userName=aaa&email=qqq@qqq.com&phonenumber=138943322234&avatar&wechatCode=snialleer&wechat_icon=/qweqwe/qweqwewq/qweqewqe.png
      6 商户登录接口（商户）？
      7 查询奖项列表
-     GET http://localhost:8050/api/memberaward/notice?num=20
+     GET http://localhost:8050/api/memberaward/notice?num=20 
