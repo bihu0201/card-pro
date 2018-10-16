@@ -2,7 +2,7 @@ package com.ruoyi.project.module.wechat.domain;
 
 import java.util.List;
 
-public class WxBaseUserInfo extends WxError {
+public class WxBaseUserInfo  {
 
     private String openid;
 

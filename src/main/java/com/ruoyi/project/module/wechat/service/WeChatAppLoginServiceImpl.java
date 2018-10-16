@@ -41,7 +41,7 @@ import com.alibaba.fastjson.JSONObject;
  * Explain: 微信小程序登录
  */
 @Component
-public class WeChatAppLoginServiceImpl
+public class WeChatAppLoginServiceImpl implements IWeChatAppLoginService
 {
     private static final Logger logger = LoggerFactory.getLogger(WeChatAppLoginServiceImpl.class);
 
