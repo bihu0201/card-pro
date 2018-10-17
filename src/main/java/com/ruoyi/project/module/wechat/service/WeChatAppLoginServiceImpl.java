@@ -50,8 +50,8 @@ public class WeChatAppLoginServiceImpl implements IWeChatAppLoginService
 
     public static boolean initialized = false;
 
-    private static final String APPID = "wx80aeb606a734f7f4";
-    private static final String SECRET = "2cf51d3644703bdb9fab2ceab3f8cd4d";
+    private static final String APPID = "wxb19d151f69b2331d";
+    private static final String SECRET = "96858a736861b8f2d3b1ac4d2d10f959";
 
     public Map<String,Object> login(WeChatAppLoginReq req)
     {
