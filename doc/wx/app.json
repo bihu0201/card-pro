@@ -1,0 +1,12 @@
+{
+  "pages":[
+    "pages/register/register",
+    "pages/lottery/lottery"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle":"black"
+  }
+}
