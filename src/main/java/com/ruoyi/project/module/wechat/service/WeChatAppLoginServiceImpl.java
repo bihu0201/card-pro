@@ -24,6 +24,7 @@ import com.ruoyi.project.module.wechat.domain.WeChatAppLoginReq;
 import org.jose4j.base64url.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +60,12 @@ public class WeChatAppLoginServiceImpl implements IWeChatAppLoginService
         //获取 session_key 和 openId
         String url = "https://api.weixin.qq.com/sns/jscode2session?appid="+APPID+"&secret="+SECRET+"&js_code="+req.getCode()+"&grant_type=authorization_code";
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url,  String.class);
+
+        HttpHeaders headers = responseEntity.getHeaders();
+        HttpStatus statusCode = responseEntity.getStatusCode();
+        int code = statusCode.value();
+
         if(responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK)
         {
             String sessionData = responseEntity.getBody();
@@ -71,38 +77,10 @@ public class WeChatAppLoginServiceImpl implements IWeChatAppLoginService
             String signature = HmacUtil.SHA1(req.getRawData()+sessionKey);
             if(!signature.equals(req.getSignature()))
             {
-                logger.info(" req signature="+req.getSignature());
-                logger.info(" java signature="+req.getSignature());
-               // throw new SystemException(ResponseMsg.WECHAT_LOGIN_SIGNATURE_ERROR);
+                 userInfo.put("openId",openId);
+                 userInfo.put("sessionKey",sessionKey);
+                return userInfo;
             }
-            byte[] resultByte = null;
-            try {
-                resultByte = decrypt(Base64.decode(req.getEncryptedData()), Base64.decode(sessionKey), Base64.decode(req.getIv()));
-            } catch (Exception e) {
-                logger.debug(e.getMessage());
-             //   throw new SystemException( e);
-            }
-            if(null != resultByte && resultByte.length > 0)
-            {
-                String userInfoStr = "";
-                try {
-                    userInfoStr = new String(resultByte, "UTF-8");
-                } catch (UnsupportedEncodingException e)
-                {
-                    logger.error(e.getMessage());
-                }
-                logger.info("userInfo = "+ userInfoStr);
-                JSONObject userInfoObj = JSON.parseObject(userInfoStr);
-                logger.debug("sssssssssss",userInfoObj);
-                userInfoObj.put("openId",openId);
-                return userInfoObj;
-            }else
-            {
-                logger.error("error");
-                //throw new SystemException(ResponseMsg.WECHAT_LOGIN_USER_ERROR);
-            }
-
-
         }else
         {
             logger.error("error");
