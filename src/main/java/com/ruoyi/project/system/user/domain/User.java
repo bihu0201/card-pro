@@ -3,6 +3,8 @@ package com.ruoyi.project.system.user.domain;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import com.ruoyi.project.module.activity.domain.Activity;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.web.domain.BaseEntity;
@@ -88,6 +90,8 @@ public class User extends BaseEntity
 
     /** 岗位组 */
     private Long[] postIds;
+
+    private Activity activity;
 
     public Long getUserId()
     {
