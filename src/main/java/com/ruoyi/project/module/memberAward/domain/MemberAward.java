@@ -12,7 +12,7 @@ import java.util.Date;
  * @author snailever
  * @date 2018-10-11
  */
-public class MemberAward extends BaseEntity
+public class MemberAward
 {
 	private static final long serialVersionUID = 1L;
 	

@@ -8,6 +8,7 @@ import com.ruoyi.project.module.memberAward.domain.MemberAward;
 import com.ruoyi.project.module.userPay.domain.UserPay;
 import com.ruoyi.project.module.userPay.service.IUserPayService;
 import com.ruoyi.project.system.user.domain.User;
+import com.ruoyi.project.system.user.domain.UserForm;
 import com.ruoyi.project.system.user.service.IUserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -85,6 +86,7 @@ public class ApiUserController extends BaseController
            return  ok("0","商家注册成功！");
     }
 
+
     /**
      * 商户注册
      */
@@ -100,4 +102,20 @@ public class ApiUserController extends BaseController
 
     }
 
+
+
+    /**
+     * 根据openId判断是否商户，同时获取商户信息
+     */
+    @GetMapping("/userInfo")
+    public AjaxResult userInfo(String wechatCode)
+    {
+        UserForm users = userService.userInfo(wechatCode);
+        if(users!=null){
+            return  ok("0",users);
+        }else {
+            return  ok("999","商家信息获取失败！");
+        }
+
+    }
 }

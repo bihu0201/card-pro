@@ -1,6 +1,8 @@
 package com.ruoyi.project.system.user.service;
 
 import com.ruoyi.project.system.user.domain.User;
+import com.ruoyi.project.system.user.domain.UserForm;
+
 import java.util.List;
 
 /**
@@ -11,6 +13,8 @@ import java.util.List;
 public interface IUserService
 {
 
+
+    public UserForm userInfo(String wechatCode);
     /**
      * 根据条件分页查询用户对象
      * 

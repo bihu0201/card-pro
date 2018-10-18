@@ -11,7 +11,7 @@ import java.util.Date;
  * @author snailever
  * @date 2018-10-11
  */
-public class Award extends BaseEntity
+public class Award
 {
 	private static final long serialVersionUID = 1L;
 	

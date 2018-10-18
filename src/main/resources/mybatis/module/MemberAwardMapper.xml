@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
         <result property="remark"    column="remark"    />
          <association property="award" javaType="Award">
-             <result property="id"    column="id"    />
+             <result property="id"    column="award_id"    />
              <result property="awardName"    column="award_name"    />
              <result property="awardIcon"    column="award_icon"    />
              <result property="isAward"    column="is_award"    />
@@ -37,28 +37,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 	
     <select id="selectMemberAwardList" parameterType="MemberAward" resultMap="MemberAwardResult">
-        <include refid="selectMemberAwardVo"/>
-        <where>  
-            <if test="id != null and id != ''"> and id = #{id}</if>
-             <if test="wechatName != null and wechatName != ''"> and wechat_name = #{wechatName}</if>
-             <if test="wechatCode != null and wechatCode != ''"> and wechat_code = #{wechatCode}</if>
-             <if test="awardId != null and awardId != ''"> and award_id = #{awardId}</if>
-             <if test="activityId != null and activityId != ''"> and activity_id = #{activityId}</if>
-             <if test="awardTime != null and awardTime != ''"> and award_time = #{awardTime}</if>
-             <if test="userId != null and userId != ''"> and user_id = #{userId}</if>
-             <if test="createBy != null and createBy != ''"> and create_by = #{createBy}</if>
-             <if test="createTime != null and createTime != ''"> and create_time = #{createTime}</if>
-             <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy}</if>
-             <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime}</if>
-             <if test="remark != null and remark != ''"> and remark = #{remark}</if>
-         </where>
+        select a.*,b.*
+        from biz_member_award a,biz_award b
+        where a.award_id = b.id
+            <if test="id != null and id != ''"> and a.id = #{id}</if>
+             <if test="wechatName != null and wechatName != ''"> and a.wechat_name = #{wechatName}</if>
+             <if test="wechatCode != null and wechatCode != ''"> and a.wechat_code = #{wechatCode}</if>
+             <if test="awardId != null and awardId != ''"> and a.award_id = #{awardId}</if>
+             <if test="activityId != null and activityId != ''"> and a.activity_id = #{activityId}</if>
+             <if test="awardTime != null and awardTime != ''"> and a.award_time = #{awardTime}</if>
+             <if test="userId != null and userId != ''"> and a.user_id = #{userId}</if>
+             <if test="createBy != null and createBy != ''"> and a.create_by = #{createBy}</if>
+             <if test="createTime != null and createTime != ''"> and a.create_time = #{createTime}</if>
+             <if test="updateBy != null and updateBy != ''"> and a.update_by = #{updateBy}</if>
+             <if test="updateTime != null and updateTime != ''"> and a.update_time = #{updateTime}</if>
+             <if test="remark != null and remark != ''"> and a.remark = #{remark}</if>
+
     </select>
     
     <select id="selectMemberAwardById" parameterType="Integer" resultMap="MemberAwardResult">
         <include refid="selectMemberAwardVo"/>
         where id = #{id}
     </select>
-        
+
+    <select id="selectMemberAwardByUserId" parameterType="Long" resultMap="MemberAwardResult">
+       select a.*,b.*
+         from biz_member_award a,biz_award b
+        where a.award_id = b.id
+          and a.user_id = #{userId}
+    </select>
+
     <insert id="insertMemberAward" parameterType="MemberAward">
         insert into biz_member_award
 		<trim prefix="(" suffix=")" suffixOverrides=",">

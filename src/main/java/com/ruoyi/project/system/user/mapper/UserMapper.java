@@ -1,6 +1,8 @@
 package com.ruoyi.project.system.user.mapper;
 
 import com.ruoyi.project.system.user.domain.User;
+import com.ruoyi.project.system.user.domain.UserForm;
+
 import java.util.List;
 
 /**
@@ -10,6 +12,12 @@ import java.util.List;
  */
 public interface UserMapper
 {
+
+
+
+    public List<User> selectUserByWechatCode(String wechatCode);
+
+
 
     /**
      * 根据条件分页查询用户对象

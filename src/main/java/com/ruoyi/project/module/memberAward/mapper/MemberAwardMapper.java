@@ -11,6 +11,9 @@ import java.util.List;
  */
 public interface MemberAwardMapper 
 {
+
+
+	public  List<MemberAward> selectMemberAwardByUserId(Long userId);
 	/**
      * 查询会员抽奖信息
      * 

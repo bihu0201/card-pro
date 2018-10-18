@@ -2,7 +2,12 @@ package com.ruoyi.project.system.user.service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.ruoyi.project.module.memberAward.domain.MemberAward;
+import com.ruoyi.project.module.memberAward.mapper.MemberAwardMapper;
+import com.ruoyi.project.system.user.domain.UserForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.support.Convert;
@@ -45,7 +50,33 @@ public class UserServiceImpl implements IUserService
     private UserRoleMapper userRoleMapper;
 
     @Autowired
+    private MemberAwardMapper memberAwardMapper;
+
+
+
+    @Autowired
     private PasswordService passwordService;
+
+
+    /**
+     *@Description: 获取商户综合信息
+     *@params: wechatCode
+     *@Auhtor:snailever
+     *@Date: 2018/10/18_10:31
+     */
+    @Override
+    public UserForm userInfo(String wechatCode) {
+        UserForm userForm  = new UserForm();
+       List<User>  users =   userMapper.selectUserByWechatCode(wechatCode);
+       if(users.size()>0){
+           userForm.setUser(users.get(0));
+          List<MemberAward>  memberAwards = memberAwardMapper.selectMemberAwardByUserId(users.get(0).getUserId());
+          if(memberAwards.size()>0){
+              userForm.setMemberAwardList(memberAwards);
+          }
+        }
+        return userForm;
+    }
 
     /**
      * 根据条件分页查询用户对象
@@ -91,7 +122,7 @@ public class UserServiceImpl implements IUserService
     /**
      * 通过手机号码查询用户
      * 
-     * @param userName 用户名
+     * @param phoneNumber 用户名
      * @return 用户对象信息
      */
     @Override
@@ -307,7 +338,7 @@ public class UserServiceImpl implements IUserService
     /**
      * 校验用户名称是否唯一
      *
-     * @param phonenumber 用户名
+     * @param user 用户名
      * @return
      */
     @Override
@@ -325,7 +356,7 @@ public class UserServiceImpl implements IUserService
     /**
      * 校验email是否唯一
      *
-     * @param email 用户名
+     * @param user 用户名
      * @return
      */
     @Override
