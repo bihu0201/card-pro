@@ -11,7 +11,6 @@ Page({
     loginName : "",
     userNme : "",
     email : "",
-    phone : ""
   },
   loginNameInput: function (e) {
     this.setData({
@@ -40,17 +39,27 @@ Page({
     })
   },
   register: function (event){
+    //取缓存的openId
+    var openId = (wx.getStorageSync('openId'));
     var weixin_code = "";
-    //获取code
-    wx.login({
-      success: function (res) {
-        if (res.code) {
-          weixin_code = res.code;
-          //获取openid
+    if (!(/^1[34578]\d{9}$/.test(this.data.phone))) {
+      wx.showToast({
+        title: '请输入正确的手机号',
+        icon: 'succes',
+        duration: 2000,
+        mask: true
+      })
+      return false;
+    }else{
+      if (openId) {
+      } else {
+        wx.login({
+          success: function (res) {
+            weixin_code = res.code;//获取code
             wx.request({
               url: 'http://localhost:8050/api/wechat/getwechat',
-              data:{
-                code:weixin_code
+              data: {
+                code: weixin_code
               },
               method: "post",
               header: {
@@ -58,46 +67,60 @@ Page({
               },
               dataType: 'json',
               success: function (res) {
-                wx.showToast({
-                  title: '成功',
-                  icon: 'succes',
-                  duration: 2000,
-                  mask: true
-                })
+                if (res.data.code == 0) {
+                  //如果成功 存入缓存
+                  openId = wx.setStorageSync('openId', res.data.data.openId);
+                }
               }
             })
-        } else {
-          console.log("用户标识获取失败");
-        }
-      }
-    })  
-    /*
-    wx.request({
-      url:'http://localhost:8050/api/user/register',
-      data:{
-        loginName: this.data.loginName,
-        userName: this.data.userNme,
-        email: this.data.email,
-        phonenumber: this.data.phone,
-        avatar:"",
-        wechatCode:"adminmwb",
-        wechat_icon:"/qweqwe/qweqwewq/qweqewqe.png"
+          }
+        })
 
-      },
-      method:"post",
-      header: {
-        'content-type': 'application/x-www-form-urlencoded',
-      },
-      dataType:'json',
-      success: function (res) {
-        if(res.code == 0){
-          console.log(res.data+"");
-        }else{
-          console.log("注册失败");
-        }
+        //提交
+        wx.request({
+          url: 'http://localhost:8050/api/user/register',
+          data: {
+            loginName: this.data.loginName,
+            userName: this.data.userNme,
+            email: this.data.email,
+            phonenumber: this.data.phone,
+            avatar: "",
+            wechatCode: openId,
+            wechat_icon: "/qweqwe/qweqwewq/qweqewqe.png"
+          },
+          method: "post",
+          header: {
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+          dataType: 'json',
+          success: function (res) {
+            if (res.data.code == 0) {
+              wx.showToast({
+                title: '成功',
+                icon: 'succes',
+                duration: 2000,
+                mask: true
+              })
+            } else {
+              wx.showToast({
+                title: res.msg,
+                icon: 'error',
+                duration: 2000,
+                mask: true
+              })
+            }
+          }
+        })
+
       }
-    })
-    */
+    }
+     
+ 
+    
+   
+    
+
+    
   },
  
 

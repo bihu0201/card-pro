@@ -8,19 +8,42 @@ Page({
     colorAwardSelect: '#ffe400',//奖品选中颜色
     indexSelect: 0,//被选中的奖品index
     isRunning: false,//是否正在抽奖
-    imageAward: [
-      '../../images/1.jpg',
-      '../../images/2.jpg',
-      '../../images/3.jpg',
-      '../../images/4.jpg',
-      '../../images/5.jpg',
-      '../../images/6.jpg',
-      '../../images/7.jpg',
-      '../../images/8.jpg',
-    ],//奖品图片数组
+    imageAward: [],//奖品图片数组
+    text: "恭喜13675223的用户你与2018-10-18 09：14：00抽奖中奖啦",
+    marqueePace: 1,//滚动速度
+    marqueeDistance: 0,//初始滚动距离
+    marquee_margin: 30,
+    size: 14,
+    interval: 20, // 时间间隔
+    
   },
 
   onLoad: function () {
+    var that = this;
+    var array = [];
+    var img = "";
+    wx.request({
+      url: 'http://localhost:8050/api/award/list',
+      method: "get",
+      header: {
+        'content-type': 'application/x-www-form-urlencoded',
+      },
+      dataType: 'json',
+      success: function (res) {
+        if (res.data.code == 0) {
+          for (var i = 0; i < res.data.data.length; i++) {
+            img = res.data.data[i].awardIcon;
+            array.push({img:img});
+          }
+        } else {
+
+        }
+      }
+    })
+  
+    console.log(array.length);
+    
+
     var _this = this;
     //圆点设置
     var leftCircle = 7.5;
@@ -103,9 +126,11 @@ Page({
     this.setData({
       awardList: awardList
     })
+    
   },
   //开始游戏
   startGame: function () {
+    
     if (this.data.isRunning) return
     this.setData({
       isRunning: true
@@ -117,7 +142,7 @@ Page({
       indexSelect++;
       //这里我只是简单粗暴用y=30*x+200函数做的处理.可根据自己的需求改变转盘速度
       i += 30;
-      if (i > 1000) {
+      if (i > 3000) {
         //去除循环
         clearInterval(timer)
         //获奖提示
@@ -140,5 +165,44 @@ Page({
         indexSelect: indexSelect
       })
     }, (200 + i))
+  },
+  onShow: function () {
+    var that = this;
+    var length = that.data.text.length * that.data.size;//文字长度
+    var windowWidth = wx.getSystemInfoSync().windowWidth;// 屏幕宽度
+    //console.log(length,windowWidth);
+    that.setData({
+      length: length,
+      windowWidth: windowWidth
+    });
+    that.scrolltxt();// 第一个字消失后立即从右边出现
+  },
+
+  scrolltxt: function () {
+    var that = this;
+    var length = that.data.length;//滚动文字的宽度
+    var windowWidth = that.data.windowWidth;//屏幕宽度
+    if (length > windowWidth) {
+      var interval = setInterval(function () {
+        var maxscrollwidth = length + that.data.marquee_margin;//滚动的最大宽度，文字宽度+间距，如果需要一行文字滚完后再显示第二行可以修改marquee_margin值等于windowWidth即可
+        var crentleft = that.data.marqueeDistance;
+        if (crentleft < maxscrollwidth) {//判断是否滚动到最大宽度
+          that.setData({
+            marqueeDistance: crentleft + that.data.marqueePace
+          })
+        }
+        else {
+          //console.log("替换");
+          that.setData({
+            marqueeDistance: 0 // 直接重新滚动
+          });
+          clearInterval(interval);
+          that.scrolltxt();
+        }
+      }, that.data.interval);
+    }
+    else {
+      that.setData({ marquee_margin: "1000" });//只显示一条不滚动右边间距加大，防止重复显示
+    }
   }
 })
