@@ -5,6 +5,7 @@ import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.project.module.activity.domain.Activity;
 import com.ruoyi.project.module.activity.service.IActivityService;
 import com.ruoyi.project.module.award.domain.Award;
+import com.ruoyi.project.module.award.service.IAwardLotteryService;
 import com.ruoyi.project.module.award.service.IAwardService;
 import com.ruoyi.project.module.memberAward.domain.MemberAward;
 import com.ruoyi.project.module.memberAward.service.IMemberAwardService;
@@ -43,6 +44,14 @@ public class ApiMemberAwardController extends BaseController
 	private IUserPayService userPayService;
 	@Autowired
 	private IActivityService activityService;
+	@Autowired
+	private IAwardLotteryService iAwardLotteryService;
+
+
+	@Autowired
+	private  IAwardService iAwardService;
+
+
 
 	/**
 	 * 用户抽奖
@@ -75,9 +84,14 @@ public class ApiMemberAwardController extends BaseController
 
 					memberAward.setUpdateBy(memberAward.getWechatCode());
 					memberAward.setUserId(activity.getUserId());
-					///
-					memberAward.setAwardId(1);
-					///
+
+					/// 中奖概率
+					Award award = new Award();
+					award.setUserId(118);
+ 					List<Award> awards = iAwardService.selectAwardList(award);
+					Award awardObj = iAwardLotteryService.getWard(awards);
+					memberAward.setAwardId(awardObj.getId());
+					///中奖概率
 
 					userPayService.updateUserPay(currentUserPay,memberAward);
 

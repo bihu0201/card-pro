@@ -17,12 +17,15 @@ public class Award
 	
 	/**  */
 	private Integer id;
+	/**  */
+	private Integer userId;
 	/** 奖项名称 */
 	private String awardName;
 	/** 奖品图片 */
 	private String awardIcon;
 	/** 是否中奖 */
 	private Integer isAward;
+	private Double chance;
 	/** 状态 */
 	private Integer state;
 	/** 创建时间 */
@@ -138,7 +141,23 @@ public class Award
 		return remark;
 	}
 
-    public String toString() {
+	public Double getChance() {
+		return chance;
+	}
+
+	public void setChance(Double chance) {
+		this.chance = chance;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
             .append("awardName", getAwardName())

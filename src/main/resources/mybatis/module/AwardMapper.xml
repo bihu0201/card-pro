@@ -6,9 +6,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="Award" id="AwardResult">
         <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
         <result property="awardName"    column="award_name"    />
         <result property="awardIcon"    column="award_icon"    />
         <result property="isAward"    column="is_award"    />
+        <result property="chance"    column="chance"    />
         <result property="state"    column="state"    />
         <result property="createTime"    column="create_time"    />
         <result property="createBy"    column="create_by"    />
@@ -19,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 	
 	<sql id="selectAwardVo">
-        select id, award_name, award_icon, is_award, state, create_time, create_by, update_by, update_time, award_desc, remark from biz_award
+        select id,user_id, award_name, award_icon, is_award,chance, state, create_time, create_by, update_by, update_time, award_desc, remark from biz_award
     </sql>
 	
     <select id="selectAwardList" parameterType="Award" resultMap="AwardResult">

@@ -3,6 +3,8 @@ package com.ruoyi.project.system.user.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ruoyi.project.module.award.domain.Award;
+import com.ruoyi.project.module.award.mapper.AwardMapper;
 import com.ruoyi.project.module.memberAward.domain.MemberAward;
 import com.ruoyi.project.module.memberAward.mapper.MemberAwardMapper;
 import com.ruoyi.project.system.user.domain.UserForm;
@@ -52,6 +54,9 @@ public class UserServiceImpl implements IUserService
     @Autowired
     private MemberAwardMapper memberAwardMapper;
 
+    @Autowired
+    private AwardMapper awardMapper;
+
 
 
     @Autowired
@@ -70,10 +75,13 @@ public class UserServiceImpl implements IUserService
        List<User>  users =   userMapper.selectUserByWechatCode(wechatCode);
        if(users.size()>0){
            userForm.setUser(users.get(0));
-          List<MemberAward>  memberAwards = memberAwardMapper.selectMemberAwardByUserId(users.get(0).getUserId());
-          if(memberAwards.size()>0){
-              userForm.setMemberAwardList(memberAwards);
-          }
+           Award award = new Award();
+           award.setUserId(118);
+           List<MemberAward>  memberAwards = memberAwardMapper.selectMemberAwardByUserId(users.get(0).getUserId());
+           List<Award> awards =   awardMapper.selectAwardList(award) ;
+           userForm.setAwardList(awards);
+           userForm.setMemberAwardList(memberAwards);
+
         }
         return userForm;
     }

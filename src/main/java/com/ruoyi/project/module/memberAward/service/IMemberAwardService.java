@@ -65,5 +65,6 @@ public interface IMemberAwardService
 	 * @return 结果
 	 */
 	public List<MemberAward>  fetchMemberAwardGetNum(Integer num);
+
 	
 }
