@@ -23,7 +23,7 @@ public class MemberAward
 	/** 微信号 */
 	private String wechatCode;
 	/** 奖品ID */
-	private String awardId;
+	private Integer awardId;
 	/** 活动ID */
 	private Integer activityId;
 	/** 抽奖时间 */
@@ -70,12 +70,12 @@ public class MemberAward
 	{
 		return wechatCode;
 	}
-	public void setAwardId(String awardId) 
+	public void setAwardId(Integer awardId)
 	{
 		this.awardId = awardId;
 	}
 
-	public String getAwardId() 
+	public Integer getAwardId()
 	{
 		return awardId;
 	}
