@@ -41,7 +41,17 @@ public class Award
 	/** 备注 */
 	private String remark;
 
-	public void setId(Integer id) 
+	private String awardOk;
+
+	public String getAwardOk() {
+		return awardOk;
+	}
+
+	public void setAwardOk(String awardOk) {
+		this.awardOk = awardOk;
+	}
+
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}

@@ -63,6 +63,17 @@ public class ApiMemberAwardController extends BaseController
         if(list.size()>0){
         	Map map   = new HashMap();
 			map.put("msg","该用户已抽过奖！");
+			for (MemberAward memberAward1: list) {
+				Award award1 = memberAward1.getAward();
+				if(award1.getAwardDesc()!=null&&!"".equals(award1.getAwardDesc())){
+					String[]  subAward =	award1.getAwardDesc().split(",");
+					if(subAward.length>0){
+						int num =(int)(1+Math.random()*(subAward.length));
+						award1.setAwardOk(subAward[num-1]);
+						memberAward1.setRemark(subAward[num-1]);
+					}
+				}
+			}
 			map.put("awards",list);
 			return ok("999",map);
 		}else{
@@ -92,10 +103,19 @@ public class ApiMemberAwardController extends BaseController
 					Award awardObj = iAwardLotteryService.getWard(awards);
 					memberAward.setAwardId(awardObj.getId());
 					///中奖概率
-
 					userPayService.updateUserPay(currentUserPay,memberAward);
-
 					List<MemberAward> lists = memberAwardService.selectMemberAwardList(memberAward);
+					for (MemberAward memberAward1: lists) {
+						 Award award1 = memberAward1.getAward();
+						 if(award1.getAwardDesc()!=null&&!"".equals(award1.getAwardDesc())){
+							 String[]  subAward =	award1.getAwardDesc().split(",");
+							 if(subAward.length>0){
+								 int num =(int)(1+Math.random()*(subAward.length));
+								 award1.setAwardOk(subAward[num-1]);
+								 memberAward1.setRemark(subAward[num-1]);
+							 }
+						 }
+					}
 					Map map   = new HashMap();
 					map.put("msg","抽奖成功！");
 					map.put("awards",lists);

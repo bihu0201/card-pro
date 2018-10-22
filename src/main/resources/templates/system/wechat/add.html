@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+	<title>商家登录</title>
+
+	<link th:href="@{/css/weui.css}" rel="stylesheet"/>
+	<link th:href="@{/css/example.css}" rel="stylesheet"/>
+</head>
+<body ontouchstart style="text-align:center">
+<div class="container js_container">
+
+</div>
+
+	<div class="page">
+<form action="" method="post">
+
+	<div class="weui_btn_area" style="margin-TOP:20px">
+		<H1>招财商宝</H1>
+	</div>
+		<div class="weui_cells weui_cells_form" style="margin-TOP:60px">
+
+<form action="/api/wechat/login" method="post">
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label">姓名</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input class="weui_input" type="text"  name="username" placeholder="请输入真实姓名"/>
+					<input class="weui_input" type="hidden" value="1"  name="rememberMe"  />
+
+				</div>
+			</div>
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label">密码</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input class="weui_input" type="password"  name="password"  placeholder="请输入密码"/>
+				</div>
+			</div>
+
+      </div>
+	<div class="weui_btn_area">
+	<!--<a class="weui_btn weui_btn_primary" href="javascript:" id="showTooltips">登录</a>-->
+		<button  type="submit" class="weui_btn weui_btn_primary" onclick="return check();"  id="showTooltips"/>
+</div>
+	<div class="weui_btn_area" style="margin:0 auto">
+		<a href="/api/wechat/reg" class="important-tips" style="color:black">没账户，去注册</a>
+	</div>
+
+   </form>
+	</div>
+
+
+
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/zepto.min.js}"></script>
+<script th:src="@{/js/example.js}"></script>
+<script>
+
+	 function  check() {
+         var     username =  $("#username").val();
+         var     password =  $("#password").val();
+         if(username!=""&&password!=""){
+            return true;
+		 }else{
+             alert("用户名或密码不能为空！");
+             return false;
+		 }
+     }
+
+</script>
+</body>
+</html>

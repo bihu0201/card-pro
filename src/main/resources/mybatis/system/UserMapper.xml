@@ -21,6 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="loginDate"    column="login_date"   />
 		<result property="createBy"     column="create_by"    />
 		<result property="createTime"   column="create_time"  />
+		<result property="wechatCode"   column="wechat_code"  />
 		<result property="updateBy"     column="update_by"    />
 		<result property="updateTime"   column="update_time"  />
 		<result property="remark"       column="remark"       />
@@ -166,6 +167,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="password != null and password != ''">password,</if>
  			<if test="salt != null and salt != ''">salt,</if>
  			<if test="status != null and status != ''">status,</if>
+		    <if test="wechatCode != null and wechatCode != ''">wechat_code,</if>
  			<if test="createBy != null and createBy != ''">create_by,</if>
  			<if test="remark != null and remark != ''">remark,</if>
  			create_time
@@ -180,6 +182,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="password != null and password != ''">#{password},</if>
  			<if test="salt != null and salt != ''">#{salt},</if>
  			<if test="status != null and status != ''">#{status},</if>
+		    <if test="wechatCode != null and wechatCode != ''">#{wechatCode},</if>
  			<if test="createBy != null and createBy != ''">#{createBy},</if>
  			<if test="remark != null and remark != ''">#{remark},</if>
  			sysdate()

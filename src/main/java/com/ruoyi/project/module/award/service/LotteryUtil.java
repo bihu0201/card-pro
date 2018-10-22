@@ -93,7 +93,7 @@ public class LotteryUtil {
                 break;
             }
         }
-        if(index == -1){
+             if(index == -1){
             throw new IllegalArgumentException("概率集合设置不合理！");
         }
         return index;

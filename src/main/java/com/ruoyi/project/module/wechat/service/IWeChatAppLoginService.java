@@ -6,4 +6,5 @@ import java.util.Map;
 
 public interface IWeChatAppLoginService {
     public Map<String,Object> login(WeChatAppLoginReq req);
+    public Map<String,Object> getToken(WeChatAppLoginReq req);
 }

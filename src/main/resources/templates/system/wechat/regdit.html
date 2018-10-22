@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+	<title>商家登录</title>
+
+	<link th:href="@{/css/weui.css}" rel="stylesheet"/>
+	<link th:href="@{/css/example.css}" rel="stylesheet"/>
+</head>
+<body ontouchstart style="text-align:center">
+<div class="container js_container">
+
+</div>
+
+<div class="page">
+	<div class="weui_btn_area" style="margin-TOP:20px">
+		<H1>招财商宝</H1>
+	</div>
+	<div class="weui_cells weui_cells_form" style="margin-TOP:60px">
+
+	<form action="" method="post">
+		<div class="weui_cells weui_cells_form">
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label">用户名</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input class="weui_input" type="text"  name="loginName" placeholder="请输入用户名"/>
+				</div>
+			</div>
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label">姓名</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input class="weui_input" type="text" name="userName"  placeholder="请输入真实姓名"/>
+				</div>
+			</div>
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label">证件</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input class="weui_input" type="text"   placeholder="请输入身份证号"/>
+				</div>
+			</div>
+			<div class="weui_cell weui_cell_select">
+				<div class="weui_cell_bd weui_cell_primary">
+					<select class="weui_select" name="select1">
+						<option selected="" value="">&nbsp;性别</option>
+						<option value="0">男</option>
+						<option value="1">女</option>
+					</select>
+				</div>
+			</div>
+
+
+			<div class="weui_cell">
+				<div class="weui_cell_hd"><label class="weui_label">电话</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input class="weui_input" type="number" name="phonenumber" pattern="[0-9]*" placeholder="请输入电话号码"/>
+				</div>
+			</div>
+			<div class="weui_cell weui_vcode ">
+				<div class="weui_cell_hd"><label class="weui_label">验证码</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input class="weui_input" type="number" maxlength="4" placeholder="请输入验证码" onclick="getVerify(this);"/>
+				</div>
+				<div class="weui_cell_ft">
+					<i class="weui_icon_warn"></i>
+					<img th:src="@{/api/user/getVerify}"/>
+				</div>
+			</div>
+		</div>
+
+		<div class="weui_btn_area">
+			<a class="weui_btn weui_btn_primary" href="javascript:" id="showTooltips">注册</a>
+		</div>
+
+
+
+</form>
+</div>
+
+
+
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/zepto.min.js}"></script>
+<script th:src="@{/js/example.js}"></script>
+	<script>
+		function getVerify() {
+			location.href="/api/user/getVerify";
+        }
+        function  check() {
+            var     username =  $("#username").val();
+            var     password =  $("#password").val();
+            if(username!=""&&password!=""){
+                return true;
+            }else{
+                alert("用户名或密码不能为空！");
+                return false;
+            }
+        }
+
+	</script>
+</body>
+</html>

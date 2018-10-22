@@ -252,6 +252,12 @@ public class ShiroConfig
         // 不需要拦截的访问
         filterChainDefinitionMap.put("/login", "anon,captchaValidate");
         filterChainDefinitionMap.put("/api/**", "anon");
+
+        filterChainDefinitionMap.put("/MP_verify_p9avbvoWchOirgPJ.t**", "anon");
+        filterChainDefinitionMap.put("/zhongjiang.mp**", "anon");
+
+        filterChainDefinitionMap.put("/static/**", "anon");
+        filterChainDefinitionMap.put("/upload/**", "anon");
         // 系统权限列表
         // filterChainDefinitionMap.putAll(SpringUtils.getBean(IMenuService.class).selectPermsAll());
 

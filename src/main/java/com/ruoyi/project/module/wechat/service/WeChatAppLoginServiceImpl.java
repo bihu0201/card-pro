@@ -131,4 +131,44 @@ public class WeChatAppLoginServiceImpl implements IWeChatAppLoginService
         params.init(new IvParameterSpec(iv));
         return params;
     }
+
+    public Map<String,Object> getToken(WeChatAppLoginReq req){
+        Map userInfo = new HashMap();
+        //获取 session_key 和 openId
+        String url = "https://api.weixin.qq.com/cgi-bin/token?appid="+APPID+"&secret="+SECRET+"&js_code="+req.getCode()+"&grant_type=authorization_code";
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url,  String.class);
+
+        HttpHeaders headers = responseEntity.getHeaders();
+        HttpStatus statusCode = responseEntity.getStatusCode();
+        int code = statusCode.value();
+
+        if(responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK)
+        {
+            String sessionData = responseEntity.getBody();
+
+            JSONObject jsonObj = JSON.parseObject(sessionData);
+            String access_token = jsonObj.getString("access_token");
+
+            userInfo.put("access_token",sessionData);
+            logger.info("access_token = "+ access_token);
+            return userInfo;
+        }
+        return null;
+    }
+
+//    public String getPostUrl(String access_token,String wechat_code) throws Exception {
+//         System.out.println(wechat_code);
+//        String url ="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=";
+//        Map<String, Object> map = new HashMap<String, Object>();
+//        map.put("path", "pages/lottery/lottery?wechat_code="+wechat_code);//你二维码中跳向的地址
+//        map.put("width", "430");//图片大小
+//        JSONObject json = JSONObject.f(map);
+//        JSONObject jsonObj = JSON.toJSONString(map);
+//        System.out.println(json);
+//        String  res= HttpClientConnectionManager.httpPostWithJSON(url
+//                + access_token, json.toString(),id);
+//        System.out.println(res);
+//        return null;
+//    }
 }
