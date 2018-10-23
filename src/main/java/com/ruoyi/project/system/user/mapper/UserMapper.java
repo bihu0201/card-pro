@@ -13,7 +13,7 @@ import java.util.List;
 public interface UserMapper
 {
 
-
+    public List<User> selectUserByLName(String userName);
 
     public List<User> selectUserByWechatCode(String wechatCode);
 

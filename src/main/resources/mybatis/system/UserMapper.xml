@@ -22,6 +22,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="createBy"     column="create_by"    />
 		<result property="createTime"   column="create_time"  />
 		<result property="wechatCode"   column="wechat_code"  />
+		<result property="wechatIcon"   column="wechat_icon"  />
+		<result property="isVip"   column="is_vip"  />
+
 		<result property="updateBy"     column="update_by"    />
 		<result property="updateTime"   column="update_time"  />
 		<result property="remark"       column="remark"       />
@@ -47,8 +50,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	<sql id="selectUserVo">
-        select  u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.phonenumber, u.sex, u.avatar, u.password, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_time, u.remark,
-       		    d.dept_id, d.parent_id, d.dept_name, d.order_num, d.status as dept_status,
+        select  u.user_id, u.dept_id, u.login_name, u.user_name, u.email,u.wechat_icon, u.phonenumber, u.sex, u.avatar, u.password, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_time, u.remark,
+       		    d.dept_id, d.parent_id, d.dept_name, d.order_num, d.status as dept_status,is_vip,
        		    r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.status as role_status
 		from sys_user u
 			 left join sys_dept d on u.dept_id = d.dept_id
@@ -57,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 	
 	<select id="selectUserList" parameterType="User" resultMap="UserResult">
-		select u.user_id, u.dept_id, u.login_name, u.user_name, u.email, u.phonenumber, u.password, u.sex, u.avatar, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name from sys_user u
+		select u.user_id, u.dept_id, u.login_name, u.user_name, u.wechat_icon,u.email,is_vip, u.phonenumber, u.password, u.sex, u.avatar, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name from sys_user u
 		left join sys_dept d on u.dept_id = d.dept_id
 		where u.del_flag = '0'
 		<if test="loginName != null and loginName != ''">
@@ -87,6 +90,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="selectUserByLoginName" parameterType="String" resultMap="UserResult">
 	    <include refid="selectUserVo"/>
+		where u.login_name = #{userName}
+	</select>
+	<select id="selectUserByLName" parameterType="String" resultMap="UserResult">
+		<include refid="selectUserVo"/>
 		where u.login_name = #{userName}
 	</select>
 
@@ -148,14 +155,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="status != null and status != ''">status = #{status},</if>
  			<if test="loginIp != null and loginIp != ''">login_ip = #{loginIp},</if>
  			<if test="loginDate != null">login_date = #{loginDate},</if>
+			<if test="wechatIcon != null">wechat_icon = #{wechatIcon},</if>
+			<if test="wechatCode != null">wechat_code = #{wechatCode},</if>
  			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+			<if test="isVip != null and isVip != ''">is_vip = #{is_vip},</if>
  			<if test="remark != null and remark != ''">remark = #{remark},</if>
  			update_time = sysdate()
  		</set>
  		where user_id = #{userId}
 	</update>
  	
- 	<insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="userId">
+ 	<insert id="insertUser" parameterType="User"  useGeneratedKeys="true" keyProperty="userId">
  		insert into sys_user(
  			<if test="userId != null and userId != 0">user_id,</if>
  			<if test="deptId != null and deptId != 0">dept_id,</if>
@@ -168,8 +178,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="salt != null and salt != ''">salt,</if>
  			<if test="status != null and status != ''">status,</if>
 		    <if test="wechatCode != null and wechatCode != ''">wechat_code,</if>
+		   <if test="wechatIcon != null and wechatIcon != ''">wechat_icon,</if>
  			<if test="createBy != null and createBy != ''">create_by,</if>
  			<if test="remark != null and remark != ''">remark,</if>
+		    <if test="isVip != null and isVip != ''">is_vip,</if>
  			create_time
  		)values(
  			<if test="userId != null and userId != ''">#{userId},</if>
@@ -183,8 +195,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="salt != null and salt != ''">#{salt},</if>
  			<if test="status != null and status != ''">#{status},</if>
 		    <if test="wechatCode != null and wechatCode != ''">#{wechatCode},</if>
+		    <if test="wechatIcon != null and wechatIcon != ''">#{wechatIcon},</if>
  			<if test="createBy != null and createBy != ''">#{createBy},</if>
  			<if test="remark != null and remark != ''">#{remark},</if>
+		    <if test="isVip != null and isVip != ''">#{isVip},</if>
  			sysdate()
  		)
 	</insert>

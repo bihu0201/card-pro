@@ -1,13 +1,14 @@
 package com.ruoyi.project.module.wechat.service;
 
 
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.security.AlgorithmParameters;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,18 +18,22 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpServletRequest;
 
 
+import com.ruoyi.common.utils.file.FileUploadUtils;
+import com.ruoyi.framework.config.RuoYiConfig;
+import com.ruoyi.project.module.util.CreateImgUtil;
 import com.ruoyi.project.module.util.HmacUtil;
+import com.ruoyi.project.module.util.MD5Utils;
 import com.ruoyi.project.module.wechat.domain.WeChatAppLoginReq;
 import org.jose4j.base64url.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
@@ -132,10 +137,10 @@ public class WeChatAppLoginServiceImpl implements IWeChatAppLoginService
         return params;
     }
 
-    public Map<String,Object> getToken(WeChatAppLoginReq req){
+    public Map<String,Object> getToken(){
         Map userInfo = new HashMap();
         //获取 session_key 和 openId
-        String url = "https://api.weixin.qq.com/cgi-bin/token?appid="+APPID+"&secret="+SECRET+"&js_code="+req.getCode()+"&grant_type=authorization_code";
+        String url = "https://api.weixin.qq.com/cgi-bin/token?appid="+APPID+"&secret="+SECRET+"&grant_type=client_credential";
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url,  String.class);
 
@@ -149,26 +154,83 @@ public class WeChatAppLoginServiceImpl implements IWeChatAppLoginService
 
             JSONObject jsonObj = JSON.parseObject(sessionData);
             String access_token = jsonObj.getString("access_token");
-
-            userInfo.put("access_token",sessionData);
+            String expires_in = jsonObj.getString("expires_in");
+            userInfo.put("access_token",access_token);
+            userInfo.put("expires_in",expires_in);
             logger.info("access_token = "+ access_token);
             return userInfo;
         }
         return null;
     }
 
-//    public String getPostUrl(String access_token,String wechat_code) throws Exception {
-//         System.out.println(wechat_code);
-//        String url ="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=";
-//        Map<String, Object> map = new HashMap<String, Object>();
-//        map.put("path", "pages/lottery/lottery?wechat_code="+wechat_code);//你二维码中跳向的地址
-//        map.put("width", "430");//图片大小
-//        JSONObject json = JSONObject.f(map);
-//        JSONObject jsonObj = JSON.toJSONString(map);
-//        System.out.println(json);
-//        String  res= HttpClientConnectionManager.httpPostWithJSON(url
-//                + access_token, json.toString(),id);
-//        System.out.println(res);
-//        return null;
-//    }
+
+
+
+    public Map getminiqrQr(HttpServletRequest request, Integer userId) {
+        Map map = new HashMap();
+        String accessToken = "";
+        Map tokenMap  = this.getToken();
+        if(tokenMap.get("access_token")!=null) {
+              accessToken = (String) tokenMap.get("access_token");
+        }
+        RestTemplate rest = new RestTemplate();
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        try {
+            String url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token="+accessToken;
+            Map<String,Object> param = new HashMap<>();
+            param.put("scene", userId);
+            param.put("page", "pages/lottery/lottery");
+            param.put("width", 430);
+            param.put("auto_color", false);
+            Map<String,Object> line_color = new HashMap<>();
+            line_color.put("r", 0);
+            line_color.put("g", 0);
+            line_color.put("b", 0);
+            param.put("line_color", line_color);
+            logger.info("调用生成微信URL接口传参:" + param);
+            MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+            HttpEntity requestEntity = new HttpEntity(param, headers);
+            ResponseEntity<byte[]> entity = rest.exchange(url, HttpMethod.POST, requestEntity, byte[].class, new Object[0]);
+            logger.info("调用小程序生成微信永久小程序码URL接口返回结果:" + entity.getBody());
+            byte[] result = entity.getBody();
+         //   logger.info(Base64.encodeBase64String(result));//      logger.info(Base64.encodeBase64String(result));
+            inputStream = new ByteArrayInputStream(result);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            String dateStr = df.format(System.currentTimeMillis());// new Date()为获取当前系统时间，也可使用当前时间戳
+            String fileName= MD5Utils.MD5Encode(dateStr,"utf8");
+
+            File file = new File(RuoYiConfig.getProfile()+fileName+".png");
+            if (!file.exists()){
+                file.createNewFile();
+            }
+            outputStream = new FileOutputStream(file);
+            int len = 0;
+            byte[] buf = new byte[1024];
+            while ((len = inputStream.read(buf, 0, 1024)) != -1) {
+                outputStream.write(buf, 0, len);
+            }
+            outputStream.flush();
+            map.put("code",file.getPath());
+            return map;
+        } catch (Exception e) {
+            logger.error("调用小程序生成微信永久小程序码URL接口异常",e);
+        } finally {
+            if(inputStream != null){
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(outputStream != null){
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 }

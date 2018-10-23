@@ -14,7 +14,7 @@ public interface IUserService
 {
 
 
-    public UserForm userInfo(String wechatCode);
+    public UserForm userInfo(Long userId);
     /**
      * 根据条件分页查询用户对象
      * 
@@ -71,7 +71,7 @@ public interface IUserService
      * @throws Exception 异常
      */
     public int deleteUserByIds(String ids) throws Exception;
-
+    public List<User> selectUserByLName(String userName);
     /**
      * 保存用户信息
      * 

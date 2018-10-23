@@ -20,12 +20,12 @@
 		<H1>招财商宝</H1>
 	</div>
 		<div class="weui_cells weui_cells_form" style="margin-TOP:60px">
+			<form  action="/api/wechat/login" method="post">
 
-<form action="/api/wechat/login" method="post">
 			<div class="weui_cell">
 				<div class="weui_cell_hd"><label class="weui_label">姓名</label></div>
 				<div class="weui_cell_bd weui_cell_primary">
-					<input class="weui_input" type="text"  name="username" placeholder="请输入真实姓名"/>
+					<input class="weui_input" type="text"  name="username" placeholder="请输入登录名"/>
 					<input class="weui_input" type="hidden" value="1"  name="rememberMe"  />
 
 				</div>
@@ -39,8 +39,8 @@
 
       </div>
 	<div class="weui_btn_area">
-	<!--<a class="weui_btn weui_btn_primary" href="javascript:" id="showTooltips">登录</a>-->
-		<button  type="submit" class="weui_btn weui_btn_primary" onclick="return check();"  id="showTooltips"/>
+	<a class="weui_btn weui_btn_primary" href="javascript:void(0);" onclick="add()" id="showTooltips">登录</a>
+		<!--<button  type="submit" class="weui_btn weui_btn_primary" onclick="return check();"  id="showTooltips"/>-->
 </div>
 	<div class="weui_btn_area" style="margin:0 auto">
 		<a href="/api/wechat/reg" class="important-tips" style="color:black">没账户，去注册</a>
@@ -55,18 +55,41 @@
 <script th:src="@{/js/zepto.min.js}"></script>
 <script th:src="@{/js/example.js}"></script>
 <script>
+    function add() {
+        var username = $("input[name='username']").val();
+        var password = $("input[name='password']").val();
+        var rememberMe = $("input[name='rememberMe']").val();
+        if(username=="" || password==""){
+          alert("用户名不能为空！");
+          return;
+		}
+        $.ajax({
+            cache : true,
+            type : "POST",
+            url : "/api/wechat/login",
+            data : {
+                "username": username,
+                "password": password,
+				"rememberMe":rememberMe
+            },
+			//
+            success: function(r) {
+                if (r.code == 0) {
+                    location.href =  '/api/wechat/user';
+                } else {
+                     alert(r.msg);
+                }
+            }
 
-	 function  check() {
-         var     username =  $("#username").val();
-         var     password =  $("#password").val();
-         if(username!=""&&password!=""){
-            return true;
-		 }else{
-             alert("用户名或密码不能为空！");
-             return false;
-		 }
-     }
-
+        //
+        });
+    }
+</script>
+<script th:inline="javascript">
+    var message = [[${msg}]];
+    if(message!=""&&message!=null){
+        alert(message);
+	}
 </script>
 </body>
 </html>

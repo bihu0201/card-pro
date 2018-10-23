@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -34,5 +36,32 @@ public class WechatController extends BaseController
 		 Map map = weChatAppLoginService.login(weChatAppLoginReq);
 		 return ok(map);
 	}
+	/**
+	 * 获取用户信息
+	 */
+	///Post api/wechat/getwechat?code=***&iv=***&encryptedData=***
+	@PostMapping( "/getToken")
+	@ResponseBody
+	public AjaxResult getToken()
+	{
+		Map map = weChatAppLoginService.getToken();
+		return ok(map);
+	}
+
+	/**
+	 * 获取商户小程序二维码
+	 */
+	///Post api/wechat/getwechat?code=***&iv=***&encryptedData=***
+	@PostMapping( "/getWechatImg")
+	@ResponseBody
+	public AjaxResult getWechatImg(HttpServletRequest request, Integer userId)
+	{
+		Map imgMap = weChatAppLoginService.getminiqrQr(request,userId);
+          System.out.println(imgMap);
+          Map map = new HashMap();
+		map.put("wechatImg",imgMap);
+		return ok(map);
+	}
+
 	
 }

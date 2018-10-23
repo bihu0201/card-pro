@@ -63,17 +63,17 @@ public class ApiMemberAwardController extends BaseController
         if(list.size()>0){
         	Map map   = new HashMap();
 			map.put("msg","该用户已抽过奖！");
-			for (MemberAward memberAward1: list) {
-				Award award1 = memberAward1.getAward();
-				if(award1.getAwardDesc()!=null&&!"".equals(award1.getAwardDesc())){
-					String[]  subAward =	award1.getAwardDesc().split(",");
-					if(subAward.length>0){
-						int num =(int)(1+Math.random()*(subAward.length));
-						award1.setAwardOk(subAward[num-1]);
-						memberAward1.setRemark(subAward[num-1]);
-					}
-				}
-			}
+//			for (MemberAward memberAward1: list) {
+//				Award award1 = memberAward1.getAward();
+//				if(award1.getAwardDesc()!=null&&!"".equals(award1.getAwardDesc())){
+//					String[]  subAward =	award1.getAwardDesc().split(",");
+//					if(subAward.length>0){
+//						int num =(int)(1+Math.random()*(subAward.length));
+//						award1.setAwardOk(subAward[num-1]);
+//						memberAward1.setRemark(subAward[num-1]);
+//					}
+//				}
+//			}
 			map.put("awards",list);
 			return ok("999",map);
 		}else{
@@ -113,6 +113,7 @@ public class ApiMemberAwardController extends BaseController
 								 int num =(int)(1+Math.random()*(subAward.length));
 								 award1.setAwardOk(subAward[num-1]);
 								 memberAward1.setRemark(subAward[num-1]);
+								 memberAwardService.updateMemberAward(memberAward1);
 							 }
 						 }
 					}

@@ -7,7 +7,7 @@ ruoyi:
   #版权年份
   copyrightYear: 2018
   #头像上传路径
-  profile: D:/profile/
+  profile: C:/profile/
   # 获取ip地址开关
   addressEnabled: true
 #开发环境配置
@@ -58,7 +58,7 @@ spring:
   devtools:
     restart:
       #热部署开关
-      enabled: true
+      enabled: false
 # MyBatis
 mybatis:
     # 搜索指定包别名

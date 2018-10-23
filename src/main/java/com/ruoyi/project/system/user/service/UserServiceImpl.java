@@ -3,6 +3,8 @@ package com.ruoyi.project.system.user.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ruoyi.project.module.activity.domain.Activity;
+import com.ruoyi.project.module.activity.mapper.ActivityMapper;
 import com.ruoyi.project.module.award.domain.Award;
 import com.ruoyi.project.module.award.mapper.AwardMapper;
 import com.ruoyi.project.module.memberAward.domain.MemberAward;
@@ -56,7 +58,8 @@ public class UserServiceImpl implements IUserService
 
     @Autowired
     private AwardMapper awardMapper;
-
+    @Autowired
+    private ActivityMapper activityMapper;
 
 
     @Autowired
@@ -70,15 +73,20 @@ public class UserServiceImpl implements IUserService
      *@Date: 2018/10/18_10:31
      */
     @Override
-    public UserForm userInfo(String wechatCode) {
+    public UserForm userInfo(Long userId) {
         UserForm userForm  = new UserForm();
-       List<User>  users =   userMapper.selectUserByWechatCode(wechatCode);
-       if(users.size()>0){
-           userForm.setUser(users.get(0));
+       User  user =   userMapper.selectUserById(userId);
+       if(user!=null){
+           userForm.setUser(user);
            Award award = new Award();
            award.setUserId(118);
-           List<MemberAward>  memberAwards = memberAwardMapper.selectMemberAwardByUserId(users.get(0).getUserId());
+           List<MemberAward>  memberAwards = memberAwardMapper.selectMemberAwardByUserId(user.getUserId());
            List<Award> awards =   awardMapper.selectAwardList(award) ;
+             Activity activity = new Activity();
+             activity.setState(0);
+             activity.setStr1("1");//公用
+             List<Activity> activities =  activityMapper.selectActivityList(activity);
+           userForm.setActivitieList(activities);
            userForm.setAwardList(awards);
            userForm.setMemberAwardList(memberAwards);
 
@@ -127,6 +135,11 @@ public class UserServiceImpl implements IUserService
         return userMapper.selectUserByLoginName(userName);
     }
 
+    @Override
+    public List<User> selectUserByLName(String userName)
+    {
+        return userMapper.selectUserByLName(userName);
+    }
     /**
      * 通过手机号码查询用户
      * 

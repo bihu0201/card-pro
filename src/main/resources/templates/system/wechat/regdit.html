@@ -17,31 +17,31 @@
 	<div class="weui_btn_area" style="margin-TOP:20px">
 		<H1>招财商宝</H1>
 	</div>
-	<div class="weui_cells weui_cells_form" style="margin-TOP:60px">
+		<div class="" style="margin-TOP:40px">
 
-	<form action="" method="post">
+	<form id="userreg" action="/api/wechat/register" method="post">
 		<div class="weui_cells weui_cells_form">
 			<div class="weui_cell">
-				<div class="weui_cell_hd"><label class="weui_label">用户名</label></div>
+				<div class="weui_cell_hd"><label class="weui_label">登录名</label></div>
 				<div class="weui_cell_bd weui_cell_primary">
-					<input class="weui_input" type="text"  name="loginName" placeholder="请输入用户名"/>
+					<input class="weui_input" type="text"  id="loginName"  name="loginName" placeholder="请输入用户名"/>
 				</div>
 			</div>
 			<div class="weui_cell">
 				<div class="weui_cell_hd"><label class="weui_label">姓名</label></div>
 				<div class="weui_cell_bd weui_cell_primary">
-					<input class="weui_input" type="text" name="userName"  placeholder="请输入真实姓名"/>
+					<input class="weui_input" type="text" id="userName"  name="userName"  placeholder="请输入真实姓名"/>
 				</div>
 			</div>
 			<div class="weui_cell">
 				<div class="weui_cell_hd"><label class="weui_label">证件</label></div>
 				<div class="weui_cell_bd weui_cell_primary">
-					<input class="weui_input" type="text"   placeholder="请输入身份证号"/>
+					<input class="weui_input" type="text"   id="code"  placeholder="请输入身份证号"/>
 				</div>
 			</div>
 			<div class="weui_cell weui_cell_select">
 				<div class="weui_cell_bd weui_cell_primary">
-					<select class="weui_select" name="select1">
+					<select class="weui_select" name="select1" id="sex">
 						<option selected="" value="">&nbsp;性别</option>
 						<option value="0">男</option>
 						<option value="1">女</option>
@@ -53,23 +53,25 @@
 			<div class="weui_cell">
 				<div class="weui_cell_hd"><label class="weui_label">电话</label></div>
 				<div class="weui_cell_bd weui_cell_primary">
-					<input class="weui_input" type="number" name="phonenumber" pattern="[0-9]*" placeholder="请输入电话号码"/>
+					<input class="weui_input" type="number" id="phonenumber" name="phonenumber" pattern="[0-9]*" placeholder="请输入电话号码"/>
+
 				</div>
 			</div>
 			<div class="weui_cell weui_vcode ">
 				<div class="weui_cell_hd"><label class="weui_label">验证码</label></div>
 				<div class="weui_cell_bd weui_cell_primary">
-					<input class="weui_input" type="number" maxlength="4" placeholder="请输入验证码" onclick="getVerify(this);"/>
+					<input class="weui_input" type="number" maxlength="4" name="vircode" placeholder="请输入验证码"/>
 				</div>
 				<div class="weui_cell_ft">
 					<i class="weui_icon_warn"></i>
-					<img th:src="@{/api/user/getVerify}"/>
+					<img th:src="@{/api/user/getVerify}"  id="getCode" onclick="onGetCode()" />
 				</div>
 			</div>
 		</div>
 
 		<div class="weui_btn_area">
-			<a class="weui_btn weui_btn_primary" href="javascript:" id="showTooltips">注册</a>
+			<a class="weui_btn weui_btn_primary" href="javascript:void(0);" onclick="reg()" id="showTooltips">注册</a>
+
 		</div>
 
 
@@ -83,20 +85,43 @@
 <script th:src="@{/js/zepto.min.js}"></script>
 <script th:src="@{/js/example.js}"></script>
 	<script>
-		function getVerify() {
-			location.href="/api/user/getVerify";
+        function genTimestamp() {
+               return new Date().getTime();
         }
-        function  check() {
-            var     username =  $("#username").val();
-            var     password =  $("#password").val();
-            if(username!=""&&password!=""){
-                return true;
-            }else{
-                alert("用户名或密码不能为空！");
-                return false;
-            }
+    function onGetCode() {
+            $("#getCode").attr("src", "/api/user/getVerify?t=" + genTimestamp());
         }
+	function reg() {
+			var loginName = $("input[name='loginName']").val();
+			var userName = $("input[name='userName']").val();
+             var phonenumber = $("input[name='phonenumber']").val();
+        var vircode = $("input[name='vircode']").val();
 
+			if(loginName=="" || loginName==""){
+				alert("登录名不能为空！");
+				return;
+			} else if(userName==""){
+                alert("姓名不能为空！");
+                return;
+            } else if(phonenumber==""){
+                alert("手机号码不能为空！");
+                return;
+			}
+            else if(vircode==""){
+                alert("验证码不能为空！");
+                return;
+            }
+			else{
+                  $("#userreg").submit();
+			}
+
+	}
+    </script>
+	<script th:inline="javascript">
+        var message = [[${msg}]];
+        if(message!=""&&message!=null){
+            alert(message);
+        }
 	</script>
 </body>
 </html>

@@ -70,6 +70,15 @@ public class User extends BaseEntity
     private String  wechatIcon;
     private Integer isPass;
 
+    private Integer isVip;
+
+    public Integer getIsVip() {
+        return isVip;
+    }
+
+    public void setIsVip(Integer isVip) {
+        this.isVip = isVip;
+    }
 
     /** 最后登陆IP */
     @Excel(name = "最后登陆IP")

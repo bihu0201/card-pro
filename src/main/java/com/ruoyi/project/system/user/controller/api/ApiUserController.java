@@ -112,9 +112,9 @@ public class ApiUserController extends BaseController
      * 根据openId判断是否商户，同时获取商户信息
      */
     @GetMapping("/userInfo")
-    public AjaxResult userInfo(String wechatCode)
+    public AjaxResult userInfo(Long userId)
     {
-        UserForm users = userService.userInfo(wechatCode);
+        UserForm users = userService.userInfo(userId);
         if(users!=null){
             return  ok("0",users);
         }else {
@@ -132,6 +132,7 @@ public class ApiUserController extends BaseController
             response.setHeader("Pragma", "No-cache");//设置响应头信息，告诉浏览器不要缓存此内容
             response.setHeader("Cache-Control", "no-cache");
             response.setDateHeader("Expire", 0);
+
             RandomValidateCodeUtil randomValidateCode = new RandomValidateCodeUtil();
             randomValidateCode.getRandcode(request, response);//输出验证码图片方法
         } catch (Exception e) {
