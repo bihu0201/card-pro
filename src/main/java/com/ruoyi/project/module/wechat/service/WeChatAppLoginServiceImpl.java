@@ -246,7 +246,7 @@ public class WeChatAppLoginServiceImpl implements IWeChatAppLoginService
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("path", "pages/lottery/lottery?userid="+userId);//你二维码中跳向的地址
         map.put("width", "430");//图片大小
-        map.put("scene","userid="+userId);
+        map.put("scene",userId);
         String  json = JSON.toJSONString(map);
         System.out.println(json);
         String  res= CreateImgUtil.httpPostWithJSON(url
