@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.ruoyi.framework.config.RuoYiConfig;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -29,50 +30,52 @@ public class CreateImgUtil {
     private CreateImgUtil() {
     }
 
-    @SuppressWarnings({ "resource" })
-    public static String httpPostWithJSON(String url, String json, String id,String dir) throws Exception {
+    public static String httpPostWithJSON(String url, String json,Integer userId)
+            throws Exception {
         String result = null;
         DefaultHttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(url);
         httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
+
         StringEntity se = new StringEntity(json);
         se.setContentType("application/json");
-        se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "UTF-8"));
+        se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE,
+                "UTF-8"));
         httpPost.setEntity(se);
+        // httpClient.execute(httpPost);
         HttpResponse response = httpClient.execute(httpPost);
         if (response != null) {
             HttpEntity resEntity = response.getEntity();
             if (resEntity != null) {
                 InputStream instreams = resEntity.getContent();
-                File saveFile = new File(dir + id + ".png");
+                String uploadSysUrl = RuoYiConfig.getProfile();
+                File saveFile = new File(uploadSysUrl+userId+".png");
                 // 判断这个文件（saveFile）是否存在
                 if (!saveFile.getParentFile().exists()) {
                     // 如果不存在就创建这个文件夹
                     saveFile.getParentFile().mkdirs();
                 }
-                saveToImgByInputStream(instreams, dir, id + ".png");
+                saveToImgByInputStream(instreams, uploadSysUrl, userId+".png");
             }
         }
         httpPost.abort();
         return result;
     }
 
-    /*
-     * @param instreams 二进制流
-     *
+    /* @param instreams 二进制流
      * @param imgPath 图片的保存路径
-     *
      * @param imgName 图片的名称
-     *
-     * @return 1：保存正常 0：保存失败
+     * @return
+     *      1：保存正常
+     *      0：保存失败
      */
-    private static int saveToImgByInputStream(InputStream instreams, String imgPath, String imgName) {
+    public static int saveToImgByInputStream(InputStream instreams,String imgPath,String imgName){
 
         int stateInt = 1;
-        if (instreams != null) {
+        if(instreams != null){
             try {
-                File file = new File(imgPath + imgName);// 可以是任何图片格式.jpg,.png等
-                FileOutputStream fos = new FileOutputStream(file);
+                File file=new File(imgPath+imgName);//可以是任何图片格式.jpg,.png等
+                FileOutputStream fos=new FileOutputStream(file);
 
                 byte[] b = new byte[1024];
                 int nRead = 0;

@@ -182,12 +182,12 @@ public class WeChatAppLoginServiceImpl implements IWeChatAppLoginService
             param.put("scene", userId);
             param.put("page", "pages/lottery/lottery");
             param.put("width", 430);
-            param.put("auto_color", false);
-            Map<String,Object> line_color = new HashMap<>();
-            line_color.put("r", 0);
-            line_color.put("g", 0);
-            line_color.put("b", 0);
-            param.put("line_color", line_color);
+//            param.put("auto_color", false);
+//            Map<String,Object> line_color = new HashMap<>();
+//            line_color.put("r", 0);
+//            line_color.put("g", 0);
+//            line_color.put("b", 0);
+//            param.put("line_color", line_color);
             logger.info("调用生成微信URL接口传参:" + param);
             MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
             HttpEntity requestEntity = new HttpEntity(param, headers);
@@ -232,5 +232,26 @@ public class WeChatAppLoginServiceImpl implements IWeChatAppLoginService
             }
         }
         return null;
+    }
+
+    public String GetPostUrl(Integer userId) throws Exception {
+        //String result = HttpRequest.sendPost("http://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token="+access_token, path);
+        System.out.println(userId);
+        String accessToken = "";
+        Map tokenMap  = this.getToken();
+        if(tokenMap.get("access_token")!=null) {
+            accessToken = (String) tokenMap.get("access_token");
+        }
+        String url ="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=";
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("path", "pages/lottery/lottery?userid="+userId);//你二维码中跳向的地址
+        map.put("width", "430");//图片大小
+        map.put("scene","userid="+userId);
+        String  json = JSON.toJSONString(map);
+        System.out.println(json);
+        String  res= CreateImgUtil.httpPostWithJSON(url
+                + accessToken, json.toString(),userId);
+        System.out.println(res);
+        return res;
     }
 }

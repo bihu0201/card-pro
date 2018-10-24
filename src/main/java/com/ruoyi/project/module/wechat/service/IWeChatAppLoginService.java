@@ -9,4 +9,5 @@ public interface IWeChatAppLoginService {
     public Map<String,Object> login(WeChatAppLoginReq req);
     public Map<String,Object> getToken( );
     public Map getminiqrQr(HttpServletRequest request, Integer userId);
+    public String GetPostUrl(Integer userId)throws Exception;
 }

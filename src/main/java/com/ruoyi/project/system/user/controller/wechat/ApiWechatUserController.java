@@ -109,29 +109,31 @@ public class ApiWechatUserController extends BaseController
            request.setAttribute("msg","商家登录名已存在！");
            return prefix + "/regdit";
        }
-
-            //setUser(user);
-            user.setPassword("123456");
-            user.setIsPass(0);//待审额
-            Long[] ary = new Long[1];
-            ary[0]=100L;
-            user.setRoleIds(ary);
-            user.setDeptId(new Long("103"));//代理商
+       try {
+           //setUser(user);
+           user.setPassword("123456");
+           user.setIsPass(0);//待审额
+           Long[] ary = new Long[1];
+           ary[0] = 100L;
+           user.setRoleIds(ary);
+           user.setDeptId(new Long("103"));//代理商
            Long[] aryPost = new Long[1];
-           aryPost[0]=2L;
+           aryPost[0] = 2L;
            user.setPostIds(aryPost);
 
            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
            String dateStr = df.format(System.currentTimeMillis());// new Date()为获取当前系统时间，也可使用当前时间戳
-           String wechat_code= MD5Utils.encrypt16(dateStr);
-            user.setWechatCode(wechat_code);
+           String wechat_code = MD5Utils.encrypt16(dateStr);
+           user.setWechatCode(wechat_code);
 
-            int userId = userService.insertUserParam(user);
-            Map imgMap = weChatAppLoginService.getminiqrQr(request,user.getUserId().intValue());
-            user.setWechatIcon((String)imgMap.get("code"));
-            userService.updateUserInfo(user);
-
-           request.setAttribute("msg","商家注册成功！");
+           int userId = userService.insertUserParam(user);
+           String img = weChatAppLoginService.GetPostUrl(user.getUserId().intValue());
+           user.setWechatIcon(img);
+           userService.updateUserInfo(user);
+           request.setAttribute("msg", "商家注册成功！");
+       }catch(Exception e){
+           return prefix + "/reg";
+       }
            return prefix + "/add";
     }
 

@@ -56,10 +56,15 @@ public class WechatController extends BaseController
 	@ResponseBody
 	public AjaxResult getWechatImg(HttpServletRequest request, Integer userId)
 	{
-		Map imgMap = weChatAppLoginService.getminiqrQr(request,userId);
-          System.out.println(imgMap);
-          Map map = new HashMap();
-		map.put("wechatImg",imgMap);
+		Map map = new HashMap();
+		try{
+			//Map imgMap = weChatAppLoginService.getminiqrQr(request,userId);
+			 String imgMap = weChatAppLoginService.GetPostUrl(userId);
+			System.out.println(imgMap);
+
+			map.put("wechatImg",imgMap);
+		}catch(Exception e){}
+
 		return ok(map);
 	}
 
