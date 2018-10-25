@@ -18,34 +18,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="remark"    column="remark"    />
+        <association property="user"    column="user_id" javaType="User" resultMap="UserResult" />
+
     </resultMap>
-	
+    <resultMap type="User" id="UserResult">
+        <id     property="userId"       column="user_id"      />
+        <result property="deptId"       column="dept_id"      />
+        <result property="loginName"    column="login_name"   />
+        <result property="userName"     column="user_name"    />
+        <result property="email"        column="email"        />
+    </resultMap>
 	<sql id="selectUserPayLogVo">
-        select id, user_id, user_name, pay_fee, pay_method, pay_time, pay_desc, state, create_by, create_time, update_by, update_time, remark from biz_user_pay_log
+        select id, user_id, user_name, pay_fee, pay_method, pay_time, pay_desc, state, create_by, create_time, update_by, update_time, remark
+         from biz_user_pay_log
     </sql>
 	
     <select id="selectUserPayLogList" parameterType="UserPayLog" resultMap="UserPayLogResult">
-        <include refid="selectUserPayLogVo"/>
+        select b.id, b.user_id,  b.pay_fee, b.pay_method, b.pay_time, b.pay_desc, b.state, b.create_by, b.create_time, b.update_by, b.update_time, b.remark,a.user_name ,a.login_name
+        from biz_user_pay_log b,sys_user a
+        where b.user_id = a.user_id
         <where>  
-            <if test="id != null and id != ''"> and id = #{id}</if>
-             <if test="userId != null and userId != ''"> and user_id = #{userId}</if>
-             <if test="userName != null and userName != ''"> and user_name = #{userName}</if>
-             <if test="payFee != null and payFee != ''"> and pay_fee = #{payFee}</if>
-             <if test="payMethod != null and payMethod != ''"> and pay_method = #{payMethod}</if>
-             <if test="payTime != null and payTime != ''"> and pay_time = #{payTime}</if>
-             <if test="payDesc != null and payDesc != ''"> and pay_desc = #{payDesc}</if>
-             <if test="state != null and state != ''"> and state = #{state}</if>
-             <if test="createBy != null and createBy != ''"> and create_by = #{createBy}</if>
-             <if test="createTime != null and createTime != ''"> and create_time = #{createTime}</if>
-             <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy}</if>
-             <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime}</if>
-             <if test="remark != null and remark != ''"> and remark = #{remark}</if>
+            <if test="id != null and id != ''"> and b.id = #{id}</if>
+             <if test="userId != null and userId != ''"> and b.user_id = #{userId}</if>
+             <if test="userName != null and userName != ''"> and b.user_name = #{userName}</if>
+             <if test="payFee != null and payFee != ''"> and b.pay_fee = #{payFee}</if>
+             <if test="payMethod != null and payMethod != ''"> and b.pay_method = #{payMethod}</if>
+             <if test="payTime != null and payTime != ''"> and b.pay_time = #{payTime}</if>
+             <if test="payDesc != null and payDesc != ''"> and b.pay_desc = #{payDesc}</if>
+             <if test="state != null and state != ''"> and b.state = #{state}</if>
+             <if test="createBy != null and createBy != ''"> and b.create_by = #{createBy}</if>
+             <if test="createTime != null and createTime != ''"> and b.create_time = #{createTime}</if>
+             <if test="updateBy != null and updateBy != ''"> and b.update_by = #{updateBy}</if>
+             <if test="updateTime != null and updateTime != ''"> and b.update_time = #{updateTime}</if>
+             <if test="remark != null and remark != ''"> and b.remark = #{remark}</if>
          </where>
     </select>
     
     <select id="selectUserPayLogById" parameterType="Integer" resultMap="UserPayLogResult">
-        <include refid="selectUserPayLogVo"/>
-        where id = #{id}
+       select b.id, b.user_id,  b.pay_fee, b.pay_method, b.pay_time, b.pay_desc, b.state, b.create_by, b.create_time, b.update_by, b.update_time, b.remark,a.user_name ,a.login_name
+        from biz_user_pay_log b,sys_user a
+        where b.user_id = a.user_id
+        where b.id = #{id}
     </select>
         
     <insert id="insertUserPayLog" parameterType="UserPayLog">

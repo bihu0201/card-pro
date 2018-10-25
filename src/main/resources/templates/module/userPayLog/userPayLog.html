@@ -5,9 +5,9 @@
 <body class="gray-bg">
     <div class="container-div">
 		<div class="btn-group hidden-xs" id="toolbar" role="group">
-			<a class="btn btn-outline btn-success btn-rounded" onclick="$.operate.add()" shiro:hasPermission="module:userPayLog:add">
-				<i class="fa fa-plus"></i> 新增
-			</a>
+			<!--<a class="btn btn-outline btn-success btn-rounded" onclick="$.operate.add()" shiro:hasPermission="module:userPayLog:add">-->
+				<!--<i class="fa fa-plus"></i> 新增-->
+			<!--</a>-->
 			<a class="btn btn-outline btn-danger btn-rounded" onclick="$.operate.removeAll()" shiro:hasPermission="module:userPayLog:remove">
 				<i class="fa fa-trash-o"></i> 删除
 			</a>
@@ -38,7 +38,7 @@
 					title : '商户ID' 
 				},
 				{
-					field : 'userName', 
+					field : 'user.userName',
 					title : '商户名称' 
 				},
 				{
@@ -47,7 +47,14 @@
 				},
 				{
 					field : 'payMethod', 
-					title : '充值方式'
+					title : '充值方式',
+                    formatter:function (value,item,index) {
+                        if(item.state==1){
+                            return '微信';
+                        }else{
+                            return '现金';
+                        }
+                    }
 				},
 				{
 					field : 'payTime', 
@@ -59,7 +66,14 @@
 				},
 				{
 					field : 'state', 
-					title : '充值状态'
+					title : '充值状态',
+                    formatter:function (value,item,index) {
+                        if(item.state==1){
+                            return '成功';
+                        }else{
+                            return '失效';
+                        }
+                    }
 				},
 		        {
 		            title: '操作',

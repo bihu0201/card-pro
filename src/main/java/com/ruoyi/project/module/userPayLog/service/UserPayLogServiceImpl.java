@@ -27,7 +27,7 @@ public class UserPayLogServiceImpl implements IUserPayLogService
      * @return 商户充值记录信息
      */
     @Override
-	public UserPayLog selectUserPayLogById(String id)
+	public UserPayLog selectUserPayLogById(Integer id)
 	{
 	    return userPayLogMapper.selectUserPayLogById(id);
 	}

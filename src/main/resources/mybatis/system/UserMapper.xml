@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<sql id="selectUserVo">
         select  u.user_id, u.dept_id, u.login_name, u.user_name, u.email,u.wechat_icon, u.phonenumber, u.sex, u.avatar, u.password, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_time, u.remark,
-       		    d.dept_id, d.parent_id, d.dept_name, d.order_num, d.status as dept_status,is_vip,
+       		    d.dept_id, d.parent_id, d.dept_name, d.order_num, d.status as dept_status,u.is_vip,
        		    r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.status as role_status
 		from sys_user u
 			 left join sys_dept d on u.dept_id = d.dept_id
@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 	
 	<select id="selectUserList" parameterType="User" resultMap="UserResult">
-		select u.user_id, u.dept_id, u.login_name, u.user_name, u.wechat_icon,u.email,is_vip, u.phonenumber, u.password, u.sex, u.avatar, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name from sys_user u
+		select u.user_id, u.dept_id, u.login_name, u.user_name, u.wechat_icon,u.email,u.is_vip, u.phonenumber, u.password, u.sex, u.avatar, u.salt, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name from sys_user u
 		left join sys_dept d on u.dept_id = d.dept_id
 		where u.del_flag = '0'
 		<if test="loginName != null and loginName != ''">
@@ -158,7 +158,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="wechatIcon != null">wechat_icon = #{wechatIcon},</if>
 			<if test="wechatCode != null">wechat_code = #{wechatCode},</if>
  			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
-			<if test="isVip != null and isVip != ''">is_vip = #{is_vip},</if>
+			<if test="isVip != null and isVip != ''">is_vip = #{isVip},</if>
  			<if test="remark != null and remark != ''">remark = #{remark},</if>
  			update_time = sysdate()
  		</set>

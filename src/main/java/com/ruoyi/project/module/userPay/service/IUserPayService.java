@@ -20,7 +20,7 @@ public interface IUserPayService
      * @param id 商户充值ID
      * @return 商户充值信息
      */
-	public UserPay selectUserPayById(String id);
+	public UserPay selectUserPayById(Integer id);
 	
 	/**
      * 查询商户充值列表

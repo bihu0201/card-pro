@@ -5,9 +5,9 @@
 <body class="gray-bg">
     <div class="container-div">
 		<div class="btn-group hidden-xs" id="toolbar" role="group">
-			<a class="btn btn-outline btn-success btn-rounded" onclick="$.operate.add()" shiro:hasPermission="module:userPay:add">
-				<i class="fa fa-plus"></i> 新增
-			</a>
+			<!--<a class="btn btn-outline btn-success btn-rounded" onclick="$.operate.add()" shiro:hasPermission="module:userPay:add">-->
+				<!--<i class="fa fa-plus"></i> 新增-->
+			<!--</a>-->
 			<a class="btn btn-outline btn-danger btn-rounded" onclick="$.operate.removeAll()" shiro:hasPermission="module:userPay:remove">
 				<i class="fa fa-trash-o"></i> 删除
 			</a>
@@ -34,44 +34,31 @@
 		            checkbox: true
 		        },
 				{
-					field : 'id', 
-					title : '' 
-				},
-				{
-					field : 'userId', 
-					title : '商户ID' 
+					field : 'user.userName',
+					title : '商户'
 				},
 				{
 					field : 'payFeeCurrent', 
-					title : '充值金额' 
+					title : '当前金额'
 				},
 				{
 					field : 'payFeeTotal', 
-					title : '' 
+					title : '累计充值'
 				},
 				{
 					field : 'payMethod', 
-					title : '充值方式 1 微信' 
-				},
-				{
-					field : 'createBy', 
-					title : '' 
-				},
-				{
-					field : 'createTime', 
-					title : '' 
-				},
-				{
-					field : 'updateBy', 
-					title : '' 
-				},
-				{
-					field : 'updateTime', 
-					title : '' 
+					title : '充值方式' ,
+                    formatter: function(value, row, index) {
+                        if(value==1){
+                            return "微信";
+                        }else{
+                            return "现金";
+                        }
+                    }
 				},
 				{
 					field : 'remark', 
-					title : '' 
+					title : '备注'
 				},
 		        {
 		            title: '操作',

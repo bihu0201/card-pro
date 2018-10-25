@@ -33,42 +33,49 @@
                 columns: [{
 		            checkbox: true
 		        },
-				{
-					field : 'id', 
-					title : '' 
-				},
+
 				{
 					field : 'awardName', 
 					title : '奖项名称' 
 				},
 				{
 					field : 'awardIcon', 
-					title : '奖品图片' 
+					title : '奖品图片' ,
+                    formatter: function(value, row, index) {
+                        return   "<img src= '"+value+"' height='80' width='80' /> ";
+                    }
 				},
 				{
 					field : 'isAward', 
-					title : '是否中奖' 
+					title : '是否奖品' ,
+                    formatter: function(value, row, index) {
+                        if(value==1){
+                            return "是";
+                        }else{
+                            return "否";
+                        }
+                    }
+				},
+				{
+					field : 'chance',
+					title : '中奖概率',
+                    formatter: function(value, row, index) {
+
+                        return  value+"%";
+                    }
 				},
 				{
 					field : 'state', 
-					title : '状态' 
+					title : '状态' ,
+                    formatter: function(value, row, index) {
+                         if(value==0){
+                             return "有效";
+						 }else{
+                             return "废止";
+						 }
+                    }
 				},
-				{
-					field : 'createTime', 
-					title : '创建时间' 
-				},
-				{
-					field : 'createBy', 
-					title : '创建人' 
-				},
-				{
-					field : 'updateBy', 
-					title : '修改人' 
-				},
-				{
-					field : 'updateTime', 
-					title : '修改时间' 
-				},
+
 				{
 					field : 'awardDesc', 
 					title : '奖项说明' 

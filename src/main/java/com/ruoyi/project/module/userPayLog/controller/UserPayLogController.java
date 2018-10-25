@@ -78,7 +78,7 @@ public class UserPayLogController extends BaseController
 	 * 修改商户充值记录
 	 */
 	@GetMapping("/edit/{id}")
-	public String edit(@PathVariable("id") String id, ModelMap mmap)
+	public String edit(@PathVariable("id") Integer id, ModelMap mmap)
 	{
 		UserPayLog userPayLog = userPayLogService.selectUserPayLogById(id);
 		mmap.put("userPayLog", userPayLog);

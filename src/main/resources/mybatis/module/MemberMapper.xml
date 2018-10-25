@@ -54,10 +54,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="wechatIcon != null and wechatIcon != '' ">wechat_icon,</if>
 			<if test="state != null and state != '' ">state,</if>
 			<if test="createBy != null and createBy != '' ">create_by,</if>
-			<if test="createTime != null and createTime != '' ">create_time,</if>
 			<if test="updateBy != null and updateBy != '' ">update_by,</if>
 			<if test="updateTime != null and updateTime != '' ">update_time,</if>
 			<if test="remark != null and remark != '' ">remark,</if>
+            create_time
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null and id != ''">#{id},</if>
@@ -71,6 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="updateBy != null and updateBy != ''">#{updateBy},</if>
 			<if test="updateTime != null and updateTime != ''">#{updateTime},</if>
 			<if test="remark != null and remark != ''">#{remark},</if>
+             sysdate()
          </trim>
     </insert>
 	 

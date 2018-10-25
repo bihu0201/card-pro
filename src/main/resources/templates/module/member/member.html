@@ -47,7 +47,14 @@
 				},
 				{
 					field : 'state', 
-					title : '状态' 
+					title : '状态' ,
+					formatter:function (value,item,index) {
+						if(item.state==0){
+						    return '有效';
+						}else{
+						    return '失效';
+						}
+                    }
 				},
 				{
 					field : 'remark', 

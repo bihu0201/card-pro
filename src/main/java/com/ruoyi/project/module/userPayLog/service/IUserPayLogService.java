@@ -17,7 +17,7 @@ public interface IUserPayLogService
      * @param id 商户充值记录ID
      * @return 商户充值记录信息
      */
-	public UserPayLog selectUserPayLogById(String id);
+	public UserPayLog selectUserPayLogById(Integer id);
 	
 	/**
      * 查询商户充值记录列表

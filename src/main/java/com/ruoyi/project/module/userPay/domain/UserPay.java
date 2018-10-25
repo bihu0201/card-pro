@@ -1,5 +1,6 @@
 package com.ruoyi.project.module.userPay.domain;
 
+import com.ruoyi.project.system.user.domain.User;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.framework.web.domain.BaseEntity;
@@ -37,6 +38,15 @@ public class UserPay extends BaseEntity
 	private Date updateTime;
 	/**  */
 	private String remark;
+	private User user;
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public void setId(Integer id)
 	{

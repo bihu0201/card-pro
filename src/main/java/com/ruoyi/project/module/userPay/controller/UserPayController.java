@@ -78,7 +78,7 @@ public class UserPayController extends BaseController
 	 * 修改商户充值
 	 */
 	@GetMapping("/edit/{id}")
-	public String edit(@PathVariable("id") String id, ModelMap mmap)
+	public String edit(@PathVariable("id") Integer id, ModelMap mmap)
 	{
 		UserPay userPay = userPayService.selectUserPayById(id);
 		mmap.put("userPay", userPay);

@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.ruoyi.project.module.member.domain.Member;
+import com.ruoyi.project.module.member.mapper.MemberMapper;
 import com.ruoyi.project.module.memberAward.domain.MemberAward;
 import com.ruoyi.project.module.memberAward.mapper.MemberAwardMapper;
 import com.ruoyi.project.module.userPayLog.domain.UserPayLog;
@@ -30,6 +32,8 @@ public class UserPayServiceImpl implements IUserPayService
 	private MemberAwardMapper memberAwardMapper;
 	@Autowired
 	private UserPayLogMapper userPayLogMapper;
+	@Autowired
+	private MemberMapper memberMapper;
 	/**
      * 查询商户充值信息
      * 
@@ -37,7 +41,7 @@ public class UserPayServiceImpl implements IUserPayService
      * @return 商户充值信息
      */
     @Override
-	public UserPay selectUserPayById(String id)
+	public UserPay selectUserPayById(Integer id)
 	{
 	    return userPayMapper.selectUserPayById(id);
 	}
@@ -89,6 +93,16 @@ public class UserPayServiceImpl implements IUserPayService
 	@Override
 	public int updateUserPay(UserPay userPay, MemberAward memberAward) {
 
+		Member member = new Member();
+		member.setWechatName(memberAward.getWechatName());
+		member.setWechatCode(memberAward.getWechatCode());
+
+		List<Member> members =  memberMapper.selectMemberList(member);
+		if(members.size()>0){
+
+		}else{
+			memberMapper.insertMember(member);
+		}
 
 		memberAwardMapper.insertMemberAward(memberAward);
 		return userPayMapper.updateUserPay(userPay);

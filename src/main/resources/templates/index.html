@@ -41,14 +41,15 @@
                 <li class="layui-nav-item" mobile>
                     <a href="javascript:;" data-url="page/user/changePwd.html"><i class="iconfont icon-shezhi1" data-icon="icon-shezhi1"></i><cite>设置</cite></a>
                 </li>
-                <li class="layui-nav-item" mobile>
-                    <a href="javascript:;"><i class="iconfont icon-loginout"></i> 退出</a>
-                </li>
+                <!--<li class="layui-nav-item" mobile>-->
+                    <!--<a href="javascript:;"><i class="iconfont icon-loginout"></i> 退出</a>-->
+                <!--</li>-->
                 <li class="layui-nav-item lockcms" pc>
                     <a href="javascript:;"><i class="iconfont icon-lock1"></i><cite>锁屏</cite></a>
                 </li>
+
                 <li class="layui-nav-item lockcms" pc>
-                    <a href="javascript:;"><i class="iconfont icon-lock1"></i><cite>退出</cite></a>
+                    <a th:href="@{logout}"><i class="iconfont icon-lock1"></i><cite>退出</cite></a>
                 </li>
                 <!--<li><a id="fullScreen"><i class="fa fa-arrows-alt"></i>全屏</a></li>-->
                 <!--<li><a th:href="@{logout}"><i class="fa fa-sign-out"></i>退出</a></li>-->

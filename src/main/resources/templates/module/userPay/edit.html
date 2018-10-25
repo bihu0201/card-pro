@@ -7,32 +7,36 @@
         <form class="form-horizontal m" id="form-userPay-edit" th:object="${userPay}">
             <input id="id" name="id" th:field="*{id}"  type="hidden">
             <div class="form-group">	
-                <label class="col-sm-3 control-label">商户ID：</label>
+                <label class="col-sm-3 control-label">商户：</label>
                 <div class="col-sm-8">
-                    <input id="userId" name="userId" th:field="*{userId}" class="form-control" type="text">
+                    <input id="userId" name="userId" th:field="*{userId}" class="form-control" type="hidden">
+                    <input id="userName" name="userId" th:field="*{user.userName}" class="form-control" readonly="readonly" type="text">
                 </div>
             </div>
             <div class="form-group">	
-                <label class="col-sm-3 control-label">充值金额：</label>
+                <label class="col-sm-3 control-label">当前金额：</label>
                 <div class="col-sm-8">
                     <input id="payFeeCurrent" name="payFeeCurrent" th:field="*{payFeeCurrent}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">	
-                <label class="col-sm-3 control-label">：</label>
+                <label class="col-sm-3 control-label">累计充值：</label>
                 <div class="col-sm-8">
                     <input id="payFeeTotal" name="payFeeTotal" th:field="*{payFeeTotal}" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">	
-                <label class="col-sm-3 control-label">充值方式 1 微信：</label>
-                <div class="col-sm-8">
-                    <input id="payMethod" name="payMethod" th:field="*{payMethod}" class="form-control" type="text">
-                </div>
-            </div>
+            <!--<div class="form-group">	-->
+                <!--<label class="col-sm-3 control-label">充值方式：</label>-->
+                <!--<div class="col-sm-8">-->
+                    <!--<select id="payMethod" name="payMethod"class="form-control"  >-->
+                        <!--<option value="1"  th:selected="${payMethod==1}">微信</option>-->
+                        <!--<option value="2" th:selected="${payMethod==2}">现金</option>-->
+                    <!--</select> -->
+                <!--</div>-->
+            <!--</div>-->
 
             <div class="form-group">	
-                <label class="col-sm-3 control-label">：</label>
+                <label class="col-sm-3 control-label">备注：</label>
                 <div class="col-sm-8">
                     <input id="remark" name="remark" th:field="*{remark}" class="form-control" type="text">
                 </div>

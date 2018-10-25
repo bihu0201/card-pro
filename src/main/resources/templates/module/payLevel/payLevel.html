@@ -48,19 +48,26 @@
 				},
 				{
 					field : 'state', 
-					title : '状态'
+					title : '状态',
+                    formatter: function(value, row, index) {
+                        if(value==0){
+                            return "有效";
+                        }else{
+                            return "失效";
+                        }
+                    }
 				},
 				{
-					field : 'createBy', 
+					field : 'createBy',
 					title : '创建人'
 				},
 				{
-					field : 'createTime', 
+					field : 'createTime',
 					title : '创建时间'
 				},
 
 				{
-					field : 'remark', 
+					field : 'remark',
 					title : '备注'
 				},
 		        {
