@@ -45,7 +45,7 @@ public class User extends BaseEntity
     /** 手机号码 */
     @Excel(name = "手机号码")
     private String phonenumber;
-
+    private String legalPerson;
     /** 用户性别 */
     @Excel(name = "用户性别")
     private String sex;
@@ -69,8 +69,40 @@ public class User extends BaseEntity
     private String wechatCode;
     private String  wechatIcon;
     private Integer isPass;
-
+    private String address;
     private Integer isVip;
+    private String conpany ;
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getConpany() {
+        return conpany;
+    }
+
+    public void setConpany(String conpany) {
+        this.conpany = conpany;
+    }
+
+    public String getLegalPerson() {
+        return legalPerson;
+    }
+
+    public void setLegalPerson(String legalPerson) {
+        this.legalPerson = legalPerson;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
 
     public Integer getIsVip() {
         return isVip;
