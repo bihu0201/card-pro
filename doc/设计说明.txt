@@ -29,6 +29,11 @@
        GET http://localhost:8050/api/award/list
      3 客户抽奖接口（后台 判断是否抽过奖，抽过提示，否则抽奖）
        POST http://localhost:8050/api/memberaward/draw?wechatCode=客户微信号&activityId=1
+
+
+      POST http://localhost:8050/api/memberaward/draw?wechatCode=ovo7T5P-eNdFq4CcNWqRwUZt5MRI&activityId=1 已抽过奖
+      POST http://localhost:8050/api/memberaward/draw?wechatCode=其他&activityId=1 过奖
+
      4 商户充值接口（商户充值）
        GET http://localhost:8050/api/userpay/pay?userId=1&payFee=300&payDesc=300套餐
      5 商户注册接口（商户）

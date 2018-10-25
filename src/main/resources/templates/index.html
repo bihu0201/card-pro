@@ -16,13 +16,56 @@
     <link th:href="@{/css/animate.css}" rel="stylesheet"/>
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <link th:href="@{/ruoyi/css/ry-ui.min.css?v=2.4.0}" rel="stylesheet"/>
+
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all" />
+    <link rel="stylesheet" th:href="@{/css/font_eolqem241z66flxr.css}"   media="all" />
+    <link rel="stylesheet" th:href="@{/css/main.css}"  media="all" />
+
+
     <style type="text/css">
         .nav > li:hover .dropdown-menu {display: block;}
     </style>
 </head>
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow: hidden" th:classappend="${@config.getKey('sys.index.skinName')}">
 <div id="wrapper">
+    <!-- 顶部 -->
+    <div class="layui-header header">
+        <div class="layui-main">
+            <a href="#" class="logo">招财商宝抽奖平台</a>
 
+            <!-- 顶部右侧菜单 -->
+            <ul class="layui-nav top_menu">
+                <li class="layui-nav-item showNotice" id="showNotice" pc>
+                    <a href="javascript:;"><i class="iconfont icon-gonggao"></i><cite>系统公告</cite></a>
+                </li>
+                <li class="layui-nav-item" mobile>
+                    <a href="javascript:;" data-url="page/user/changePwd.html"><i class="iconfont icon-shezhi1" data-icon="icon-shezhi1"></i><cite>设置</cite></a>
+                </li>
+                <li class="layui-nav-item" mobile>
+                    <a href="javascript:;"><i class="iconfont icon-loginout"></i> 退出</a>
+                </li>
+                <li class="layui-nav-item lockcms" pc>
+                    <a href="javascript:;"><i class="iconfont icon-lock1"></i><cite>锁屏</cite></a>
+                </li>
+                <li class="layui-nav-item lockcms" pc>
+                    <a href="javascript:;"><i class="iconfont icon-lock1"></i><cite>退出</cite></a>
+                </li>
+                <!--<li><a id="fullScreen"><i class="fa fa-arrows-alt"></i>全屏</a></li>-->
+                <!--<li><a th:href="@{logout}"><i class="fa fa-sign-out"></i>退出</a></li>-->
+                <li class="layui-nav-item" pc>
+                    <a href="javascript:;">
+                        <img src="images/face.jpg" class="layui-circle" width="35" height="35">
+                        <cite>管理员陈书玉</cite>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" data-url="page/user/userInfo.html"><i class="iconfont icon-zhanghu" data-icon="icon-zhanghu"></i><cite>个人资料</cite></a></dd>
+                        <dd><a href="javascript:;" data-url="page/user/changePwd.html"><i class="iconfont icon-shezhi1" data-icon="icon-shezhi1"></i><cite>修改密码</cite></a></dd>
+                        <dd><a href="javascript:;"><i class="iconfont icon-loginout"></i><cite>退出</cite></a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
     <!--左侧导航开始-->
     <nav class="navbar-default navbar-static-side" role="navigation">
         <div class="nav-close">
@@ -72,29 +115,29 @@
     
     <!--右侧部分开始-->
     <div id="page-wrapper" class="gray-bg dashbard-1">
-        <div class="row border-bottom">
-            <nav class="navbar navbar-static-top" role="navigation"
-                 style="margin-bottom: 0">
-                <div class="navbar-header">
+        <!--<div class="row border-bottom">-->
+            <!--<nav class="navbar navbar-static-top" role="navigation"-->
+                 <!--style="margin-bottom: 0">-->
+                <!--<div class="navbar-header">-->
 
-                    <a class="navbar-minimalize minimalize-styl-2 btn btn-default " href="#" title="收起菜单">
-                    	<i class="fa fa-bars"></i>
-                    </a>
-                    <form role="search" class="navbar-form-custom" method="post" action="">
-                        <div class="form-group">
-                            <input type="text" placeholder="请输入您需要查找的内容 …" class="form-control" name="top-search" id="top-search">
-                        </div>
-                    </form>
-                </div>
-                <ul class="nav navbar-top-links navbar-right welcome-message">
-	                <li>
-	                    <span class="m-r-sm text-muted">系统公告</span>
-	                </li>
-	                <li><a id="fullScreen"><i class="fa fa-arrows-alt"></i>全屏</a></li>
-                    <li><a th:href="@{logout}"><i class="fa fa-sign-out"></i>退出</a></li>
-                </ul>
-            </nav>
-        </div>
+                    <!--<a class="navbar-minimalize minimalize-styl-2 btn btn-default " href="#" title="收起菜单">-->
+                    	<!--<i class="fa fa-bars"></i>-->
+                    <!--</a>-->
+                    <!--<form role="search" class="navbar-form-custom" method="post" action="">-->
+                        <!--<div class="form-group">-->
+                            <!--<input type="text" placeholder="请输入您需要查找的内容 …" class="form-control" name="top-search" id="top-search">-->
+                        <!--</div>-->
+                    <!--</form>-->
+                <!--</div>-->
+                <!--<ul class="nav navbar-top-links navbar-right welcome-message">-->
+	                <!--<li>-->
+	                    <!--<span class="m-r-sm text-muted">系统公告</span>-->
+	                <!--</li>-->
+	                <!--<li><a id="fullScreen"><i class="fa fa-arrows-alt"></i>全屏</a></li>-->
+                    <!--<li><a th:href="@{logout}"><i class="fa fa-sign-out"></i>退出</a></li>-->
+                <!--</ul>-->
+            <!--</nav>-->
+        <!--</div>-->
         <div class="row content-tabs">
             <button class="roll-nav roll-left tabLeft">
                 <i class="fa fa-backward"></i>
@@ -124,7 +167,7 @@
                     th:src="@{/system/main}" frameborder="0" seamless></iframe>
         </div>
         <div class="footer">
-            <div class="pull-right">© [[${copyrightYear}]] RuoYi Copyright </div>
+            <div class="pull-right">© [[${copyrightYear}]] XCX Copyright </div>
         </div>
     </div>
     <!--右侧部分结束-->

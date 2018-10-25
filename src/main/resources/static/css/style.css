@@ -1576,7 +1576,7 @@ table.dataTable thead .sorting:after {
 }
 /* CIRCLE */
 .img-circle {
-    border-radius: 50%;
+    border-radius: 20%;
 }
 
 .btn-circle {

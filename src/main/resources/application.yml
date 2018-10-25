@@ -1,7 +1,7 @@
 # 项目相关配置
 ruoyi:
   #名称
-  name: RuoYi
+  name: XCX
   #版本
   version: 2.4.0
   #版权年份
@@ -59,6 +59,8 @@ spring:
     restart:
       #热部署开关
       enabled: false
+  resources:
+    static-locations: classpath:/images/,/META-INF/resources/,classpath:/static/
 # MyBatis
 mybatis:
     # 搜索指定包别名
