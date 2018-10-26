@@ -1,0 +1,21 @@
+
+<view class="container">
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+    <i-panel title="商户注册"/>
+    <i-input value="" title="账号名称" autofocus placeholder="账号名称" maxlength="16"  bind:change = "loginNameInput"/>
+    <i-input value="" title="商户姓名" autofocus placeholder="商户姓名" maxlength="10" bind:change ="userNameInput"/>
+    <i-input value="" title="商户邮箱" autofocus placeholder="商户邮箱" maxlength="18" bind:change ="emailInput"/>
+    <i-input value="" type="number" title="联系电话" placeholder="请输入手机号" maxlength="11" bind:change ="phoneInput"/>
+    <i-button bind:click="register">立即注册</i-button>
+  </view>
+  
+</view>
+
+    
+
+

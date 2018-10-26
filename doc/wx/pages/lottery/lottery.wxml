@@ -1,0 +1,36 @@
+
+ <view class="scrolltxt">
+    <view class="marquee_box">
+      <view class="marquee_text" style="transform: translateX(-{{marqueeDistance}}px)">
+        <text>{{text}}</text>
+        <text style="margin-right:{{marquee_margin}}px;"></text>
+        <text style="margin-right:{{marquee_margin}}px;">{{text}}</text>        
+      </view>
+    </view>
+</view>
+<button bindtap="playMusic" hidden='false'>播放</button>
+<button bindtap="stopMusic" hidden='false'>停</button>
+
+<view class="container-out"  >
+  <view class="circle" wx:for="{{circleList}}" style="top:{{item.topCircle}}rpx;left:{{item.leftCircle}}rpx;background-color: {{(index%2==0)?colorCircleFirst:colorCircleSecond}};"></view>
+  <view class="container-in">
+    <view class="content-out" wx:for="{{awardList}}" style="top:{{item.topAward}}rpx;left:{{item.leftAward}}rpx;background-color: {{(index==indexSelect)?colorAwardSelect:colorAwardDefault}};">
+      <image class="award-image" src="{{item.imageAward}}"></image>
+    </view>
+    <view class="start-btn" bindtap="startGame" style=" background-color:{{isRunning?'#e7930a':'#ffe400'}}"><image src='../../images/cjBtn.png' style="width:100%;height:100%"></image></view>
+  </view>
+</view>
+<view class='bss'>抽奖活动规则</view>
+<view class='ass'>1.每人每次消费足额商品参与抽奖一次。</view>
+<view class='ass'>2.除报税奖品以外的其他奖品实时发放。</view>
+<view class='ass'>3.用户可以参加完本活动后领取奖品。</view>
+<view class='bss'> 奖项介绍</view>
+<view class='ass'>1.吉祥如意奖:</view>
+<view class='ass'>插线板、烟灰缸、洗衣液、金猪存钱罐  概率</view>
+<view class='ass'>2.福泰安康奖:</view>
+<view class='ass'>翁之意 概率</view>
+<view class='ass'>3.幸福美满奖：</view>
+<view class='ass'>米卷尺、2粒装电池、耳机、调料盒概率</view>
+<view class='ass'>4.步步高升奖:</view>
+<view class='ass'>创可贴、火锅筷、上海硫磺皂、芭比娃娃泡泡贴</view>
+
