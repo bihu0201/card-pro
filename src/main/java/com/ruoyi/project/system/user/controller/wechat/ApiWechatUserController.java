@@ -113,8 +113,8 @@ public class ApiWechatUserController extends BaseController
            //setUser(user);
            user.setPassword("123456");
            user.setIsPass(0);//待审额
-           Long[] ary = new Long[1];
-           ary[0] = 100L;
+           Long[] ary = new Long[2];
+           ary[0] = 2L;
            user.setRoleIds(ary);
            user.setDeptId(new Long("103"));//代理商
            Long[] aryPost = new Long[1];

@@ -29,11 +29,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <result property="updateTime"    column="update_time"    />
              <result property="awardDesc"    column="award_desc"    />
              <result property="remark"    column="remark"    />
+             <result property="tag"    column="tag"    />
         </association>
     </resultMap>
 	
 	<sql id="selectMemberAwardVo">
-        select id, wechat_name, wechat_code, award_id, activity_id, award_time, user_id, create_by, create_time, update_by, update_time, remark from biz_member_award
+        select id, wechat_name, wechat_code, award_id, activity_id, award_time, user_id, create_by, create_time, update_by, update_time, remark,tag from biz_member_award
     </sql>
 	
     <select id="selectMemberAwardList" parameterType="MemberAward" resultMap="MemberAwardResult">
@@ -52,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="updateBy != null and updateBy != ''"> and a.update_by = #{updateBy}</if>
              <if test="updateTime != null and updateTime != ''"> and a.update_time = #{updateTime}</if>
              <if test="remark != null and remark != ''"> and a.remark = #{remark}</if>
-
+             <if test="tag != null and tag != ''"> and a.tag = #{tag}</if>
     </select>
     
     <select id="selectMemberAwardById" parameterType="Integer" resultMap="MemberAwardResult">
@@ -80,6 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="updateBy != null and updateBy != '' ">update_by,</if>
 			<if test="updateTime != null and updateTime != '' ">update_time,</if>
 			<if test="remark != null and remark != '' ">remark,</if>
+            <if test="tag != null and tag != '' ">tag,</if>
             award_time,create_time
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -95,6 +97,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="updateBy != null and updateBy != ''">#{updateBy},</if>
 			<if test="updateTime != null and updateTime != ''">#{updateTime},</if>
 			<if test="remark != null and remark != ''">#{remark},</if>
+            <if test="tag != null and tag != ''">#{tag},</if>
             sysdate(),sysdate()
          </trim>
     </insert>
@@ -113,6 +116,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
             <if test="updateTime != null  ">update_time = #{updateTime},</if>
             <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="tag != null  and tag != ''  ">tag = #{tag},</if>
         </trim>
         where id = #{id}
     </update>

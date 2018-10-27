@@ -40,10 +40,19 @@ public class MemberAward
 	private Date updateTime;
 	/** 备注 */
 	private String remark;
-
+	/** 备注 */
+	private String tag;
 	private Award award;
 
-	public void setId(Integer id) 
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}

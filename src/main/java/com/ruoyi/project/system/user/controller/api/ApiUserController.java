@@ -79,7 +79,7 @@ public class ApiUserController extends BaseController
             //setUser(user);
             user.setPassword("123456");
             user.setIsPass(0);//待审额
-            Long[] ary = new Long[1];
+            Long[] ary = new Long[2]; //商家
             ary[0]=100L;
             user.setRoleIds(ary);
             user.setDeptId(new Long("103"));//代理商

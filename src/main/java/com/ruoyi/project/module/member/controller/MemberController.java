@@ -1,6 +1,8 @@
 package com.ruoyi.project.module.member.controller;
 
 import java.util.List;
+
+import com.ruoyi.project.system.user.domain.User;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,6 +51,10 @@ public class MemberController extends BaseController
 	public TableDataInfo list(Member member)
 	{
 		startPage();
+		User user  = getUser();
+		if("admin".equals(user.getLoginName())){
+
+		}
         List<Member> list = memberService.selectMemberList(member);
 		return getDataTable(list);
 	}

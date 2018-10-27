@@ -235,7 +235,7 @@ $(function() {
     }
 
     $('.menuItem').on('click', menuItem);
-
+    $('.toPage').on('click', menuItem);
     // 关闭选项卡菜单
     function closeTab() {
         var closeTabId = $(this).parents('.menuTab').data('id');

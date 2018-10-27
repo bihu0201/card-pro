@@ -83,7 +83,7 @@ public class ApiMemberAwardController extends BaseController
 					currentUserPay.setUpdateTime(new Date());
 
 					memberAward.setUpdateBy(memberAward.getWechatCode());
-					memberAward.setUserId(activity.getUserId());
+					//memberAward.setUserId(activity.getUserId());
 
 					/// 中奖概率
 					Award award = new Award();

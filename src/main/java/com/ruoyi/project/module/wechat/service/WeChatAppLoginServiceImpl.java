@@ -212,6 +212,7 @@ public class WeChatAppLoginServiceImpl implements IWeChatAppLoginService
             }
             outputStream.flush();
             map.put("code",file.getPath());
+            map.put("code_url",fileName+".png");
             return map;
         } catch (Exception e) {
             logger.error("调用小程序生成微信永久小程序码URL接口异常",e);
