@@ -10,7 +10,7 @@ import com.ruoyi.framework.web.domain.BaseEntity;
  * @author snailever
  * @date 2018-10-28
  */
-public class UserTag extends BaseEntity
+public class UserTag
 {
 	private static final long serialVersionUID = 1L;
 	

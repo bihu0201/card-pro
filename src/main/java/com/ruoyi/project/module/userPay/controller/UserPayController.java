@@ -1,6 +1,8 @@
 package com.ruoyi.project.module.userPay.controller;
 
 import java.util.List;
+
+import com.ruoyi.project.system.user.domain.User;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,28 +37,36 @@ public class UserPayController extends BaseController
 	
 	@RequiresPermissions("module:userPay:view")
 	@GetMapping()
-	public String userPay()
+	public String userPay( ModelMap mmap)
 	{
-	    return prefix + "/userPay";
+		User user =getUser();
+		List<UserPay> userPays= userPayService.selectUserPayByUserId(user.getUserId().intValue());
+		UserPay userPay = new UserPay();
+		if(userPays.size()>0){
+			userPay = userPays.get(0);
+		}
+		mmap.put("userPay", userPay);
+		mmap.put("user", user);
+		return prefix + "/add";
 	}
 	
 	/**
 	 * 查询商户充值列表
 	 */
-	@RequiresPermissions("module:userPay:list")
-	@PostMapping("/list")
-	@ResponseBody
-	public TableDataInfo list(UserPay userPay)
-	{
-		startPage();
-        List<UserPay> list = userPayService.selectUserPayList(userPay);
-		return getDataTable(list);
-	}
+//	@RequiresPermissions("module:userPay:list")
+//	@PostMapping("/list")
+//	@ResponseBody
+//	public TableDataInfo list(UserPay userPay)
+//	{
+//		startPage();
+//        List<UserPay> list = userPayService.selectUserPayList(userPay);
+//		return getDataTable(list);
+//	}
 	
 	/**
 	 * 新增商户充值
 	 */
-	@GetMapping("/add")
+	@GetMapping("/list")
 	public String add()
 	{
 	    return prefix + "/add";
@@ -71,6 +81,7 @@ public class UserPayController extends BaseController
 	@ResponseBody
 	public AjaxResult addSave(UserPay userPay)
 	{		
+		System.out.print("wwwww");
 		return toAjax(userPayService.insertUserPay(userPay));
 	}
 

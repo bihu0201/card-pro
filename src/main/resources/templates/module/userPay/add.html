@@ -1,56 +1,154 @@
-<!DOCTYPE HTML>
-<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
-<meta charset="utf-8">
-<head th:include="include :: header"></head>
-<body class="white-bg">
-    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-userPay-add">
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">商户ID：</label>
-				<div class="col-sm-8">
-					<input id="userId" name="userId" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">充值金额：</label>
-				<div class="col-sm-8">
-					<input id="payFeeCurrent" name="payFeeCurrent" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">：</label>
-				<div class="col-sm-8">
-					<input id="payFeeTotal" name="payFeeTotal" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">充值方式 1 微信：</label>
-				<div class="col-sm-8">
-					<input id="payMethod" name="payMethod" class="form-control" type="text">
-				</div>
-			</div>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>充值中心</title>
+	<link th:href="@{/css/amazeui.min.css}" rel="stylesheet"/>
+	<link th:href="@{/css/main1.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="pay">
+	<!--主内容开始编辑-->
+	<div class="tr_recharge">
+		<div class="tr_rechtext">
+			<p class="te_retit"><img  src="/img/coin.png">充值中心</p>
 
-			<div class="form-group">
-				<div class="form-control-static col-sm-offset-9">
-					<button type="submit" class="btn btn-primary">提交</button>
-					<button onclick="$.modal.close()" class="btn btn-danger" type="button">关闭</button>
+	 	</div>
+		<form action="/module/userPay/add" class="am-form" id="doc-vld-msg">
+			<div class="tr_rechbox">
+				<div class="tr_rechhead">
+					<img src="/img/ys_head2.jpg" />
+					<p>充值帐号：
+						<a>[[ ${user.userName}]]</a>
+					</p>
+					<div class="tr_rechheadcion">
+						<img src="/img/coin.png" alt="" />
+						<span>当前余额：<span>[[ ${userPay.payFeeCurrent}]] 招财劵</span></span>
+					</div>
 				</div>
+				<div class="tr_rechli am-form-group">
+					<ul class="ui-choose am-form-group" id="uc_01">
+						<li>
+							<label class="am-radio-inline">
+								<input type="radio"  value="" name="docVlGender" required data-validation-message="请选择一项充值额度"> 300￥
+							</label>
+						</li>
+						<li>
+							<label class="am-radio-inline">
+								<input type="radio" name="docVlGender" data-validation-message="请选择一项充值额度">500￥
+							</label>
+						</li>
+
+						<li>
+							<label class="am-radio-inline">
+								<input type="radio" name="docVlGender" data-validation-message="请选择一项充值额度">1000￥
+							</label>
+						</li>
+						<li>
+							<label class="am-radio-inline">
+								<input type="radio" name="docVlGender" data-validation-message="请选择一项充值额度">2000￥
+							</label>
+						</li>
+						<!--<li>-->
+							<!--<label class="am-radio-inline">-->
+								<!--<input type="radio" name="docVlGender" data-validation-message="请选择一项充值额度"> 其他金额-->
+							<!--</label>-->
+						<!--</li>-->
+					</ul>
+
+				</div>
+				<!--<div class="tr_rechoth am-form-group">-->
+					<!--<span>其他金额：</span>-->
+					<!--<input type="number" min="300" max="10000" value="10.00元" class="othbox" data-validation-message="充值金额范围：300/500/1000/2000元" />-->
+
+				<!--</div>-->
+
+				<div class="tr_rechnum">
+					<span>应付金额：</span>
+					<p class="rechnum">0.00元</p>
+					<p class="rechnu1m">0.00元</p>
+				</div>
+			</div>
+			<div class="tr_paybox">
+				<input type="text" name="userId" th:field="*{user.userId}"/>
+				<!--<input type="text"  class="totalFee" id="totalFee" name="totalFee" />-->
+				<p class="totalFee">0.00元</p>
+				<input type="submit" value="确认支付" class="tr_pay am-btn" />
+				<span>温馨提示：招财劵只限于在本平台获得抽奖权限，遇到问题请拨打联系电话。</span>
 			</div>
 		</form>
 	</div>
-    <div th:include="include::footer"></div>
-    <script type="text/javascript">
-		var prefix = ctx + "module/userPay"
-		$("#form-userPay-add").validate({
-			rules:{
-				xxxx:{
-					required:true,
-				},
-			},
-			submitHandler: function(form) {
-				$.operate.save(prefix + "/add", $('#form-userPay-add').serialize());
-			}
-		});
-	</script>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/amazeui.min.js}"></script>
+<script th:src="@{/js/ui-choose.js}"></script>
+<script type="text/javascript">
+    // 将所有.ui-choose实例化
+    $('.ui-choose').ui_choose();
+    // uc_01 ul 单选
+    var uc_01 = $('#uc_01').data('ui-choose'); // 取回已实例化的对象
+    uc_01.click = function(index, item) {
+        console.log('click', index, item.text())
+    }
+    uc_01.change = function(index, item) {
+        console.log('change', index, item.text())
+    }
+    $(function() {
+        $('#uc_01 li:eq(4)').click(function() {
+            $('.tr_rechoth').show();
+            $('.tr_rechoth').find("input").attr('required', 'true')
+            $('.rechnum').text('300.00元');
+        })
+        $('#uc_01 li:eq(0)').click(function() {
+            $('.tr_rechoth').hide();
+            $('.rechnum').text('300.00元');
+            $('.othbox').val('');
+        })
+        $('#uc_01 li:eq(1)').click(function() {
+            $('.tr_rechoth').hide();
+            $('.rechnum').text('500.00元');
+            $('.othbox').val('');
+        })
+        $('#uc_01 li:eq(2)').click(function() {
+            $('.tr_rechoth').hide();
+            $('.rechnum').text('1000.00元');
+            $('.othbox').val('');
+        })
+        $('#uc_01 li:eq(3)').click(function() {
+            $('.tr_rechoth').hide();
+            $('.rechnum').text('2000.00元');
+            $('.othbox').val('');
+        })
+        $(document).ready(function() {
+            $('.othbox').on('input propertychange', function() {
+                var num = $(this).val();
+                $('.totalFee').html(num);
+                $('.rechnu1m').html(num + ".00111元");
+                $('.rechnum').html(num + ".00元");
+            });
+        });
+    })
+
+    $(function() {
+        $('#doc-vld-msg').validator({
+            onValid: function(validity) {
+                $(validity.field).closest('.am-form-group').find('.am-alert').hide();
+            },
+            onInValid: function(validity) {
+                var $field = $(validity.field);
+                var $group = $field.closest('.am-form-group');
+                var $alert = $group.find('.am-alert');
+                // 使用自定义的提示信息 或 插件内置的提示信息
+                var msg = $field.data('validationMessage') || this.getValidationMessage(validity);
+
+                if(!$alert.length) {
+                    $alert = $('<div class="am-alert am-alert-danger"></div>').hide().
+                    appendTo($group);
+                }
+                $alert.html(msg).show();
+            }
+        });
+    });
+</script>
 </body>
 </html>
