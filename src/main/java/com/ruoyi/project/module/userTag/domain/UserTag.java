@@ -20,8 +20,17 @@ public class UserTag
 	private String userOpenId;
 	/**  */
 	private Integer tag;
+	private Integer userId;
 
-	public void setId(String id) 
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public void setId(String id)
 	{
 		this.id = id;
 	}

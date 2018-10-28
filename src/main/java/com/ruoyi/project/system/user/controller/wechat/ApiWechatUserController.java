@@ -3,8 +3,11 @@ package com.ruoyi.project.system.user.controller.wechat;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
+import com.ruoyi.project.module.memberAward.service.IMemberAwardService;
 import com.ruoyi.project.module.payLevel.domain.PayLevel;
 import com.ruoyi.project.module.payLevel.service.IPayLevelService;
+import com.ruoyi.project.module.userTag.domain.UserTag;
+import com.ruoyi.project.module.userTag.service.IUserTagService;
 import com.ruoyi.project.module.util.MD5Utils;
 import com.ruoyi.project.module.wechat.service.IWeChatAppLoginService;
 import com.ruoyi.project.system.menu.domain.Menu;
@@ -15,6 +18,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.omg.PortableInterceptor.USER_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -44,6 +48,10 @@ public class ApiWechatUserController extends BaseController
     IWeChatAppLoginService weChatAppLoginService;
     @Autowired
     private IPayLevelService payLevelService;
+    @Autowired
+    private IMemberAwardService memberAwardService;
+    @Autowired
+    private IUserTagService  userTagService;
 
     // 系统首页
     @GetMapping("/index")
@@ -57,7 +65,18 @@ public class ApiWechatUserController extends BaseController
     @GetMapping("/list")
     public String list(ModelMap mmap)
     {
-        return prefix + "/list";
+        User  user = getUser();
+        if(user!=null){
+            UserTag userTag = new UserTag();
+            userTag.setUserId(user.getUserId().intValue());
+            userTag.setTag(0);
+            List<UserTag> userTags =userTagService.selectUserTagList(userTag);
+            mmap.put("userTags",userTags);
+            return prefix + "/list";
+        }{
+            return prefix + "/index";
+        }
+
     }
 
     @PostMapping("/login")

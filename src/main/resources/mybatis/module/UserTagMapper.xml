@@ -8,10 +8,11 @@
         <result property="id"    column="id"    />
         <result property="userOpenId"    column="userOpenId"    />
         <result property="tag"    column="tag"    />
+        <result property="user_id"    column="userId"    />
     </resultMap>
 
     <sql id="selectUserTagVo">
-        select id, userOpenId, tag from biz_user_tag
+        select id, userOpenId, tag,user_id from biz_user_tag
     </sql>
 
     <select id="selectUserTagList" parameterType="UserTag" resultMap="UserTagResult">
@@ -20,6 +21,7 @@
             <if test="id != null and id != ''"> and id = #{id}</if>
             <if test="userOpenId != null and userOpenId != ''"> and userOpenId = #{userOpenId}</if>
             <if test="tag != null and tag != ''"> and tag = #{tag}</if>
+            <if test="user_id != null and user_id != ''"> and user_id = #{userId}</if>
         </where>
     </select>
 
@@ -33,11 +35,13 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             id,
             <if test="userOpenId != null and userOpenId != '' ">userOpenId,</if>
+            <if test="userId != null and userId != '' ">user_id,</if>
             tag,
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             (SELECT REPLACE(UUID(), '-', '') AS id),
             <if test="userOpenId != null and userOpenId != ''">#{userOpenId},</if>
+            <if test="userId != null and userId != ''">#{userId},</if>
             #{tag},
         </trim>
     </insert>
@@ -47,6 +51,7 @@
         <trim prefix="SET" suffixOverrides=",">
             <if test="userOpenId != null  and userOpenId != ''  ">userOpenId = #{userOpenId},</if>
             <if test="tag != null  ">tag = #{tag},</if>
+            <if test="userId != null  ">user_id = #{userId},</if>
         </trim>
         where id = #{id}
     </update>
