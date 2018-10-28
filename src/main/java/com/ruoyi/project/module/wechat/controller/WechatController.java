@@ -58,7 +58,7 @@ public class WechatController extends BaseController
          String spbill_create_ip = IPAddrUtil.getIpAddr(req);
 		//String spbill_create_ip="127.0.0.1";
 		System.err.println(spbill_create_ip);
-		Map<String,String> result = weChatAppLoginService.dounifiedOrder(attach,out_trade_no,fee.toString(),spbill_create_ip,1);
+		Map<String,String> result = weChatAppLoginService.dounifiedOrder(attach,out_trade_no,totalFee.toString(),spbill_create_ip,1);
 		String nonce_str = (String)result.get("nonce_str");
 		String prepay_id = (String)result.get("prepay_id");
 		Long time =System.currentTimeMillis()/1000;

@@ -5,6 +5,8 @@
 	<title>充值中心</title>
 	<link th:href="@{/css/amazeui.min.css}" rel="stylesheet"/>
 	<link th:href="@{/css/main1.css}" rel="stylesheet"/>
+
+
 </head>
 <body>
 <div class="pay">
@@ -14,7 +16,7 @@
 			<p class="te_retit"><img  src="/img/coin.png">充值中心</p>
 
 	 	</div>
-		<form action="/module/userPay/add" class="am-form" id="doc-vld-msg">
+		<form action="/module/userPay/add" class="am-form"  method="post" id="doc-vld-msg">
 			<div class="tr_rechbox">
 				<div class="tr_rechhead">
 					<img src="/img/ys_head2.jpg" />
@@ -66,22 +68,39 @@
 				<div class="tr_rechnum">
 					<span>应付金额：</span>
 					<p class="rechnum">0.00元</p>
-					<p class="rechnu1m">0.00元</p>
 				</div>
 			</div>
 			<div class="tr_paybox">
 				<input type="text" name="userId" th:field="*{user.userId}"/>
-				<!--<input type="text"  class="totalFee" id="totalFee" name="totalFee" />-->
-				<p class="totalFee">0.00元</p>
+				<input type="text"  class="totalFee" id="totalFee" name="totalFee" />
+
 				<input type="submit" value="确认支付" class="tr_pay am-btn" />
 				<span>温馨提示：招财劵只限于在本平台获得抽奖权限，遇到问题请拨打联系电话。</span>
 			</div>
 		</form>
 	</div>
 </div>
+<div id="code" style="width: 240px;height: 240px;margin: 0px auto;"></div>
 <script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/jquery.qrcode.min.js}"></script>
 <script th:src="@{/js/amazeui.min.js}"></script>
 <script th:src="@{/js/ui-choose.js}"></script>
+<script>
+    $(function(){
+        var urlCode = [[${urlCode}]];
+        console.log("sssss----urlCode--",urlCode);
+        if(urlCode!=""){
+            debugger;
+            var codeUrl = urlCode;//erWeiMa是后端传的二维码url
+            $("#code").qrcode({
+                render: "canvas", //table方式
+                width: 240, //宽度
+                height:240, //高度
+                text: codeUrl //任意内容
+            });
+		}
+    });
+</script>
 <script type="text/javascript">
     // 将所有.ui-choose实例化
     $('.ui-choose').ui_choose();
@@ -98,32 +117,37 @@
             $('.tr_rechoth').show();
             $('.tr_rechoth').find("input").attr('required', 'true')
             $('.rechnum').text('300.00元');
+            $('#totalFee').val('300');
+
         })
         $('#uc_01 li:eq(0)').click(function() {
             $('.tr_rechoth').hide();
             $('.rechnum').text('300.00元');
+            $('#totalFee').val('300');
             $('.othbox').val('');
         })
         $('#uc_01 li:eq(1)').click(function() {
             $('.tr_rechoth').hide();
             $('.rechnum').text('500.00元');
+            $('#totalFee').val('500');
             $('.othbox').val('');
         })
         $('#uc_01 li:eq(2)').click(function() {
             $('.tr_rechoth').hide();
             $('.rechnum').text('1000.00元');
+            $('#totalFee').val('1000');
             $('.othbox').val('');
         })
         $('#uc_01 li:eq(3)').click(function() {
             $('.tr_rechoth').hide();
             $('.rechnum').text('2000.00元');
+            $('#totalFee').val('2000');
             $('.othbox').val('');
         })
         $(document).ready(function() {
             $('.othbox').on('input propertychange', function() {
                 var num = $(this).val();
-                $('.totalFee').html(num);
-                $('.rechnu1m').html(num + ".00111元");
+                $('.totalFee').val(num);
                 $('.rechnum').html(num + ".00元");
             });
         });

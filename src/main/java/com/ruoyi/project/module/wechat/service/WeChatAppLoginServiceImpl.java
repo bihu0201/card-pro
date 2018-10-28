@@ -143,7 +143,7 @@ public class WeChatAppLoginServiceImpl implements IWeChatAppLoginService
         //异步通知地址（请注意必须是外网）
         data.put("notify_url", "http://www.baidu.com");
 
-        data.put("trade_type", "APP");
+        data.put("trade_type", "NATIVE");
         data.put("attach", attach);
 //        data.put("sign", md5Util.getSign(data));
         StringBuffer url= new StringBuffer();

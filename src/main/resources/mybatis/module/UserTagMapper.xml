@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.project.module.userTag.mapper.UserTagMapper">
-    
+
     <resultMap type="UserTag" id="UserTagResult">
         <result property="id"    column="id"    />
         <result property="userOpenId"    column="userOpenId"    />
         <result property="tag"    column="tag"    />
     </resultMap>
-	
-	<sql id="selectUserTagVo">
+
+    <sql id="selectUserTagVo">
         select id, userOpenId, tag from biz_user_tag
     </sql>
-	
+
     <select id="selectUserTagList" parameterType="UserTag" resultMap="UserTagResult">
         <include refid="selectUserTagVo"/>
-        <where>  
+        <where>
             <if test="id != null and id != ''"> and id = #{id}</if>
-             <if test="userOpenId != null and userOpenId != ''"> and userOpenId = #{userOpenId}</if>
-             <if test="tag != null and tag != ''"> and tag = #{tag}</if>
-         </where>
+            <if test="userOpenId != null and userOpenId != ''"> and userOpenId = #{userOpenId}</if>
+            <if test="tag != null and tag != ''"> and tag = #{tag}</if>
+        </where>
     </select>
-    
+
     <select id="selectUserTagById" parameterType="String" resultMap="UserTagResult">
         <include refid="selectUserTagVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertUserTag" parameterType="UserTag">
         insert into biz_user_tag
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			 id,
-			<if test="userOpenId != null and userOpenId != '' ">userOpenId,</if>
-			<if test="tag != null and tag != '' ">tag,</if>
-         </trim>
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            id,
+            <if test="userOpenId != null and userOpenId != '' ">userOpenId,</if>
+            tag,
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             (SELECT REPLACE(UUID(), '-', '') AS id),
-			<if test="userOpenId != null and userOpenId != ''">#{userOpenId},</if>
-			<if test="tag != null and tag != ''">#{tag},</if>
-         </trim>
+            <if test="userOpenId != null and userOpenId != ''">#{userOpenId},</if>
+            #{tag},
+        </trim>
     </insert>
-	 
+
     <update id="updateUserTag" parameterType="UserTag">
         update biz_user_tag
         <trim prefix="SET" suffixOverrides=",">
@@ -51,15 +51,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-	<delete id="deleteUserTagById" parameterType="String">
+    <delete id="deleteUserTagById" parameterType="String">
         delete from biz_user_tag where id = #{id}
     </delete>
-	
+
     <delete id="deleteUserTagByIds" parameterType="String">
-        delete from biz_user_tag where id in 
+        delete from biz_user_tag where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
-    
+
 </mapper>

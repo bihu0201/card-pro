@@ -52,6 +52,14 @@ public class ApiWechatUserController extends BaseController
             return prefix + "/add";
     }
 
+
+    // 系统首页
+    @GetMapping("/list")
+    public String list(ModelMap mmap)
+    {
+        return prefix + "/list";
+    }
+
     @PostMapping("/login")
     @ResponseBody
     public AjaxResult ajaxLogin(HttpServletRequest request,String username, String password, Boolean rememberMe)
