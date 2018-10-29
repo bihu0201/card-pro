@@ -1,6 +1,8 @@
 package com.ruoyi.project.module.userPayLog.controller;
 
 import java.util.List;
+
+import com.ruoyi.project.system.user.domain.User;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,6 +51,8 @@ public class UserPayLogController extends BaseController
 	public TableDataInfo list(UserPayLog userPayLog)
 	{
 		startPage();
+		User user = getUser();
+		userPayLog.setUserId(user.getUserId().intValue());
         List<UserPayLog> list = userPayLogService.selectUserPayLogList(userPayLog);
 		return getDataTable(list);
 	}

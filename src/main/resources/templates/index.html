@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
-    <title>售货平台小程序系统首页</title>
-    <meta name="keywords" content="售货平台小程序系统首页">
-    <meta name="description" content="售货平台小程序系统首页">
+    <title>招财商宝抽奖平台</title>
+    <meta name="keywords" content="招财商宝抽奖平台">
+    <meta name="description" content="招财商宝抽奖平台">
     <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html"/>
     <![endif]-->
@@ -35,28 +35,34 @@
 
             <!-- 顶部右侧菜单 -->
             <ul class="layui-nav top_menu">
-                <li class="layui-nav-item showNotice" id="showNotice" pc>
-                    <a href="javascript:;"><i class="iconfont icon-gonggao"></i><cite>系统公告</cite></a>
-                </li>
+                <!--<li class="layui-nav-item showNotice" id="showNotice" pc>-->
+                    <!--<a href="javascript:;"><i class="iconfont icon-gonggao"></i><cite>系统公告</cite></a>-->
+                <!--</li>-->
                 <li class="layui-nav-item" mobile>
                     <a href="javascript:;" data-url="page/user/changePwd.html"><i class="iconfont icon-shezhi1" data-icon="icon-shezhi1"></i><cite>设置</cite></a>
                 </li>
                 <!--<li class="layui-nav-item" mobile>-->
                     <!--<a href="javascript:;"><i class="iconfont icon-loginout"></i> 退出</a>-->
                 <!--</li>-->
+                <!--<li class="layui-nav-item lockcms" pc>-->
+                    <!--<a href="javascript:;"><i class="iconfont icon-lock1"></i><cite>锁屏</cite></a>-->
+                <!--</li>-->
                 <li class="layui-nav-item lockcms" pc>
-                    <a href="javascript:;"><i class="iconfont icon-lock1"></i><cite>锁屏</cite></a>
+                    <a href="javascript:;" id="fullScreen"><i class="fa fa-arrows-alt"></i><cite>全屏</cite></a>
                 </li>
 
                 <li class="layui-nav-item lockcms" pc>
-                    <a th:href="@{logout}"><i class="iconfont icon-lock1"></i><cite>退出</cite></a>
+                    <a th:href="@{logout}"><i class="fa fa-sign-out"></i><cite>退出</cite></a>
                 </li>
                 <!--<li><a id="fullScreen"><i class="fa fa-arrows-alt"></i>全屏</a></li>-->
                 <!--<li><a th:href="@{logout}"><i class="fa fa-sign-out"></i>退出</a></li>-->
                 <li class="layui-nav-item" pc>
-                    <a href="javascript:;">
-                        <img src="images/face.jpg" class="layui-circle" width="35" height="35">
-                        <cite>管理员陈书玉</cite>
+
+                        <a href="javascript:;" class="menuItem" th:href="@{/system/user/profile}">
+                        <!--<img src="images/face.jpg" class="layui-circle" width="35" height="35">-->
+                        <img alt="image" class="layui-circle" width="35" height="35" th:src="(*{user.avatar} == '') ? '/img/profile.jpg' : '/profile/' + *{user.avatar}">
+                        <cite >[[ ${user.userName}]]</cite>
+
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" data-url="page/user/userInfo.html"><i class="iconfont icon-zhanghu" data-icon="icon-zhanghu"></i><cite>个人资料</cite></a></dd>
@@ -74,19 +80,20 @@
         </div>
         <div class="sidebar-collapse">
             <ul class="nav" id="side-menu">
-                <li class="nav-header">
-                    <div class="dropdown profile-element"> <span>
-                         <img th:src="(${user.avatar} == '') ? '/img/profile.jpg' : '/profile/' + ${user.avatar}" alt="image" class="img-circle" height="100" width="100"/></span>
-                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                          <span class="clear"><span class="block m-t-xs"><strong class="font-bold">[[${user.userName}]]</strong></span>
-                         <span class="text-muted text-xs block"><span th:if="${not #strings.isEmpty(user.dept)}">[[${user.dept.deptName}]]</span> <b class="caret"></b></span> </span> </a>
-                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                             <li><a class="menuItem" th:href="@{/system/user/profile}">个人信息</a></li>
-                             <li class="divider"></li>
-                             <li><a th:href="@{logout}">退出</a></li>
-                         </ul>
-                    </div>
-                </li>
+                <!--<li class="nav-header">-->
+                    <!--<div class="dropdown profile-element"> <span>-->
+                         <!--<img th:src="(${user.avatar} == '') ? '/img/profile.jpg' : '/profile/' + ${user.avatar}" alt="image" class="img-circle" height="100" width="100"/></span>-->
+                         <!--<a data-toggle="dropdown" class="dropdown-toggle" href="#">-->
+                          <!--<span class="clear"><span class="block m-t-xs"><strong class="font-bold">[[${user.userName}]]</strong></span>-->
+                         <!--<span class="text-muted text-xs block"><span th:if="${not #strings.isEmpty(user.dept)}">[[${user.dept.deptName}]]</span> <b class="caret"></b></span> </span> </a>-->
+                         <!--<ul class="dropdown-menu animated fadeInRight m-t-xs">-->
+                             <!--<li><a class="menuItem" th:href="@{/system/user/profile}">个人信息</a></li>-->
+                             <!--<li class="divider"><i class="fa fa-sign-out"></i></li>-->
+
+                             <!--<li><a th:href="@{logout}">退出</a></li>-->
+                         <!--</ul>-->
+                    <!--</div>-->
+                <!--</li>-->
                  <li class="active">
                     <a href="index.html"><i class="fa fa-home"></i> <span class="nav-label">首页</span> <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
@@ -134,8 +141,8 @@
 	                <!--<li>-->
 	                    <!--<span class="m-r-sm text-muted">系统公告</span>-->
 	                <!--</li>-->
-	                <!--<li><a id="fullScreen"><i class="fa fa-arrows-alt"></i>全屏</a></li>-->
-                    <!--<li><a th:href="@{logout}"><i class="fa fa-sign-out"></i>退出</a></li>-->
+	                <!--&lt;!&ndash;<li><a id="fullScreen"><i class="fa fa-arrows-alt"></i>全屏</a></li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li><a th:href="@{logout}"><i class="fa fa-sign-out"></i>退出</a></li>&ndash;&gt;-->
                 <!--</ul>-->
             <!--</nav>-->
         <!--</div>-->

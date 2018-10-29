@@ -56,6 +56,7 @@ public class CreateImgUtil {
                     saveFile.getParentFile().mkdirs();
                 }
                 saveToImgByInputStream(instreams, uploadSysUrl, userId+".png");
+                result = userId+".png";
             }
         }
         httpPost.abort();

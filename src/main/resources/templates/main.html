@@ -6,7 +6,7 @@
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-status-bar-style" conte                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                nt="black">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="format-detection" content="telephone=no">
 
@@ -17,29 +17,30 @@
 <body class="childrenBody"  style="background: white">
 <div class="panel_box row"  style="background: white">
 	<div class="panel col">
-		<a href="javascript:;" data-url="page/message/message.html">
+		<a href="javascript:;" th:href="@{/module/memberAward}">
 			<div class="panel_icon">
 				<i class="layui-icon" data-icon="&#xe63a;">&#xe63a;</i>
 			</div>
-			<a  target="iframe0" th:href="@{/system/main}">
+
 			<div class="panel_word newMessage">
 				<cite>客户抽奖记录</cite>
-			</div></a>
+            </div>
+
 		</a>
 	</div>
 	<div class="panel col">
-		<a href="javascript:;" data-url="page/user/allUsers.html">
+		<a href="javascript:;" th:href="@{/module/member}">
 			<div class="panel_icon" style="background-color:#009688;">
 				<i class="layui-icon" data-icon="&#xe613;">&#xe613;</i>
 			</div>
 			<div class="panel_word userAll">
 
-				<cite>所有客户信息</cite>
+				<cite class="toPage">所有会员信息</cite>
 			</div>
 		</a>
 	</div>
 	<div class="panel col">
-		<a href="javascript:;" data-url="page/img/images.html">
+		<a href="javascript:;" th:href="@{/module/userPayLog}">
 			<div class="panel_icon" style="background-color:#5FB878;">
 				<i class="layui-icon" data-icon="&#xe64a;">&#xe64a;</i>
 			</div>

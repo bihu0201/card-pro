@@ -38,7 +38,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="remark != null and remark != ''"> and remark = #{remark}</if>
          </where>
     </select>
-    
+    <select id="selectMemberListByUserId" parameterType="int" resultMap="MemberResult">
+        select id, member_id, wechat_name, wechat_code, wechat_icon, state, create_by, create_time, update_by, update_time, remark
+        from biz_member
+
+        <where>
+            <if test="id != null and id != ''"> and id = #{id}</if>
+            <if test="memberId != null and memberId != ''"> and member_id = #{memberId}</if>
+            <if test="wechatName != null and wechatName != ''"> and wechat_name = #{wechatName}</if>
+            <if test="wechatCode != null and wechatCode != ''"> and wechat_code = #{wechatCode}</if>
+            <if test="wechatIcon != null and wechatIcon != ''"> and wechat_icon = #{wechatIcon}</if>
+            <if test="state != null and state != ''"> and state = #{state}</if>
+            <if test="createBy != null and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="createTime != null and createTime != ''"> and create_time = #{createTime}</if>
+            <if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy}</if>
+            <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime}</if>
+            <if test="remark != null and remark != ''"> and remark = #{remark}</if>
+        </where>
+    </select>
     <select id="selectMemberById" parameterType="Integer" resultMap="MemberResult">
         <include refid="selectMemberVo"/>
         where id = #{id}

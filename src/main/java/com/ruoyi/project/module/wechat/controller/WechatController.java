@@ -2,13 +2,24 @@ package com.ruoyi.project.module.wechat.controller;
 
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
+import com.ruoyi.project.module.util.IPAddrUtil;
+import com.ruoyi.project.module.util.MD5Util;
 import com.ruoyi.project.module.wechat.domain.WeChatAppLoginReq;
 import com.ruoyi.project.module.wechat.service.IWeChatAppLoginService;
+import com.ruoyi.project.module.wxpay.sdk.WXMyConfigUtil;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +36,94 @@ public class WechatController extends BaseController
     private String prefix = "/api/wechat";
     @Autowired
 	IWeChatAppLoginService weChatAppLoginService;
+
+
+	@RequestMapping(value = "/pay", method = {RequestMethod.GET, RequestMethod.POST})
+	public String orderPay(@RequestParam(required = true,value = "userId")String userId,
+                           @RequestParam(required = true,value = "couponId")String couponId,
+                         @RequestParam(required = true,value = "totalFee")Double totalFee,
+			HttpServletRequest req, HttpServletResponse response) throws Exception {
+		System.err.println("进入微信支付申请");
+		Date now = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//可以方便地修改日期格式
+		String hehe = dateFormat.format(now);
+
+		String out_trade_no=hehe+"wxpay";  //777777 需要前端给的参数
+//		String total_fee="1";              //7777777  微信支付钱的单位为分
+//		String user_id="1";               //77777
+		String coupon_id="7";               //777777
+		Double fee =totalFee*100;
+		String attach=totalFee*100+","+coupon_id;
+		WXMyConfigUtil config = new WXMyConfigUtil();
+         String spbill_create_ip = IPAddrUtil.getIpAddr(req);
+		//String spbill_create_ip="127.0.0.1";
+		System.err.println(spbill_create_ip);
+		Map<String,String> result = weChatAppLoginService.dounifiedOrder(attach,out_trade_no,totalFee.toString(),spbill_create_ip,1);
+		String nonce_str = (String)result.get("nonce_str");
+		String prepay_id = (String)result.get("prepay_id");
+		Long time =System.currentTimeMillis()/1000;
+		String timestamp=time.toString();
+
+		//签名生成算法
+		MD5Util md5Util = new MD5Util();
+		Map<String,String> map = new HashMap<>();
+		map.put("appid",config.getAppID());
+		map.put("partnerid",config.getMchID());
+		map.put("package","Sign=WXPay");
+		map.put("noncestr",nonce_str);
+		map.put("timestamp",timestamp);
+		map.put("prepayid",prepay_id);
+		String sign = md5Util.getSign(map);
+
+		String resultString="{\"appid\":\""+config.getAppID()+"\",\"partnerid\":\""+config.getMchID()+"\",\"package\":\"Sign=WXPay\"," +
+				"\"noncestr\":\""+nonce_str+"\",\"timestamp\":"+timestamp+"," +
+				"\"prepayid\":\""+prepay_id+"\",\"sign\":\""+sign+"\"}";
+		System.err.println(resultString);
+
+		return resultString;    //给前端app返回此字符串，再调用前端的微信sdk引起微信支付
+
+	}
+
+	/**
+	 * 订单支付异步通知
+	 */
+	@ApiOperation(value = "手机订单支付完成后回调")
+	@RequestMapping(value = "/notify",method = {RequestMethod.GET, RequestMethod.POST})
+	public String WXPayBack(HttpServletRequest request,HttpServletResponse response) {
+		String resXml = "";
+		System.err.println("进入异步通知");
+		try {
+			//
+			InputStream is = request.getInputStream();
+			//将InputStream转换成String
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			StringBuilder sb = new StringBuilder();
+			String line = null;
+			try {
+				while ((line = reader.readLine()) != null) {
+					sb.append(line + "\n");
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			resXml = sb.toString();
+			System.err.println(resXml);
+			String result = weChatAppLoginService.payBack(resXml);
+//            return "<xml><return_code><![CDATA[SUCCESS]]></return_code> <return_msg><![CDATA[OK]]></return_msg></xml>";
+			return result;
+		} catch (Exception e) {
+			//logger.error("手机支付回调通知失败",e);
+			String result = "<xml>" + "<return_code><![CDATA[FAIL]]></return_code>" + "<return_msg><![CDATA[报文为空]]></return_msg>" + "</xml> ";
+			return result;
+		}
+	}
+
 	/**
 	 * 获取用户信息
 	 */

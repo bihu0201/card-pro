@@ -5,9 +5,9 @@
 <body class="gray-bg">
     <div class="container-div">
 		<div class="btn-group hidden-xs" id="toolbar" role="group">
-			<a class="btn btn-outline btn-success btn-rounded" onclick="$.operate.add()" shiro:hasPermission="module:memberAward:add">
-				<i class="fa fa-plus"></i> 新增
-			</a>
+			<!--<a class="btn btn-outline btn-success btn-rounded" onclick="$.operate.add()" shiro:hasPermission="module:memberAward:add">-->
+				<!--<i class="fa fa-plus"></i> 新增-->
+			<!--</a>-->
 			<a class="btn btn-outline btn-danger btn-rounded" onclick="$.operate.removeAll()" shiro:hasPermission="module:memberAward:remove">
 				<i class="fa fa-trash-o"></i> 删除
 			</a>
@@ -42,17 +42,13 @@
 					title : '微信号' 
 				},
 				{
-					field : 'awardId', 
-					title : '奖品ID' 
+					field : 'award.awardName',
+					title : '奖品'
 				},
                     {
                         field : 'remark',
                         title : '中奖奖品'
                     },
-				// {
-				// 	field : 'activityId',
-				// 	title : '活动ID'
-				// },
 				{
 					field : 'awardTime', 
 					title : '抽奖时间' 
@@ -67,7 +63,7 @@
 		            align: 'center',
 		            formatter: function(value, row, index) {
 		            	var actions = [];
-		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+		            	//actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
 						return actions.join('');
 		            }

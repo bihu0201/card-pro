@@ -1,6 +1,8 @@
 package com.ruoyi.project.module.memberAward.controller;
 
 import java.util.List;
+
+import com.ruoyi.project.system.user.domain.User;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,6 +51,8 @@ public class MemberAwardController extends BaseController
 	public TableDataInfo list(MemberAward memberAward)
 	{
 		startPage();
+		User user  = getUser();
+		memberAward.setUserId(user.getUserId().intValue());
         List<MemberAward> list = memberAwardService.selectMemberAwardList(memberAward);
 		return getDataTable(list);
 	}

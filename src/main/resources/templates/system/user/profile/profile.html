@@ -87,8 +87,13 @@
 
                         </div>
                         <div class="user_right">
-                            <img alt="image" class="img-circle m-t-xs img-responsive" th:src="(*{avatar} == '') ? '/img/profile.jpg' : '/profile/' + *{avatar}">
+                            <div th:if=" *{roles[0].roleId} eq  2">
+                                <img alt="image1" class=" m-t-xs img-responsive" th:src="(*{wechatIcon} == '') ? '/img/profile.jpg' : '/images/' + *{wechatIcon}">
+                              </div>
+                            <div th:if=" *{roles[0].roleId} ne  2">
+                                <img alt="image" class=" m-t-xs img-responsive" th:src="(*{avatar} == '') ? '/img/profile.jpg' : '/profile/' + *{avatar}">
 
+                            </div>
                         </div>
                         <!--<div class="layui-form-item" style="margin-left: 5%;">-->
                             <!--<div class="layui-input-block">-->

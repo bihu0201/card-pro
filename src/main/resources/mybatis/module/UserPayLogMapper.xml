@@ -37,7 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select b.id, b.user_id,  b.pay_fee, b.pay_method, b.pay_time, b.pay_desc, b.state, b.create_by, b.create_time, b.update_by, b.update_time, b.remark,a.user_name ,a.login_name
         from biz_user_pay_log b,sys_user a
         where b.user_id = a.user_id
-        <where>  
+
             <if test="id != null and id != ''"> and b.id = #{id}</if>
              <if test="userId != null and userId != ''"> and b.user_id = #{userId}</if>
              <if test="userName != null and userName != ''"> and b.user_name = #{userName}</if>
@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="updateBy != null and updateBy != ''"> and b.update_by = #{updateBy}</if>
              <if test="updateTime != null and updateTime != ''"> and b.update_time = #{updateTime}</if>
              <if test="remark != null and remark != ''"> and b.remark = #{remark}</if>
-         </where>
+
     </select>
     
     <select id="selectUserPayLogById" parameterType="Integer" resultMap="UserPayLogResult">
