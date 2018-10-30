@@ -36,19 +36,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
-					"name": "Q",
+					"name": "111111111",
 					"pathName": "pages/lottery/lottery",
-					"query": "scene=118"
-				},
-				{
-					"id": 1,
-					"name": "Q",
-					"pathName": "pages/lottery/lottery",
-					"query": "scene=118"
+					"query": "userid=153"
 				}
 			]
 		}

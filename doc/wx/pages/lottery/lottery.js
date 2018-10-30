@@ -15,26 +15,124 @@ Page({
     marqueeDistance: 0,//初始滚动距离
     marquee_margin: 30,
     size: 14,
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
     interval: 20, // 时间间隔
-    activityId:""
+    activityId:"",
+    LoadingTime:""
   },
 
   onLoad: function (options) {  
     var that = this;
-    if (options.scene) {
-      var userid = options.scene;//商户的userid
-      this.globalData.userId = userid
-    } else if (options.userid){
-      var userid = options.userid;//商户的userid
-      this.globalData.userId = userid
+    var userid = decodeURIComponent(options.userid)
+    if (userid) {
+      var userid1 = userid;//商户的userid
+      console.log(userid1);
+      app.globalData.userId = userid1
     }
+
+    /*
     wx.getUserInfo({
       success: res => {
         this.globalData.userInfo = res.userInfo
       }
     }) 
+    */
     this.cainilike(that.callbackLike);
+
   },
+  userTag:function(){
+
+    if (app.globalData.flg == 0){
+      this.userUrl();
+    }
+
+  },
+  /*
+     wx.navigateTo({
+      url: '../register/register'
+    })*/
+  userUrl:function(){
+    var that = this;
+    //取用户openid
+    var userOpenId = (wx.getStorageSync('userOpenId'));//用户的id
+    if (userOpenId) {
+    } else {
+      wx.login({
+        success: function (res) {
+          var weixin_code = res.code;//获取code
+          wx.request({
+            url: 'https://wechat.gsxmkj.com/api/wechat/getwechat',
+            data: {
+              code: weixin_code
+            },
+            method: "post",
+            header: {
+              'content-type': 'application/x-www-form-urlencoded',
+            },
+            dataType: 'json',
+            success: function (res) {
+              if (res.data.code == 0) {
+                //如果成功 存入缓存
+                wx.setStorageSync('userOpenId', res.data.data.openId);
+                userOpenId = res.data.data.openId;
+              }
+            }
+          })
+        }
+      })
+    }
+    //查询用户是否有资格进入此界面
+    wx.request({
+      url: 'https://wechat.gsxmkj.com/api/userTag/getBean',
+      data: {
+        userOpenId: userOpenId,
+        userId: app.globalData.userId
+      },
+      method: "get",
+      header: {
+        'content-type': 'application/x-www-form-urlencoded',
+      },
+      dataType: 'json',
+      success: function (res) {
+        console.log(res.data);
+        if (res.data.code == 0) {
+            if (res.data.data == '') {
+              app.globalData.flg = 0;
+              wx.request({
+                url: 'https://wechat.gsxmkj.com/api/userTag/add',
+                data: {
+                  userOpenId: userOpenId,
+                  tag:0,
+                  userId:app.globalData.userId
+                },
+                method: "post",
+                header: {
+                  'content-type': 'application/x-www-form-urlencoded',
+                },
+                dataType: 'json',
+                success: function (res) {
+                }
+              })
+            } else {
+            if(res.data.data[0].tag == '1'){
+              app.globalData.flg = 1;
+            }else{
+              app.globalData.flg = 0;
+            }
+          }
+        }
+      }
+    })
+    if (app.globalData.flg == 0) {
+      wx.navigateTo({
+        url: '../register/register'
+      })
+    }else{
+      console.log("1");
+    }
+
+  },
+
   globalData:{
       userInfo:null,
       userId: "118"
@@ -42,10 +140,11 @@ Page({
 
   cainilike: function (callback) {
     var that = this;
+    var userText = "";
     wx.request({
       url: 'https://wechat.gsxmkj.com/api/user/userInfo',
       data:{
-        userId: this.globalData.userId
+        userId: app.globalData.userId
       }, 
       method: "get",
       header: {
@@ -57,16 +156,21 @@ Page({
         if (res.data.code == 0) {
           console.log(res)
           var list=[];
-          if (res.data.data.awardList != null){
-            for (var i = 0; i < res.data.data.awardList.length; i++) {
-              list.push(res.data.data.awardList[i].awardIcon);
-            }
-            that.setData({
-              activityId: res.data.data.activitieList[0].id
-            })
-            callback(list);
+          for (var i = 0; i < res.data.data.awardList.length; i++) {
+            list.push(res.data.data.awardList[i].awardIcon);
           }
-       
+          for (var i = 0; i < res.data.data.memberAwardList.length; i++) {
+            if (res.data.data.memberAwardList[i].awardId != '9'){
+              userText = userText + "恭喜用户 " + res.data.data.memberAwardList[i].wechatName + "于" + res.data.data.memberAwardList[i].awardTime + "获得" + res.data.data.memberAwardList[i].award.awardName + ":" + res.data.data.memberAwardList[i].award.remark+"-------------";
+             }
+          }
+          that.setData({
+            activityId : res.data.data.activitieList[0].id
+          })
+          that.setData({
+            text: userText
+          })
+          callback(list);
         } else {
           console.log("获取失败");
         }
@@ -163,9 +267,6 @@ Page({
   },  
   //开始游戏
   startGame: function () {
-    if (this.data.imageAward == ''){
-      return ;
-    }
     var that = this;
     var userOpenId = (wx.getStorageSync('userOpenId'));//用户的id
     var resRquest = 0;
@@ -178,7 +279,7 @@ Page({
     }else{
       wx.login({
         success: function (res) {
-          weixin_code = res.code;//获取code
+         var weixin_code = res.code;//获取code
           wx.request({
             url: 'https://wechat.gsxmkj.com/api/wechat/getwechat',
             data: {
@@ -205,7 +306,7 @@ Page({
       data: {
         wechatCode: userOpenId,
         wechatName:this.globalData.userInfo.nickName,
-        userId: this.globalData.userId,
+        userId: app.globalData.userId,
         activityId: this.data.activityId
       },
       method: "post",
@@ -215,7 +316,6 @@ Page({
       dataType: 'json',
       success: function (res) {
         if (res.data.code == 0) {
-      
           //console.log(res.data.data.msg);
       
          // console.log(res.data.data.awards[0].awardId);
@@ -337,6 +437,7 @@ Page({
     }, (200 + i))
   },
   onShow: function () {
+    this.userUrl();
     var that = this;
     var length = that.data.text.length * that.data.size;//文字长度
     var windowWidth = wx.getSystemInfoSync().windowWidth;// 屏幕宽度
@@ -374,4 +475,8 @@ Page({
       that.setData({ marquee_margin: "1000" });//只显示一条不滚动右边间距加大，防止重复显示
     }
   },
+  bindGetUserInfo: function (e) {
+    this.globalData.userInfo = e.detail.userInfo
+    this.startGame()
+  }
 })

@@ -1,212 +1,118 @@
-// pages/register/register.js
-const app = getApp()
+var app = getApp()
 Page({
-  /**
-  * 页面的初始数据
-  */
   data: {
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    loginName : "",
-    userNme : "",
-    email : "",
+    imgUrls: [
+      '../../img/1.png',
+      '../../img/2.png',
+      '../../img/3.png',
+      '../../img/4.png',
+      '../../img/5.png',
+      '../../img/6.png',
+      '../../img/7.png',
+      '../../img/google.png'
+    ],
+    indicatorDots: true,
+    autoplay: true,
+    circular: true,
+    interval: 5000,
+    duration: 1000,
+    LoadingTime: "",
+    urlWxgzh:"https://wechat.gsxmkj.com/images/gzh.jpg"
   },
-  loginNameInput: function (e) {
-    this.setData({
-      loginName: e.detail.detail.value
-    })
+  onLoad:function(){
+
   },
-  userNameInput: function (e) {
-    this.setData({
-      userNme: e.detail.detail.value
-    })
-  },
-  emailInput: function (e) {
-    this.setData({
-      email: e.detail.detail.value
-    })
-  },
-  phoneInput: function (e) {
-    this.setData({
-      phone: e.detail.detail.value
-    })
-  },
-  //事件处理函数
-  bindViewTap: function () {
+  goBaidu: function () {
     wx.navigateTo({
-      url: '../logs/logs'
+      url: '../out/out', //
+      success: function () {
+                 console.log("aaaaaaaaaaaaaaaa")
+      },       //成功后的回调；
+      fail: function () { },         //失败后的回调；
+      complete: function () {
+        console.log("cccc")
+      }      //结束后的回调(成功，失败都会执行)
     })
   },
-  register: function (event){
-    //取缓存的openId
-    var openId = (wx.getStorageSync('openId'));
-    var weixin_code = "";
-    if (!(/^1[34578]\d{9}$/.test(this.data.phone))) {
-      wx.showToast({
-        title: '请输入正确的手机号',
-        icon: 'succes',
-        duration: 2000,
-        mask: true
-      })
-      return false;
-    }else{
-      console.log(openId);
-      if (openId) {
-      } else {
-        wx.login({
-          success: function (res) {
-            weixin_code = res.code;//获取code
-            wx.request({
-              url: 'https://wechat.gsxmkj.com/api/wechat/getwechat',
-              data: {
-                code: weixin_code
-              },
-              method: "post",
-              header: {
-                'content-type': 'application/x-www-form-urlencoded',
-              },
-              dataType: 'json',
-              success: function (res) {
-                if (res.data.code == 0) {
-                  //如果成功 存入缓存
-                  openId = wx.setStorageSync('openId', res.data.data.openId);
+  userUrl: function () {
+    var _this = this;
+    var flg = 0;
+    _this.setData({
+      LoadingTime:setInterval(function(){
+        //取用户openid
+        var userOpenId = (wx.getStorageSync('userOpenId'));//用户的id
+        if (userOpenId) {
+        } else {
+          wx.login({
+            success: function (res) {
+              var weixin_code = res.code;//获取code
+              wx.request({
+                url: 'https://wechat.gsxmkj.com/api/wechat/getwechat',
+                data: {
+                  code: weixin_code
+                },
+                method: "post",
+                header: {
+                  'content-type': 'application/x-www-form-urlencoded',
+                },
+                dataType: 'json',
+                success: function (res) {
+                  if (res.data.code == 0) {
+                    //如果成功 存入缓存
+                    wx.setStorageSync('userOpenId', res.data.data.openId);
+                    userOpenId = res.data.data.openId;
+                  }
                 }
-              }
-            })
-          }
-        })
-      }
-        //提交
+              })
+            }
+          })
+        }
+        //查询用户
         wx.request({
-          url: 'https://wechat.gsxmkj.com/api/user/register',
+          url: 'https://wechat.gsxmkj.com/api/userTag/getBean',
           data: {
-            loginName: this.data.loginName,
-            userName: this.data.userNme,
-            email: this.data.email,
-            phonenumber: this.data.phone,
-            avatar: "",
-            wechatCode: openId,
-            wechat_icon: "/qweqwe/qweqwewq/qweqewqe.png"
+            userOpenId: userOpenId,
+            userId: app.globalData.userId
           },
-          method: "post",
+          method: "get",
           header: {
             'content-type': 'application/x-www-form-urlencoded',
           },
           dataType: 'json',
           success: function (res) {
             if (res.data.code == 0) {
-              wx.showToast({
-                title: '成功',
-                icon: 'succes',
-                duration: 2000,
-                mask: true
-              })
-            } else {
-              wx.showToast({
-                title: res.msg,
-                icon: 'error',
-                duration: 2000,
-                mask: true
-              })
+              if (res.data.data[0].tag == '1') {
+                //表示有资格
+                app.globalData.flg = 1;
+                flg = 1;
+              }
             }
           }
         })
-
-    
-    }
-    
-  },
- 
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
+        if(flg == 1){
+          app.globalData.flg = 1;
+          wx.navigateBack({
+            delta:1
           })
+          clearInterval(_this.data.LoadingTime);
         }
-      })
-    }
-  },
-  getUserInfo: function (e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
+      },1000)
     })
-  },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
 
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
-    
+    this.userUrl();
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-    
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  previewImage: function (e) {
+    var current = e.target.dataset.src;
+    wx.previewImage({
+      current: current,
+      urls: this.data.urlWxgzh.split(',')
+      // 需要预览的图片http链接  使用split把字符串转数组。不然会报错
+    })
   }
 
- 
+
+
 
 })
