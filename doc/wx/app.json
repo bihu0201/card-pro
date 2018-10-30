@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/lottery/lottery",
+    "pages/register/register",
+    "pages/recharge/recharge", 
+    "pages/out/out"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "招财商宝",
+    "navigationBarTextStyle": "black"
+  }
+}
