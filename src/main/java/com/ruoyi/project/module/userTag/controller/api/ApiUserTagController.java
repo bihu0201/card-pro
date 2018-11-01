@@ -62,11 +62,10 @@ public class ApiUserTagController extends BaseController
 
     }
     /**
-     * 修改保存用户标签
+     * 根据userTag Id修改tag字段 0 或1
      */
-    @Log(title = "用户标签", businessType = BusinessType.UPDATE)
-    @PostMapping("/edit")
-    public AjaxResult editSave(UserTag userTag)
+    @PostMapping("/updateUserTag")
+    public AjaxResult updateUserTag(UserTag userTag)
     {
         int tag = userTagService.updateUserTag(userTag);
         if(tag>0){
@@ -74,8 +73,6 @@ public class ApiUserTagController extends BaseController
         }else {
             return ok("修改失败！");
         }
-
-
     }
 
     /**

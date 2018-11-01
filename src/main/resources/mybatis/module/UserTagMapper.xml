@@ -50,7 +50,7 @@
         update biz_user_tag
         <trim prefix="SET" suffixOverrides=",">
             <if test="userOpenId != null  and userOpenId != ''  ">userOpenId = #{userOpenId},</if>
-            <if test="tag != null  ">tag = #{tag},</if>
+            tag = #{tag},
             <if test="userId != null  ">user_id = #{userId},</if>
         </trim>
         where id = #{id}
